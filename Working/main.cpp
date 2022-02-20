@@ -128,6 +128,6 @@ int main()
     }
 
 
-    myCom.displayFinish();              // Уведомление о завершении программы
+    myCom.displayFinish();                      // Уведомление о завершении программы
     cout << endl;
 }
