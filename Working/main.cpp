@@ -64,12 +64,13 @@ class fdtd
 
 };
 double simulation( double THETA_ ,double NU_TILDA_, double R2_TILDA_, double DELTA_ ) // Функция вычислений
-        {
-            double KPD = 0.871;
+{
+    double KPD = 0.871;
 
-            int A;
-            return A;
-        }
+    int SIZE = 15;
+    vector <int> MASSIV(SIZE);
+    return SIZE;
+}
 
 
 
