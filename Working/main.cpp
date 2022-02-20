@@ -105,7 +105,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
         Hz[i] = 0;
     }
 
-    return R_MAX;
+    return NR;
 }
 
 
