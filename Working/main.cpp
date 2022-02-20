@@ -103,6 +103,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
         Hphi[i] = 0;
         Hz[i] = 0;
     }
+
     return N_TIME;
 }
 
