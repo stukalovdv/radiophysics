@@ -85,12 +85,12 @@ void setConstants( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 
     double R_MAX = 60;
     int NR = R_MAX / dr;
-
 }
 
 double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA, double DELTA ) // Функция вычислений
 {
     fdtd myCom;
+    int NR;
     setConstants( THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA );
     double KPD = 0.871;
 
