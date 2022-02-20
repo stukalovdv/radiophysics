@@ -8,9 +8,9 @@ using namespace std;
 class fdtd
 {
     public:
-        void displayLoading()           // Статус загрузки
+        void displayLoading( int I , int N)           // Статус загрузки
         {
-            cout << "Загрузка\r" << "Загрузка.\r" << "Загрузка..\r";
+            cout << "Загрузка... " << I * 100 / N << "/ " << N << "\% \r";
         }
         void displayFinish()            // Статус завершения
         {
@@ -124,7 +124,7 @@ int main()
 
     for (int i = 0; i < 100; i++)
     {
-        myCom.displayLoading();
+        myCom.displayLoading(i, 100);
     }
 
 
