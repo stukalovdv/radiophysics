@@ -68,7 +68,6 @@ double simulation( double THETA_ ,double NU_TILDA_, double R2_TILDA_, double DEL
             double KPD = 0.871;
 
             int A;
-            A = a(4) + b(5);
             return A;
         }
 
