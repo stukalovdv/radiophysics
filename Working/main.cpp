@@ -10,11 +10,11 @@ class fdtd
     public:
         void displayLoading( int I , int N)           // Статус загрузки
         {
-            cout << "Загрузка... " << I * 100 / N << "/ " << N << "\% \r";
+            cout << "Загрузка... " << I * 100 / N << "/" << N << "\% \r";
         }
         void displayFinish()            // Статус завершения
         {
-            cout << "Well done!";
+            cout << "\nWell done!";
         }
         void setNu( double NU_TILDA )        // Присваивание "Nu" с чертой
         {
