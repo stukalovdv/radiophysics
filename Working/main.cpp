@@ -64,7 +64,7 @@ class fdtd
 
 };
 
-double simulation( double THETA_MULTIPLICATOR_ ,double NU_TILDA_, double R2_TILDA_, double DELTA_ ) // Функция вычислений
+double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA, double DELTA ) // Функция вычислений
 {
     double KPD = 0.871;
 
