@@ -59,7 +59,7 @@ class fdtd
         double NU_TILDA_;                   // Частота соударений
         double R2_TILDA_;                   // Радиус цилиндра
         double DELTA_;                      // Параметр неоднородности цилиндра
-        double THETA_MULTIPLICATOR_;        // Множитель перед ПИ в угле наклона "чего-то там"
+        double THETA_MULTIPLICATOR_;        // Множитель перед ПИ в угле наклона "чего-то там" (от 0 до 1/2)
         double KPD;                         // Эффективность излучения (КПД)
 
 };
@@ -103,7 +103,7 @@ int main()
 
     cout << "Запуск.\n";                        // Уведомление о запуске
     vector <int> a(10), b(10);
-    cout << "Theta miltiplicator ( x PI ) = ";  //
+    cout << "Theta miltiplicator (| | x PI ) = ";  //
     cin >> THETA;                               //
     myCom.setTheta( THETA * 3.1415 );           //
     cout << "nu_tilda = ";                      //
