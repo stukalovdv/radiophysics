@@ -54,6 +54,10 @@ class fdtd
         {
             return c;
         }
+        double getOmega()
+        {
+            return OMEGA_P_0;
+        }
 
 
     private:
@@ -74,6 +78,9 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     double KPD = 0.871;
     double dr = NU_TILDA * R2_TILDA * DELTA;
     double dt = dr / ( 2 * myCom.getC() );
+
+    double T_MAX = 20 / myCom.getOmega() ;
+    int N_TIME = T_MAX / dt;
 
     int NR = 15;
     //vector <int> MASSIV(SIZE);
@@ -96,7 +103,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
         Hphi[i] = 0;
         Hz[i] = 0;
     }
-    return dt;
+    return N_TIME;
 }
 
 
