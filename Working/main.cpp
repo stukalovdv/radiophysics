@@ -72,12 +72,15 @@ class fdtd
 
 };
 
-void setConstants( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA, double DELTA )
+
+double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA, double DELTA ) // Функция вычислений
 {
+    fdtd myCom;
+
     const double c = 3e+10;
     const double OMEGA_P_0 = 3e+9;
 
-    double dr = NU_TILDA * R2_TILDA * DELTA;
+    double dr = 0.01 * NU_TILDA * R2_TILDA * DELTA;
     double dt = dr / ( 2 * c );
 
     double T_MAX = 20 / OMEGA_P_0;
@@ -85,13 +88,8 @@ void setConstants( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 
     double R_MAX = 60;
     int NR = R_MAX / dr;
-}
 
-double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA, double DELTA ) // Функция вычислений
-{
-    fdtd myCom;
-    int NR;
-    setConstants( THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA );
+    //setConstants( THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA );
     double KPD = 0.871;
 
 
