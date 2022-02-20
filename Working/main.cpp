@@ -59,7 +59,7 @@ class fdtd
         double NU_TILDA_;                   // Частота соударений
         double R2_TILDA_;                   // Радиус цилиндра
         double DELTA_;                      // Параметр неоднородности цилиндра
-        double THETA_MULTIPLICATOR_;        // Угол
+        double THETA_MULTIPLICATOR_;        // Множитель перед ПИ в угле наклона "чего-то там"
         double KPD;                         // Эффективность излучения (КПД)
 
 };
