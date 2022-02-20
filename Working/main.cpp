@@ -82,7 +82,8 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     double T_MAX = 20 / myCom.getOmega() ;
     int N_TIME = T_MAX / dt;
 
-    int NR = 15;
+    double R_MAX = 60;
+    int NR = R_MAX / dr;
     //vector <int> MASSIV(SIZE);
     vector <double> Er ( NR );
     vector <double> Ephi ( NR );
@@ -104,7 +105,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
         Hz[i] = 0;
     }
 
-    return N_TIME;
+    return R_MAX;
 }
 
 
