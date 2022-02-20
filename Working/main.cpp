@@ -8,7 +8,7 @@ using namespace std;
 class fdtd
 {
     public:
-        void displayLoading( int I , int N)           // Статус загрузки
+        void displayLoading( int I , int N)  // Статус загрузки
         {
             cout << "Загрузка... " << I * 100 / ( N - 1 ) << "/" << N << "\% \r";
         }
