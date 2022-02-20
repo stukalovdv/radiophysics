@@ -68,19 +68,20 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 {
     double KPD = 0.871;
 
-    int SIZE = 15;
-    //vector <int> MASSIV(SIZE);
-    vector <double> Er ( SIZE );
-    vector <double> Ephi ( SIZE );
-    vector <double> Ez ( SIZE );
-    vector <double> Hr ( SIZE );
-    vector <double> Hphi ( SIZE );
-    vector <double> Hz ( SIZE );
-    vector <double> Jr ( SIZE );
-    vector <double> Jphi ( SIZE );
-    vector <double> Jz ( SIZE );
 
-    for ( int i = 0; i < SIZE; i++ )        // Начальные условия для полей E и H
+    int NR = 15;
+    //vector <int> MASSIV(SIZE);
+    vector <double> Er ( NR );
+    vector <double> Ephi ( NR );
+    vector <double> Ez ( NR );
+    vector <double> Hr ( NR );
+    vector <double> Hphi ( NR );
+    vector <double> Hz ( NR );
+    vector <double> Jr ( NR );
+    vector <double> Jphi ( NR );
+    vector <double> Jz ( NR );
+
+    for ( int i = 0; i < NR; i++ )        // Начальные условия для полей E и H
     {
         Er[i] = 0;
         Ephi[i] = 0;
