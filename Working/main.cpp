@@ -63,6 +63,7 @@ class fdtd
         double KPD;                         // Эффективность излучения (КПД)
 
 };
+
 double simulation( double THETA_MULTIPLICATOR_ ,double NU_TILDA_, double R2_TILDA_, double DELTA_ ) // Функция вычислений
 {
     double KPD = 0.871;
@@ -82,6 +83,15 @@ double simulation( double THETA_MULTIPLICATOR_ ,double NU_TILDA_, double R2_TILD
     for ( int i = 0; i < SIZE; i++ )
     {
         Er[i] = 0;
+        Ephi[i] = 0;
+        Ez[i] = 0;
+        Hr[i] = 0;
+        Hphi[i] = 0;
+        Hz[i] = 0;
+        Jr[i] = 0;
+        Jphi[i] = 0;
+        Jz[i] = 0;
+
     }
     return Er[10];
 }
