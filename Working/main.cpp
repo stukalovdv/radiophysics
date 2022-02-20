@@ -70,14 +70,14 @@ double simulation( double THETA_MULTIPLICATOR_ ,double NU_TILDA_, double R2_TILD
 
     int SIZE = 15;
     //vector <int> MASSIV(SIZE);
-    vector <double> Er( SIZE );
-    vector <double> Ephi( SIZE );
-    vector <double> Ez( SIZE );
-    vector <double> Hr( SIZE );
-    vector <double> Hphi( SIZE );
-    vector <double> Hz( SIZE );
-    vector <double> Jr( SIZE );
-    vector <double> Jphi( SIZE );
+    vector <double> Er ( SIZE );
+    vector <double> Ephi ( SIZE );
+    vector <double> Ez ( SIZE );
+    vector <double> Hr ( SIZE );
+    vector <double> Hphi ( SIZE );
+    vector <double> Hz ( SIZE );
+    vector <double> Jr ( SIZE );
+    vector <double> Jphi ( SIZE );
     vector <double> Jz ( SIZE );
 
     for ( int i = 0; i < SIZE; i++ )
@@ -93,7 +93,7 @@ double simulation( double THETA_MULTIPLICATOR_ ,double NU_TILDA_, double R2_TILD
         Jz[i] = 0;
 
     }
-    return Er[10];
+    return Er.size();
 }
 
 
