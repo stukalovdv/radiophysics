@@ -24,52 +24,52 @@ class fdtd
         {
             R2_TILDA_ = R2_TILDA;
         }
-        void setDelta( double DELTA )     // Присваивание "Delta" с чертой
+        void setDelta( double DELTA )       // Присваивание "Delta" с чертой
         {
             DELTA_ = DELTA;
         }
         void setTheta( double THETA )       // Присваивание "Theta"
         {
-            THETA_ = THETA;
+            THETA_MULTIPLICATOR_ = THETA;
         }
 
-        double getTheta()
+        double getTheta()                   // Возврат можителя перед ПИ в "Theta"
         {
-            return THETA_;
+            return THETA_MULTIPLICATOR_;
         }
 
-        double getNu()                  // Возврат "Nu" с чертой
+        double getNu()                      // Возврат "Nu" с чертой
         {
             return NU_TILDA_;
         }
-        double getR2()                  // Возврат "R2" с чертой
+        double getR2()                      // Возврат "R2" с чертой
         {
             return R2_TILDA_;
         }
-        double getDelta()               // Возврат "Delta" с чертой
+        double getDelta()                   // Возврат "Delta" с чертой
         {
             return DELTA_;
         }
 
 
     private:
-        const double c = 3e+10;         // Скорость света в СГС
-        const double OMEGA_P_0 = 3e+9;  // Плазменная частота в вакууме до обезразмеривания
+        const double c = 3e+10;             // Скорость света в СГС
+        const double OMEGA_P_0 = 3e+9;      // Плазменная частота в вакууме до обезразмеривания
         //const double
-        double NU_TILDA_;                // Частота соударений
-        double R2_TILDA_;                // Радиус цилиндра
-        double DELTA_;                   // Параметр неоднородности цилиндра
-        double THETA_;                  // Угол
-        double KPD;                     // Эффективность излучения (КПД)
+        double NU_TILDA_;                   // Частота соударений
+        double R2_TILDA_;                   // Радиус цилиндра
+        double DELTA_;                      // Параметр неоднородности цилиндра
+        double THETA_MULTIPLICATOR_;        // Угол
+        double KPD;                         // Эффективность излучения (КПД)
 
 };
-double simulation( double THETA_ ,double NU_TILDA_, double R2_TILDA_, double DELTA_ ) // Функция вычислений
+double simulation( double THETA_MULTIPLICATOR_ ,double NU_TILDA_, double R2_TILDA_, double DELTA_ ) // Функция вычислений
 {
     double KPD = 0.871;
 
     int SIZE = 15;
     vector <int> MASSIV(SIZE);
-    return SIZE;
+    return MASSIV.size();
 }
 
 
@@ -83,18 +83,18 @@ int main()
 
     cout << "Запуск.\n";                // Уведомление о запуске
     vector <int> a(10), b(10);
-    cout << "Theta miltiplicator ( x PI ) = ";
-    cin >> THETA;
-    myCom.setTheta( THETA * 3.1415 );
-    cout << "nu_tilda = ";              //
-    cin >> NU_TILDA;                    //        Ввод
-    myCom.setNu( NU_TILDA );            //
-    cout << "R2_tilda = ";              //      основных
-    cin >> R2_TILDA;                    //
-    myCom.setR2( R2_TILDA );            //     параметров
-    cout << "Delta = ";                 //
-    cin >> DELTA;                       //       задачи
-    myCom.setDelta( DELTA );            //
+    cout << "Theta miltiplicator ( x PI ) = ";  //
+    cin >> THETA;                               //
+    myCom.setTheta( THETA * 3.1415 );           //
+    cout << "nu_tilda = ";                      //
+    cin >> NU_TILDA;                            //        Ввод
+    myCom.setNu( NU_TILDA );                    //
+    cout << "R2_tilda = ";                      //      основных
+    cin >> R2_TILDA;                            //
+    myCom.setR2( R2_TILDA );                    //     параметров
+    cout << "Delta = ";                         //
+    cin >> DELTA;                               //       задачи
+    myCom.setDelta( DELTA );                    //
 
 
 
