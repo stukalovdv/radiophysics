@@ -10,7 +10,7 @@ class fdtd
     public:
         void displayLoading( int I , int N)           // Статус загрузки
         {
-            cout << "Загрузка... " << ceil( I * 100 / ( N - 1 ) ) << "/" << N << "\% \r";
+            cout << "Загрузка... " << I * 100 / ( N - 1 ) << "/" << N << "\% \r";
         }
         void displayFinish()            // Статус завершения
         {
