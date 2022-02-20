@@ -72,19 +72,31 @@ class fdtd
 
 };
 
-double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA, double DELTA ) // Функция вычислений
+void setConstants( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA, double DELTA )
 {
-    fdtd myCom;
-    double KPD = 0.871;
-    double dr = NU_TILDA * R2_TILDA * DELTA;
-    double dt = dr / ( 2 * myCom.getC() );
+    const double c = 3e+10;
+    const double OMEGA_P_0 = 3e+9;
 
-    double T_MAX = 20 / myCom.getOmega() ;
+    double dr = NU_TILDA * R2_TILDA * DELTA;
+    double dt = dr / ( 2 * c );
+
+    double T_MAX = 20 / OMEGA_P_0;
     int N_TIME = T_MAX / dt;
 
     double R_MAX = 60;
     int NR = R_MAX / dr;
-    //vector <int> MASSIV(SIZE);
+
+}
+
+double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA, double DELTA ) // Функция вычислений
+{
+    fdtd myCom;
+    setConstants( THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA );
+    double KPD = 0.871;
+
+
+
+
     vector <double> Er ( NR );
     vector <double> Ephi ( NR );
     vector <double> Ez ( NR );
