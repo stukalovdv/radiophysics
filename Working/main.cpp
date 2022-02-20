@@ -66,9 +66,10 @@ class fdtd
 
 double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA, double DELTA ) // Функция вычислений
 {
+    fdtd myCom;
     double KPD = 0.871;
     double dr = NU_TILDA * R2_TILDA * DELTA;
-    double dt = dr / ( 2 * fdtd.c );
+    double dt = dr / ( 2 * myCom.c );
 
     int NR = 15;
     //vector <int> MASSIV(SIZE);
