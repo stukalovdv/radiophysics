@@ -104,7 +104,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     vector <double> Jr ( NR );
     vector <double> Jphi ( NR );
     vector <double> Jz ( NR );
-
+    vector <double> T ( NR );
     for ( int i = 0; i < NR; i++ )        // Начальные условия для полей E и H
     {
         Er[i] = 0;
@@ -113,6 +113,10 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
         Hr[i] = 0;
         Hphi[i] = 0;
         Hz[i] = 0;
+    }
+    for ( int i = 0; i < N_TIME; i++ )
+    {
+        T[i] = i * dt;
     }
 
 
