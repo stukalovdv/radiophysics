@@ -50,6 +50,10 @@ class fdtd
         {
             return DELTA_;
         }
+        double getC()
+        {
+            return c;
+        }
 
 
     private:
@@ -69,7 +73,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     fdtd myCom;
     double KPD = 0.871;
     double dr = NU_TILDA * R2_TILDA * DELTA;
-    double dt = dr / ( 2 * myCom.c );
+    double dt = dr / ( 2 * myCom.getC() );
 
     int NR = 15;
     //vector <int> MASSIV(SIZE);
