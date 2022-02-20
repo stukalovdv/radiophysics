@@ -80,7 +80,7 @@ double simulation( double THETA_MULTIPLICATOR_ ,double NU_TILDA_, double R2_TILD
     vector <double> Jphi ( SIZE );
     vector <double> Jz ( SIZE );
 
-    for ( int i = 0; i < SIZE; i++ )
+    for ( int i = 0; i < SIZE; i++ )        // Начальные условия для полей E и H
     {
         Er[i] = 0;
         Ephi[i] = 0;
@@ -88,10 +88,6 @@ double simulation( double THETA_MULTIPLICATOR_ ,double NU_TILDA_, double R2_TILD
         Hr[i] = 0;
         Hphi[i] = 0;
         Hz[i] = 0;
-        Jr[i] = 0;
-        Jphi[i] = 0;
-        Jz[i] = 0;
-
     }
     return Er.size();
 }
