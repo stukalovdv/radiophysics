@@ -78,7 +78,12 @@ double simulation( double THETA_MULTIPLICATOR_ ,double NU_TILDA_, double R2_TILD
     vector <double> Jr(SIZE);
     vector <double> Jphi(SIZE);
     vector <double> Jz(SIZE);
-    return Er.size();
+
+    for ( int i = 0; i < SIZE; i++ )
+    {
+        Er[i] = 0;
+    }
+    return Er[10];
 }
 
 
