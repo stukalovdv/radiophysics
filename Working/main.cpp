@@ -91,7 +91,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 
     //setConstants( THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA );
     double KPD = 0.871;
-
+    double R1_tilda = R2_tilda * ( 1 - Delta );
 
 
 
@@ -117,6 +117,12 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     for ( int i = 0; i < N_TIME; i++ )
     {
         T[i] = i * dt;
+    }
+    vector <double> r( NR ), r_alt( NR );
+    for ( int i = 0; i < NR; i++ )
+    {
+        r[i] = i * dr;
+        r_alt[i] = 1 / ( i * dr );
     }
 
 
