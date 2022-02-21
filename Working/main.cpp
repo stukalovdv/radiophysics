@@ -77,13 +77,13 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 {
     fdtd myCom;
 
-    double R1_tilda = R2_tilda * ( 1 - Delta );
-
-    double NU = NU_TILDA * OMEGA_P_0, R1 = R1_TILDA * c / OMEGA_P_0, R2 = R2_TILDA * c / OMEGA_P_0;
-    double J0 = 1;
+    double R1_TILDA = R2_TILDA* ( 1 - DELTA );
 
     const double c = 3e+10;
     const double OMEGA_P_0 = 3e+9;
+
+    double NU = NU_TILDA * OMEGA_P_0, R1 = R1_TILDA * c / OMEGA_P_0, R2 = R2_TILDA * c / OMEGA_P_0;
+    double J0 = 1;
 
     double dr = 0.01 * NU_TILDA * ( R2 - R1 );
     double dt = dr / ( 2 * c );
@@ -102,7 +102,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 
 
     // Определения F(r)
-    
+
     vector <double> Fr( NR );
     for ( int i = 0; i < NR1; i++ )
     {
@@ -116,17 +116,17 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     {
         Fr[i] = 0;
     }
-    
+
     int FIELD_CHECK_POINT = NR2;
 
     /* Задаем поглощающий слой
-     
-  
-     
 
 
-    */ 
- 
+
+
+
+    */
+
     //setConstants( THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA );
     double KPD = 0.871;
 
@@ -140,7 +140,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     vector <double> Jphi ( NR );
     vector <double> Jz ( NR );
     vector <double> T ( N_TIME );
-    for ( int i = 0; i < NR; i++ )        // Начальные условия 
+    for ( int i = 0; i < NR; i++ )        // Начальные условия
     {
         Er[i] = 0;
         Ephi[i] = 0;
@@ -177,23 +177,29 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
-    double THETA, NU_TILDA, R2_TILDA, DELTA;
+    //setlocale(LC_ALL, "Russian");
+    double THETA = 1, NU_TILDA, R2_TILDA, DELTA = 0;
     fdtd myCom;
 
     cout << "Запуск.\n";                        // Уведомление о запуске
     vector <int> a(10), b(10);
     cout << "Theta miltiplicator (| | x PI ) = ";  //
-    cin >> THETA;                               //
+    while ( THETA > 1 / 2 || THETA < 0)
+    {
+        cin >> THETA;                           //
+    }
     myCom.setTheta( THETA * 3.1415 );           //
     cout << "nu_tilda = ";                      //
     cin >> NU_TILDA;                            //        Ввод
     myCom.setNu( NU_TILDA );                    //
-    cout << "R2_tilda = ";                      //      основных
-    cin >> R2_TILDA;                            //
-    myCom.setR2( R2_TILDA );                    //     параметров
+    cout << "R2_tilda = ";                      //
+    cin >> R2_TILDA;                            //      основных
+    myCom.setR2( R2_TILDA );                    //
     cout << "Delta = ";                         //
-    cin >> DELTA;                               //       задачи
+    while ( DELTA <= 0 || DELTA > 1)            //     параметров
+    {                                           //
+        cin >> DELTA;                           //
+    }                                           //       задачи
     myCom.setDelta( DELTA );                    //
 
 
