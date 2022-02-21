@@ -183,9 +183,10 @@ int main()
 
     cout << "Запуск.\n";                        // Уведомление о запуске
     vector <int> a(10), b(10);
-    cout << "Theta miltiplicator (| | x PI ) = ";  //
-    while ( THETA > 1 / 2 || THETA < 0)
+    //cout << "Theta miltiplicator (| | x PI ) = ";  //
+    while ( THETA > 0.5 )
     {
+        cout << "Theta miltiplicator (| | x PI ) = ";
         cin >> THETA;                           //
     }
     myCom.setTheta( THETA * 3.1415 );           //
@@ -195,9 +196,10 @@ int main()
     cout << "R2_tilda = ";                      //
     cin >> R2_TILDA;                            //      основных
     myCom.setR2( R2_TILDA );                    //
-    cout << "Delta = ";                         //
+    //cout << "Delta = ";                         //
     while ( DELTA <= 0 || DELTA > 1)            //     параметров
-    {                                           //
+    {
+        cout << "Delta = ";                                                                   //
         cin >> DELTA;                           //
     }                                           //       задачи
     myCom.setDelta( DELTA );                    //
