@@ -77,23 +77,58 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 {
     fdtd myCom;
 
+    double R1_tilda = R2_tilda * ( 1 - Delta );
+
+    double NU = NU_TILDA * OMEGA_P_0, R1 = R1_TILDA * c / OMEGA_P_0, R2 = R2_TILDA * c / OMEGA_P_0;
+    double J0 = 1;
+
     const double c = 3e+10;
     const double OMEGA_P_0 = 3e+9;
 
-    double dr = 0.01 * NU_TILDA * R2_TILDA * DELTA;
+    double dr = 0.01 * NU_TILDA * ( R2 - R1 );
     double dt = dr / ( 2 * c );
 
     double T_MAX = 20 / OMEGA_P_0;
     int N_TIME = T_MAX / dt;
 
-    double R_MAX = 60;
+    double R_MAX = R2 * 60;
     int NR = R_MAX / dr;
 
+    int NR1 = ceil( R1 / dr );
+    int NR2 = ceil( R2 / dr );
+
+    int N_PML = 10 * NR2;
+
+
+
+    // Определения F(r)
+    
+    vector <double> Fr( NR );
+    for ( int i = 0; i < NR1; i++ )
+    {
+        Fr[i] = 1;
+    }
+    for ( int i = NR1; i < NR2; i++)
+    {
+        Fr[i] = 0; // ДОПИСАТЬ КОСИНУС !!!
+    }
+    for ( int i = NR2; i < NR; i++)
+    {
+        Fr[i] = 0;
+    }
+    
+    int FIELD_CHECK_POINT = NR2;
+
+    /* Задаем поглощающий слой
+     
+  
+     
+
+
+    */ 
+ 
     //setConstants( THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA );
     double KPD = 0.871;
-    double R1_tilda = R2_tilda * ( 1 - Delta );
-
-
 
     vector <double> Er ( NR );
     vector <double> Ephi ( NR );
@@ -104,8 +139,8 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     vector <double> Jr ( NR );
     vector <double> Jphi ( NR );
     vector <double> Jz ( NR );
-    vector <double> T ( NR );
-    for ( int i = 0; i < NR; i++ )        // Начальные условия для полей E и H
+    vector <double> T ( N_TIME );
+    for ( int i = 0; i < NR; i++ )        // Начальные условия 
     {
         Er[i] = 0;
         Ephi[i] = 0;
@@ -113,6 +148,9 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
         Hr[i] = 0;
         Hphi[i] = 0;
         Hz[i] = 0;
+	Jr[i] = J0 * Fr[i];
+	Jphi[i] = -J0 * Fr[i];
+	Jz[i] = 0;
     }
     for ( int i = 0; i < N_TIME; i++ )
     {
@@ -125,8 +163,13 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
         r_alt[i] = 1 / ( i * dr );
     }
 
+    vector <double> Ert( N_TIME ), Hrt( N_TIME ), Ept( N_TIME );
 
-    return NR;
+
+
+
+
+    return KPD;
 }
 
 
