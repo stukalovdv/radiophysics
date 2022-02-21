@@ -81,6 +81,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 
     const double c = 3e+10;
     const double OMEGA_P_0 = 3e+9;
+    const double PI = 3.14159265358979;
 
     double NU = NU_TILDA * OMEGA_P_0, R1 = R1_TILDA * c / OMEGA_P_0, R2 = R2_TILDA * c / OMEGA_P_0;
     double J0 = 1;
@@ -108,9 +109,9 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     {
         Fr[i] = 1;
     }
-    for ( int i = NR1; i < NR2; i++)
+    for ( int i = NR1; i < NR2; i++ )
     {
-        Fr[i] = 0; // ДОПИСАТЬ КОСИНУС !!!
+        Fr[i] = (cos((double) PI * (double)( i - NR1 ) / ( 2 * (int)( NR2 - NR1 ) ))) * (cos((double) PI * (double)( i - NR1 ) / ( 2 * ( NR2 - NR1 ) )));
     }
     for ( int i = NR2; i < NR; i++)
     {
@@ -183,7 +184,6 @@ int main()
 
     cout << "Запуск.\n";                        // Уведомление о запуске
     vector <int> a(10), b(10);
-    //cout << "Theta miltiplicator (| | x PI ) = ";  //
     while ( THETA > 0.5 )
     {
         cout << "Theta miltiplicator (| | x PI ) = ";
@@ -196,7 +196,6 @@ int main()
     cout << "R2_tilda = ";                      //
     cin >> R2_TILDA;                            //      основных
     myCom.setR2( R2_TILDA );                    //
-    //cout << "Delta = ";                         //
     while ( DELTA <= 0 || DELTA > 1)            //     параметров
     {
         cout << "Delta = ";                                                                   //
