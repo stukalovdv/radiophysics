@@ -175,9 +175,14 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 
     // Расчет
 
-    for ( int i = 0; i < N_TIME; i++ )
+    for ( int n = 0; n < N_TIME; n++ )
     {
-
+        for ( int i = 0; i < NR; i++ )
+        {
+            Jr[i] = Jr[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * PI )) * Fr[i] * Er[i];
+            Jphi[i] = Jphi[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * PI )) * Fr[i] * Ephi[i];
+        }
+        //Jr[]
     }
 
 
