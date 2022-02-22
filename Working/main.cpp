@@ -170,7 +170,6 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     for (int i = 0; i < NR; i++)
     {
         fout << Fr[i] << endl;
-        cout << Fr[i] << endl;
     }
 
 
