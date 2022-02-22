@@ -164,6 +164,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 
     vector <double> Ert( N_TIME ), Hrt( N_TIME ), Ept( N_TIME );
 
+    /*
     ofstream fout;
     fout.open("myFile.dat");
     for (int i = 0; i < NR; i++)
@@ -171,6 +172,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
         fout << Fr[i] << endl;
         cout << Fr[i] << endl;
     }
+    */
 
 
 
