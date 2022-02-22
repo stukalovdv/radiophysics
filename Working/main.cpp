@@ -116,7 +116,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
         Fr[i] = 0;
     }
 
-    int FIELD_CHECK_POINT = NR2;
+    int FIELD_CHECK_POINT = NR2 + 1;
 
     /* Задаем поглощающий слой
 
