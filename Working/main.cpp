@@ -147,9 +147,9 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
         Hr[i] = 0;
         Hphi[i] = 0;
         Hz[i] = 0;
-	Jr[i] = J0 * Fr[i];
-	Jphi[i] = -J0 * Fr[i];
-	Jz[i] = 0;
+        Jr[i] = J0 * Fr[i];
+        Jphi[i] = -J0 * Fr[i];
+        Jz[i] = 0;
     }
     for ( int i = 0; i < N_TIME; i++ )
     {
@@ -163,6 +163,14 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     }
 
     vector <double> Ert( N_TIME ), Hrt( N_TIME ), Ept( N_TIME );
+
+    ofstream fout;
+    fout.open("myFile.dat");
+    for (int i = 0; i < NR2; i++)
+    {
+        fout << Fr[i] << endl;
+        cout << Fr[i] << endl;
+    }
 
 
 
