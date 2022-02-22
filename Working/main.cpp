@@ -164,12 +164,20 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 
     vector <double> Ert( N_TIME ), Hrt( N_TIME ), Ept( N_TIME );
 
-
+    /* // Запить в файл
     ofstream fout;
     fout.open("../python/myFile.dat");
     for (int i = 0; i < NR; i++)
     {
         fout << Fr[i] << endl;
+    }
+    */
+
+    // Расчет
+
+    for ( int i = 0; i < N_TIME; i++ )
+    {
+
     }
 
 
