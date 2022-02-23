@@ -174,7 +174,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     */
 
     ofstream fout;
-    fout.open("../../../../../../Work/Coding/python/myFile1.dat");
+    fout.open("../../../../../../Work/Coding/python/superfile.dat");
 
     // Расчет
 
