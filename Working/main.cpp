@@ -206,7 +206,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 
         Hzt[n] = Ephi[FIELD_CHECK_POINT];
         fout << Hzt[n] << endl;
-        cout << "Шаг # " << n << " \\ " << timesteps << "\r";
+        cout << "Шаг # " << n << " \\ " << N_TIME << "\r";
 
     }
     fout.close();
