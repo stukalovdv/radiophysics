@@ -230,7 +230,7 @@ int main()
 
     cout << "Запуск.\n";                        // Уведомление о запуске
     vector <int> a(10), b(10);
-    while ( THETA > 0.5 )
+    while ( THETA > 0.5 || THETA < 0)
     {
         cout << "Theta miltiplicator (| | x PI ) = ";
         cin >> THETA;                           //
