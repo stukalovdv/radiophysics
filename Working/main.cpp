@@ -73,6 +73,7 @@ class fdtd
 
 double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA, double DELTA ) // Функция вычислений
 {
+
     fdtd myCom;
 
     double R1_TILDA = R2_TILDA* ( 1 - DELTA );
@@ -162,16 +163,18 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
         r_alt[i] = 1 / ( i * dr );
     }
 
-    vector <double> Ert( N_TIME ), Hrt( N_TIME ), Ept( N_TIME );
+    vector <double> Ert( N_TIME ), Hzt( N_TIME );
 
     /* // Запить в файл
-    ofstream fout;
-    fout.open("../python/myFile.dat");
+
     for (int i = 0; i < NR; i++)
     {
         fout << Fr[i] << endl;
     }
     */
+
+    ofstream fout;
+    fout.open("../python/myFile.dat");
 
     // Расчет
 
@@ -182,8 +185,30 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
             Jr[i] = Jr[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * PI )) * Fr[i] * Er[i];
             Jphi[i] = Jphi[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * PI )) * Fr[i] * Ephi[i];
         }
-        //Jr[]
+
+        Er[0] = Er[1];
+        for ( int i = 1; i < NR; i++ )
+        {
+            Er[i] += Hz[i] * ( c * dt * r_alt[i]) - ( 4 * PI * dt ) * Jz[i];
+        }
+
+        Ephi[0] = Ephi[1] +  (4 * PI * dt ) * Jphi[0];
+        for ( int i = 1; i < NR; i++ )
+        {
+            Ephi[i] -= ( c * dt / dr ) * ( Hz[i] - Hz[i - 1] ) - ( 4 * PI * dt ) * Jphi[i];
+        }
+
+        for ( int i = 0; i < NR - 1; i++ )
+        {
+            Hz[i] -= ( c * dt * r_alt[i] ) * Er[i] - ( c* dt * r_alt[i] / dr ) * ( r[i + 1] * Ephi[i + 1] - r[i] * Ephi[i] );
+        }
+        Hz[NR - 1] -= ( c * dt * r_alt[NR - 1]) * Er[NR - 1];
+
+        Hzt[n] = Hz[FIELD_CHECK_POINT];
+        fout << Hzt[n] << endl;
+
     }
+    fout.close();
 
 
 
