@@ -10,7 +10,7 @@ class fdtd
     public:
         void displayLoading( int I , int N)  // Статус загрузки
         {
-            cout << "Загрузка... " << I * 100 / ( N - 1 ) << "/" << N << "\% \r";
+            cout << "Загрузка... " << I * 100 / ( N - 1 ) << "/" << 100 << "\% \r";
         }
         void displayFinish()            // Статус завершения
         {
@@ -180,33 +180,34 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 
     for ( int n = 0; n < N_TIME; n++ )
     {
-        for (int i = 0; i < r.size(); i++){
+        for (int i = 0; i < NR; i++){
             Jr[i] = Jr[i] * (1 - dt * NU) + (dt * OMEGA_P_0 * OMEGA_P_0 / (4 * PI )) * Fr[i] * Er[i];
         }
         //Jp
-        for (int i = 0; i < r.size(); i++){
+        for (int i = 0; i < NR; i++){
             Jphi[i] = Jphi[i] * (1 - dt * NU ) + (dt * OMEGA_P_0 * OMEGA_P_0 / (4 * PI)) * Fr[i] * Ephi[i];
         }
         //Er
         Er[0] = Er[1];
-        for (int i = 1; i < r.size(); i++){
-            Er[i] =  (Er[i] + (c * dt * r_alt[i]) * Hz[i] - (4 * PI * dt) * Jr[i]);
+        for (int i = 1; i < NR; i++){
+            Er[i] = (Er[i] + (c * dt * r_alt[i]) * Hz[i] - (4 * PI * dt) * Jr[i]);
         }
         //Ephi
         Ephi[0] = Ephi[1];
-        for (int i = 1; i < r.size(); i++){
+        for (int i = 1; i < NR; i++){
             Ephi[i] =  (Ephi[i] - (c * dt / dr) * (Hz[i] - Hz[i-1]) - (4 * PI * dt) * Jphi[i]);
         }
         //Hz
 
-        for (int i = 0; i < r.size() - 1; i++){
+        for (int i = 0; i < NR - 1; i++){
             Hz[i] = (Hz[i] - (c * dt * r_alt[i]) * Er[i] - (c * dt * r_alt[i] / dr) * (r[i + 1] * Ephi[i + 1] - r[i] * Ephi[i]));
         }
-        Hz[r.size() - 1] =  (Hz[r.size() - 1] - (c * dt * r_alt[r.size() - 1]) * Er[r.size() - 1]);
+        Hz[NR - 1] =  (Hz[NR - 1] - (c * dt * r_alt[NR - 1]) * Er[NR - 1]);
 
         Hzt[n] = Ephi[FIELD_CHECK_POINT];
         fout << Hzt[n] << endl;
-        cout << "Шаг # " << n << " \\ " << N_TIME << "\r";
+        myCom.displayLoading( n, N_TIME );
+        //cout << "Шаг # " << n << " \\ " << N_TIME << "\r";
 
     }
     fout.close();
