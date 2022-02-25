@@ -177,9 +177,10 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     fout.open("../../../../../../Work/Coding/python/superfile.dat");
 
     // Расчет
-
-    for ( int n = 0; n < N_TIME; n++ )
-    {
+    /*
+    N_TIME = 1;
+    //for ( int n = 0; n < N_TIME; n++ )
+    //{
         for (int i = 0; i < NR; i++){
             Jr[i] = Jr[i] * (1 - dt * NU) + (dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * PI )) * Fr[i] * Er[i];
         }
@@ -204,15 +205,16 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
         }
         Hz[NR - 1] =  (Hz[NR - 1] - (c * dt * r_alt[NR - 1]) * Er[NR - 1]);
 
-        Hzt[n] = Ephi[FIELD_CHECK_POINT];
+        //Hzt[n] = Ephi[FIELD_CHECK_POINT];
         //fout << Hzt[n] << endl;
-        myCom.displayLoading( n, N_TIME );
+        //myCom.displayLoading( n, N_TIME );
         //cout << "Шаг # " << n << " \\ " << N_TIME << "\r";
 
-    }
-    for ( int i = 0; i < Fr.size(); i++ )
+    //}
+    */
+    for ( int i = 0; i < NR; i++ )
     {
-        fout << Fr[i] << endl;
+        fout << Er[i] << "\t" << Ephi[i] << "\t" << Ez[i] << "\t" << Jr[i] << "\t" << Jphi[i] << "\t" << Jz[i] << "\t" << Fr[i] <<endl;
     }
     fout.close();
 
