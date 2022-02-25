@@ -14,7 +14,7 @@ class fdtd
         }
         void displayFinish()            // Статус завершения
         {
-            cout << "\nWell done!";
+            cout << "\nWell done!\a";
         }
         void setNu( double NU_TILDA )        // Присваивание "Nu" с чертой
         {
@@ -181,7 +181,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     for ( int n = 0; n < N_TIME; n++ )
     {
         for (int i = 0; i < NR; i++){
-            Jr[i] = Jr[i] * (1 - dt * NU) + (dt * OMEGA_P_0 * OMEGA_P_0 / (4 * PI )) * Fr[i] * Er[i];
+            Jr[i] = Jr[i] * (1 - dt * NU) + (dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * PI )) * Fr[i] * Er[i];
         }
         //Jp
         for (int i = 0; i < NR; i++){
@@ -205,10 +205,14 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
         Hz[NR - 1] =  (Hz[NR - 1] - (c * dt * r_alt[NR - 1]) * Er[NR - 1]);
 
         Hzt[n] = Ephi[FIELD_CHECK_POINT];
-        fout << Hzt[n] << endl;
+        //fout << Hzt[n] << endl;
         myCom.displayLoading( n, N_TIME );
         //cout << "Шаг # " << n << " \\ " << N_TIME << "\r";
 
+    }
+    for ( int i = 0; i < Fr.size(); i++ )
+    {
+        fout << Fr[i] << endl;
     }
     fout.close();
 
