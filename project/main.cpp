@@ -8,7 +8,7 @@
 using namespace std;
 
 
-double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
+double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
 {
     double R1_tilda = R2_TILDA * ( 1 - DELTA );                     // Внутренний (обезразмеренный) радиус цилиндра
     double PI = 3.1415; // Пи
@@ -210,7 +210,7 @@ int main()
     }
     while ( DELTA < 0 || DELTA > 1 );
 
-    cout << fdtd( NU_TILDA, R2_TILDA, DELTA );
+    cout << fdtd( THETA_MULTIPLICATOR * 3.1415926535, NU_TILDA, R2_TILDA, DELTA );
     cout << "\a\a\a\a\a\a\a\a\a\a\a\a\a\a" <<endl;
 
 
