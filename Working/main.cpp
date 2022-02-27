@@ -119,13 +119,13 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 
     int FIELD_CHECK_POINT = NR2 + 1;
 
-    /* Задаем поглощающий слой
+    // Задаем поглощающий слой
+    vector <double> sigma( NR );
+    for ( int i = 0; i < NR; i++ )
+    {
+        sigma[i] = 1;
+    }
 
-
-
-
-
-    */
 
     //setConstants( THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA );
     double KPD = 0.871;
@@ -144,13 +144,13 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     {
         Er[i] = 0;
         Ephi[i] = 0;
-        Ez[i] = 0;
-        Hr[i] = 0;
-        Hphi[i] = 0;
+        //Ez[i] = 0;
+       // Hr[i] = 0;
+        //Hphi[i] = 0;
         Hz[i] = 0;
         Jr[i] = J0 * Fr[i];
         Jphi[i] = -J0 * Fr[i];
-        Jz[i] = 0;
+        //Jz[i] = 0;
     }
     for ( int i = 0; i < N_TIME; i++ )
     {
@@ -165,6 +165,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 
     vector <double> Ert( N_TIME ), Hzt( N_TIME );
 
+
     /* // Запить в файл
 
     for (int i = 0; i < NR; i++)
@@ -177,48 +178,53 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     fout.open("../../../../../../Work/Coding/python/superfile.dat");
 
     // Расчет
-    /*
-    N_TIME = 1;
-    //for ( int n = 0; n < N_TIME; n++ )
-    //{
-        for (int i = 0; i < NR; i++){
-            Jr[i] = Jr[i] * (1 - dt * NU) + (dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * PI )) * Fr[i] * Er[i];
+
+    //N_TIME = 500;
+    for (int n = 0; n < N_TIME - 1; n++){
+        //Jr
+        for (int i = 0; i < r.size(); i++){
+            Jr[i] = Jr[i] * (1 - dt * NU) + (dt * OMEGA_P_0 * OMEGA_P_0 / (4 * PI)) * Fr[i] * Er[i];
         }
         //Jp
-        for (int i = 0; i < NR; i++){
-            Jphi[i] = Jphi[i] * (1 - dt * NU ) + (dt * OMEGA_P_0 * OMEGA_P_0 / (4 * PI)) * Fr[i] * Ephi[i];
+        for (int i = 0; i < r.size(); i++){
+            Jphi[i] = Jphi[i] * (1 - dt * NU) + (dt * OMEGA_P_0 * OMEGA_P_0 / (4 * PI)) * Fr[i] * Ephi[i];
         }
         //Er
         Er[0] = Er[1];
-        for (int i = 1; i < NR; i++){
-            Er[i] = (Er[i] + (c * dt * r_alt[i]) * Hz[i] - (4 * PI * dt) * Jr[i]);
+        for (int i = 1; i < r.size(); i++){
+            Er[i] = sigma[i] * (Er[i] + (c * dt * r_alt[i]) * Hz[i] - (4 * PI * dt) * Jr[i]);
         }
         //Ephi
         Ephi[0] = Ephi[1];
-        for (int i = 1; i < NR; i++){
-            Ephi[i] =  (Ephi[i] - (c * dt / dr) * (Hz[i] - Hz[i-1]) - (4 * PI * dt) * Jphi[i]);
+        for (int i = 1; i < r.size(); i++){
+            Ephi[i] = sigma[i] * (Ephi[i] - (c * dt / dr) * (Hz[i] - Hz[i-1]) - (4 * PI * dt) * Jphi[i]);
         }
         //Hz
 
-        for (int i = 0; i < NR - 1; i++){
-            Hz[i] = (Hz[i] - (c * dt * r_alt[i]) * Er[i] - (c * dt * r_alt[i] / dr) * (r[i + 1] * Ephi[i + 1] - r[i] * Ephi[i]));
+        for (int i = 0; i < r.size() - 1; i++){
+            Hz[i] = sigma[i] * (Hz[i] - (c * dt * r_alt[i]) * Er[i] - (c * dt * r_alt[i] / dr) * (r[i + 1] * Ephi[i + 1] - r[i] * Ephi[i]));
         }
-        Hz[NR - 1] =  (Hz[NR - 1] - (c * dt * r_alt[NR - 1]) * Er[NR - 1]);
+        Hz[r.size() - 1] = sigma[r.size() - 1] * (Hz[r.size() - 1] - (c * dt * r_alt[r.size() - 1]) * Er[r.size() - 1]);
 
-        //Hzt[n] = Ephi[FIELD_CHECK_POINT];
-        //fout << Hzt[n] << endl;
-        //myCom.displayLoading( n, N_TIME );
-        //cout << "Шаг # " << n << " \\ " << N_TIME << "\r";
+        Ert[n] = Er[FIELD_CHECK_POINT];
+        Hzt[n] = Hz[FIELD_CHECK_POINT];
 
-    //}
-    */
+        cout << "Шаг # " << n << " \\ " << N_TIME << "\r";
+
+        fout << Hz[FIELD_CHECK_POINT] << endl;
+    }
+    /*
     for ( int i = 0; i < NR; i++ )
     {
-        fout << Er[i] << "\t" << Ephi[i] << "\t" << Ez[i] << "\t" << Jr[i] << "\t" << Jphi[i] << "\t" << Jz[i] << "\t" << Fr[i] <<endl;
+        fout << Hz[i] << endl;
+        //fout << Er[i] << "\t" << Ephi[i] << "\t" << Ez[i] << "\t" << Jr[i] << "\t" << Jphi[i] << "\t" << Jz[i] << "\t" << Fr[i] <<endl;
     }
+    */
     fout.close();
 
-
+    cout << endl;
+    cout << dt << "\t" << dr << "\t" << NU << "\t" << OMEGA_P_0 << "\t" << c << "\t" << NR << "\t" << NR1 << NR2 << endl;
+    cout << endl;
 
 
 
