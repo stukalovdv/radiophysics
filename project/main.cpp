@@ -22,6 +22,11 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                        // Кол-во шагов по времени
 
 
+    //Новые коэффициенты
+    double V = c / sqrt( cos( THETA ) );
+    double MAIN_COEFFICIENT = c * dt / ( sin( THETA * THETA ) );
+    double SUB_COEFFICIENT = c / V;
+
     // Вектор времени
     vector <double> T( N_TIME );
     for ( int i = 0; i < N_TIME; i++ )
