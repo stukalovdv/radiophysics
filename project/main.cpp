@@ -191,7 +191,6 @@ int main()
 {
     setlocale( LC_ALL,"Rus" ); // Русский язык в консоли
 
-
     // Основные параметры задачи
     double THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA;
     do
@@ -210,9 +209,6 @@ int main()
         cin >> DELTA;
     }
     while ( DELTA < 0 || DELTA > 1 );
-
-    // Ýíåðãèÿ è êïä
-
 
     cout << fdtd( NU_TILDA, R2_TILDA, DELTA );
     cout << "\a\a\a\a\a\a\a\a\a\a\a\a\a\a" <<endl;
