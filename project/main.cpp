@@ -59,7 +59,7 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
         Fr[i] = 0;
     }
 
-    // PML
+    // Поглощающий слой
     vector <double> sigma( NR );
     for ( int i = 0; i < NR - N_PML; i++ )
     {
