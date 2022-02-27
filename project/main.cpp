@@ -192,7 +192,7 @@ int main()
     setlocale( LC_ALL,"Rus" ); // Русский язык в консоли
 
 
-    // Îñíîâíûå ïàðàìåòðû çàäà÷è
+    // Основные параметры задачи
     double THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA;
     do
     {
