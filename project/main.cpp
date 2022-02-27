@@ -93,7 +93,6 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
     fout.open( "../python/file.txt" );
 
     //вычисление
-    //float progress = (1 / (float)timestEphis);
     for ( int n = 0; n < N_TIME; n++ )
     {
         //Jr
