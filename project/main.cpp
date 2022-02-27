@@ -18,21 +18,21 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
     double R2 = R2_TILDA * c / OMEGA_P_0;                           // Внешний радиус цилиндра
     double dr = 0.01 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
     double dt = dr / ( c * 2 );                                     // Шаг по времени
-    double T_MAX = 40;                                              // Расчетное обезразмеренное время
+    double T_MAX = 40;                                              // Расчетное (обезразмеренное) время
     int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                        // Кол-во шагов по времени
 
 
+    // Вектор времени
     vector <double> T( N_TIME );
     for ( int i = 0; i < N_TIME; i++ )
     {
         T[i] = dt * i;
     }
 
-    //îáîçíà÷àåì r è 1/r
-    double R_MAX = R2 * 60;
-    int NR = ( R_MAX + dr ) / dr;
+    // Обозначаем r и 1/r
+    double R_MAX = R2 * 60;                                         // Расчетное пространство (по r)
+    int NR = ( R_MAX + dr ) / dr;                                   // Кол-во шагов по пространству
     vector <double> r( NR ), r_tilda( NR ), r_alt( NR );
-
     for ( int i = 0; i < NR; i++ )
     {
         r[i] = dr + dr * i;
@@ -44,7 +44,7 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
     int FIELD_CHECK_POINT = NR2, FIELD_CHECK_POINT_TILDA = FIELD_CHECK_POINT * dr * OMEGA_P_0 / c;
     if ( NR1 == 0 ) NR1 = 1;
 
-    //îáîçíà÷àåì F(r)
+    // Обозначаем F(r)
     vector <double> Fr( NR );
     for ( int i = 0; i < NR1; i++ )
     {
@@ -59,7 +59,7 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
         Fr[i] = 0;
     }
 
-    //PML
+    // PML
     vector <double> sigma( NR );
     for ( int i = 0; i < NR - N_PML; i++ )
     {
