@@ -189,7 +189,7 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
 
 int main()
 {
-    setlocale( LC_ALL,"Rus" ); // Ðóññêèé ÿçûê â êîíñîëè
+    setlocale( LC_ALL,"Rus" ); // Русский язык в консоли
 
 
     // Îñíîâíûå ïàðàìåòðû çàäà÷è
