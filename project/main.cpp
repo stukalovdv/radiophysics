@@ -72,12 +72,12 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
     }
     sigma[NR - 1] = 0;
 
-    vector <double> Er( NR ), Ephi( NR ), Ez( NR );
-    vector <double> Hr( NR ), Hphi( NR ), Hz( NR );
-    vector <double> Jr( NR ), Jphi( NR ), Jz( NR );
-    vector <double> Ept( N_TIME ), Hzt( N_TIME );
+    vector <double> Er( NR ), Ephi( NR ), Ez( NR );                     // Проекции электрических полей
+    vector <double> Hr( NR ), Hphi( NR ), Hz( NR );                     // Проекции магнитных полей
+    vector <double> Jr( NR ), Jphi( NR ), Jz( NR );                     // Проекции токовых компонент
+    vector <double> Ept( N_TIME ), Hzt( N_TIME );                       // Ephi(t), Hz(t)
 
-    //íà÷àëüíûå óñëîâèÿ
+    //Начальные условия
     for ( int i = 0; i < NR; i++ )
     {
         Er[i] = 0;
