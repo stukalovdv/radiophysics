@@ -10,16 +10,16 @@ using namespace std;
 
 double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
 {
-    double R1_tilda = R2_TILDA * ( 1 - DELTA );                     // Внутренний (обезразмеренный) радиус цилиндра
-    double PI = 3.1415; // Пи
+    double R1_tilda = R2_TILDA * ( 1 - DELTA );                     // Р’РЅСѓС‚СЂРµРЅРЅРёР№ (РѕР±РµР·СЂР°Р·РјРµСЂРµРЅРЅС‹Р№) СЂР°РґРёСѓСЃ С†РёР»РёРЅРґСЂР°
+    double PI = 3.1415; // РџРё
     double c = 3e+10, OMEGA_P_0 = 3e+9, J0 = 1;
-    double NU = NU_TILDA * OMEGA_P_0;                               // Частота соударений
-    double R1 = R1_tilda * c / OMEGA_P_0;                           // Внутренний радиус цилиндра
-    double R2 = R2_TILDA * c / OMEGA_P_0;                           // Внешний радиус цилиндра
-    double dr = 0.01 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
-    double dt = dr / ( c * 2 );                                     // Шаг по времени
-    double T_MAX = 40;                                              // Расчетное обезразмеренное время
-    int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                        // Кол-во шагов по времени
+    double NU = NU_TILDA * OMEGA_P_0;                               // Р§Р°СЃС‚РѕС‚Р° СЃРѕСѓРґР°СЂРµРЅРё
+    double R1 = R1_tilda * c / OMEGA_P_0;                           // Р’РЅСѓС‚СЂРµРЅРЅРёР№ СЂР°РґРёСѓСЃ С†РёР»РёРЅРґСЂР°
+    double R2 = R2_TILDA * c / OMEGA_P_0;                           // Р’РЅРµС€РЅРёР№ СЂР°РґРёСѓСЃ С†РёР»РёРЅРґСЂР°
+    double dr = 0.01 * NU_TILDA * ( R2 - R1 );                      // РЁР°Рі РїРѕ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІСѓ
+    double dt = dr / ( c * 2 );                                     // РЁР°Рі РїРѕ РІСЂРµРјРµРЅРё
+    double T_MAX = 40;                                              // Р Р°СЃС‡РµС‚РЅРѕРµ РѕР±РµР·СЂР°Р·РјРµСЂРµРЅРЅРѕРµ РІСЂРµРјСЏ
+    int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                        // РљРѕР»-РІРѕ С€Р°РіРѕРІ РїРѕ РІСЂРµРјРµРЅРё
 
 
     vector <double> T( N_TIME );
@@ -28,7 +28,7 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
         T[i] = dt * i;
     }
 
-    //обозначаем r и 1/r
+    //Г®ГЎГ®Г§Г­Г Г·Г ГҐГ¬ r ГЁ 1/r
     double R_MAX = R2 * 60;
     int NR = ( R_MAX + dr ) / dr;
     vector <double> r( NR ), r_tilda( NR ), r_alt( NR );
@@ -44,7 +44,7 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
     int FIELD_CHECK_POINT = NR2, FIELD_CHECK_POINT_TILDA = FIELD_CHECK_POINT * dr * OMEGA_P_0 / c;
     if ( NR1 == 0 ) NR1 = 1;
 
-    //обозначаем F(r)
+    //Г®ГЎГ®Г§Г­Г Г·Г ГҐГ¬ F(r)
     vector <double> Fr( NR );
     for ( int i = 0; i < NR1; i++ )
     {
@@ -77,7 +77,7 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
     vector <double> Jr( NR ), Jphi( NR ), Jz( NR );
     vector <double> Ept( N_TIME ), Hzt( N_TIME );
 
-    //начальные условия
+    //Г­Г Г·Г Г«ГјГ­Г»ГҐ ГіГ±Г«Г®ГўГЁГї
     for ( int i = 0; i < NR; i++ )
     {
         Er[i] = 0;
@@ -94,7 +94,7 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
     ofstream fout;
     fout.open( "../python/file.txt" );
 
-    //вычисление
+    //ГўГ»Г·ГЁГ±Г«ГҐГ­ГЁГҐ
     for ( int n = 0; n < N_TIME; n++ )
     {
         //Jr
@@ -168,7 +168,7 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
 
     if ( !fout.is_open() )
     {
-        cout << "Ошибка открытия файла?" << endl;
+        cout << "ГЋГёГЁГЎГЄГ  Г®ГІГЄГ°Г»ГІГЁГї ГґГ Г©Г«Г ?" << endl;
     }
     /*
     else{
@@ -189,10 +189,10 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
 
 int main()
 {
-    setlocale( LC_ALL,"Rus" ); // Русский язык в консоли
+    setlocale( LC_ALL,"Rus" ); // ГђГіГ±Г±ГЄГЁГ© ГїГ§Г»ГЄ Гў ГЄГ®Г­Г±Г®Г«ГЁ
 
 
-    // Основные параметры задачи
+    // ГЋГ±Г­Г®ГўГ­Г»ГҐ ГЇГ Г°Г Г¬ГҐГІГ°Г» Г§Г Г¤Г Г·ГЁ
     double THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA;
     do
     {
@@ -211,7 +211,7 @@ int main()
     }
     while ( DELTA < 0 || DELTA > 1 );
 
-    // Энергия и кпд
+    // ГќГ­ГҐГ°ГЈГЁГї ГЁ ГЄГЇГ¤
 
 
     cout << fdtd( NU_TILDA, R2_TILDA, DELTA );
