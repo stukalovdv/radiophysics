@@ -13,7 +13,7 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
     double R1_tilda = R2_TILDA * ( 1 - DELTA );                     // Внутренний (обезразмеренный) радиус цилиндра
     double PI = 3.1415; // Пи
     double c = 3e+10, OMEGA_P_0 = 3e+9, J0 = 1;
-    double NU = NU_TILDA * OMEGA_P_0;                               // Частота соударени
+    double NU = NU_TILDA * OMEGA_P_0;                               // Частота соударений
     double R1 = R1_tilda * c / OMEGA_P_0;                           // Внутренний радиус цилиндра
     double R2 = R2_TILDA * c / OMEGA_P_0;                           // Внешний радиус цилиндра
     double dr = 0.01 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
