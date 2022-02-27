@@ -168,7 +168,7 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
 
     if ( !fout.is_open() )
     {
-        cout << "Îøèáêà îòêðûòèÿ ôàéëà?" << endl;
+        cout << "Ошибка записи файла!" << endl;
     }
     /*
     else{
