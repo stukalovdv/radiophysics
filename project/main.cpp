@@ -52,7 +52,7 @@ double fdtd( double NU_TILDA, double R2_TILDA, double DELTA )
     }
     for ( int i = NR1; i < NR2; i++ )
     {
-        Fr[i] = ( cos( (double )PI * (double)( i - NR1 ) / ( 2 * (int)( NR2 - NR1 ) ) ) ) * ( cos( (double)PI * (double)( i - NR1 ) / ( 2 * ( NR2 - NR1 ) ) ) );
+        Fr[i] = ( cos( (double)PI * (double)( i - NR1 ) / ( 2 * (int)( NR2 - NR1 ) ) ) ) * ( cos( (double)PI * (double)( i - NR1 ) / ( 2 * ( NR2 - NR1 ) ) ) );
     }
     for ( int i = NR2; i < NR; i++ )
     {
