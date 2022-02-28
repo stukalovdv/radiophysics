@@ -22,22 +22,22 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                        // Кол-во шагов по времени
 
 
-    //Новые коэффициенты
-    double V = c / sqrt( cos( THETA ) );
-    double MAIN_COEFFICIENT = c * dt / ( sin( THETA * THETA ) );
-    double SUB_COEFFICIENT = c / V;
 
-    // Вектор времени
-    vector <double> T( N_TIME );
-    for ( int i = 0; i < N_TIME; i++ )
-    {
-        T[i] = dt * i;
-    }
+    double V = c / sqrt( cos( THETA ) );                            // Новые коэффициенты
+    double MAIN_COEFFICIENT = c * dt / ( sin( THETA * THETA ) );    //
+    double SUB_COEFFICIENT = c / V;                                 //
 
-    // Обозначаем r и 1/r
+
+    vector <double> T( N_TIME );                                    // Вектор времени
+    for ( int i = 0; i < N_TIME; i++ )                              //
+    {                                                               //
+        T[i] = dt * i;                                              //
+    }                                                               //
+
+
     double R_MAX = R2 * 60;                                         // Расчетное пространство (по r)
     int NR = ( R_MAX + dr ) / dr;                                   // Кол-во шагов по пространству
-    vector <double> r( NR ), r_tilda( NR ), r_alt( NR );
+    vector <double> r( NR ), r_tilda( NR ), r_alt( NR );            // Обозначаем r и 1/r
     for ( int i = 0; i < NR; i++ )
     {
         r[i] = dr + dr * i;
