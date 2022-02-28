@@ -133,7 +133,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         //Ez
         for ( int i = 0; i < NR; i++ )
         {
-            Ez[i] = Ez[i];
+            Ez[i] = sigma[i] * ( Ez[i] + ( c * dt * r_alt[i] ) );
         }
 
         //Hr
