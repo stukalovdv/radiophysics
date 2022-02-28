@@ -46,7 +46,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     }                                                               //
 
     int NR1 =  R1 / dr, NR2 = R2 / dr;                              // Начало и конец неоднородного слоя (в кол-ве узлов)
-    int N_PML = 10 * NR2;                                           // Начало поглощения
+
     // Точка проверки значения поля от времени
     int FIELD_CHECK_POINT = NR2, FIELD_CHECK_POINT_TILDA = FIELD_CHECK_POINT * dr * OMEGA_P_0 / c;
     if ( NR1 == 0 ) NR1 = 1;
@@ -66,8 +66,9 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         Fr[i] = 0;
     }
 
-    // Поглощающий слой
-    vector <double> sigma( NR );
+
+    int N_PML = 10 * NR2;                                           // Поглощающий слой
+    vector <double> sigma( NR );                                    // Начало поглощения
     for ( int i = 0; i < NR - N_PML; i++ )
     {
         sigma[i] = 1;
