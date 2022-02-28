@@ -82,7 +82,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     vector <double> Er( NR ), Ephi( NR ), Ez( NR );                     // Проекции электрических полей
     vector <double> Hr( NR ), Hphi( NR ), Hz( NR );                     // Проекции магнитных полей
     vector <double> Jr( NR ), Jphi( NR ), Jz( NR );                     // Проекции токовых компонент
-    vector <double> Ept( N_TIME ), Hzt( N_TIME );                       // Ephi(t), Hz(t)
+    vector <double> Ept( N_TIME ), Hzt( N_TIME );                       // E_phi(t), H_z(t)
 
     //Начальные условия
     for ( int i = 0; i < NR; i++ )
@@ -101,7 +101,6 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     ofstream fout;
     fout.open( "../python/file.txt" );
 
-    //âû÷èñëåíèå
     for ( int n = 0; n < N_TIME; n++ )
     {
         //Jr
