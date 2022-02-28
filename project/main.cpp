@@ -99,7 +99,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     }
 
     ofstream fout;
-    fout.open( "../python/file.txt" );
+    fout.open( "../python/main_data.dat" );
 
     for ( int n = 0; n < N_TIME; n++ )
     {
@@ -133,7 +133,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         //Ez
         for ( int i = 0; i < NR; i++ )
         {
-            Ez[i] = sigma[i] * ( Ez[i] + ( c * dt * r_alt[i] ) );
+            Ez[i] = sigma[i] * ( Ez[i] + ( c * dt * r_alt[i] ) * ( - Hr[i] ) - 4 * PI * dt * Jz[i] );
         }
 
         //Hr
@@ -158,7 +158,10 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
 
         cout << "Loading... " << ( n * 100 / N_TIME ) + 1 << "/" << 100 << "%\r";
 
-        fout << Hz[FIELD_CHECK_POINT] << endl;
+        fout << T[n] << "\t";
+        fout << Er[FIELD_CHECK_POINT] << "\t" << Ephi[FIELD_CHECK_POINT] << "\t" << Ez[FIELD_CHECK_POINT] << "\t";
+        fout << Hr[FIELD_CHECK_POINT] << "\t" << Hphi[FIELD_CHECK_POINT] << "\t" << Hz[FIELD_CHECK_POINT] << "\t";
+        fout << Jr[FIELD_CHECK_POINT] << "\t" << Jphi[FIELD_CHECK_POINT] << "\t" << Jz[FIELD_CHECK_POINT] << "\t";
     }
 
     double I = 0;
