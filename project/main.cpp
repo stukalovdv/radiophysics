@@ -21,9 +21,8 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     double T_MAX = 40;                                              // Расчетное (обезразмеренное) время
     int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                        // Кол-во шагов по времени
 
-
-
-    double V = c / sqrt( cos( THETA ) );                            // Новые коэффициенты
+    // Новые коэффициенты
+    double V = c / sqrt( cos( THETA ) );                            //
     double MAIN_COEFFICIENT = c * dt / ( sin( THETA * THETA ) );    //
     double SUB_COEFFICIENT = c / V;                                 //
 
