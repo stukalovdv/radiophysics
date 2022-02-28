@@ -157,7 +157,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         Hzt[n] = Hz[FIELD_CHECK_POINT];
 
         cout << "Loading... " << ( n * 100 / N_TIME ) + 1 << "/" << 100 << "%\r";
-        fout << setw( 11 );
+        fout << setw( 21 );
         fout << T[n] << "\t";
         fout << Er[FIELD_CHECK_POINT] << "\t" << Ephi[FIELD_CHECK_POINT] << "\t" << Ez[FIELD_CHECK_POINT] << "\t";
         fout << Hr[FIELD_CHECK_POINT] << "\t" << Hphi[FIELD_CHECK_POINT] << "\t" << Hz[FIELD_CHECK_POINT] << "\t";
