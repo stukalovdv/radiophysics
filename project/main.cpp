@@ -116,7 +116,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         //Jz
         for ( int i = 0; i < NR; i++ )
         {
-            Jz[i] = Jz[i];
+            Jz[i] = Jz[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * PI ) ) * Fr[i] * Ez[i];
         }
         //Er
         Er[0] = Er[1];
