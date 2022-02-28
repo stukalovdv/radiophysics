@@ -13,7 +13,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     double R1_tilda = R2_TILDA * ( 1 - DELTA );                     // Внутренний (обезразмеренный) радиус цилиндра
     double PI = 3.1415; // Пи
     double c = 3e+10, OMEGA_P_0 = 3e+9, J0 = 1;
-    double NU = NU_TILDA * OMEGA_P_0;                               // Частота соударени
+    double NU = NU_TILDA * OMEGA_P_0;                               // Частота соударений
     double R1 = R1_tilda * c / OMEGA_P_0;                           // Внутренний радиус цилиндра
     double R2 = R2_TILDA * c / OMEGA_P_0;                           // Внешний радиус цилиндра
     double dr = 0.01 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
@@ -38,12 +38,12 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     double R_MAX = R2 * 60;                                         // Расчетное пространство (по r)
     int NR = ( R_MAX + dr ) / dr;                                   // Кол-во шагов по пространству
     vector <double> r( NR ), r_tilda( NR ), r_alt( NR );            // Обозначаем r и 1/r
-    for ( int i = 0; i < NR; i++ )
-    {
-        r[i] = dr + dr * i;
-        r_alt[i] = 1 / r[i];
-        r_tilda[i] = r[i] * OMEGA_P_0 / c;
-    }
+    for ( int i = 0; i < NR; i++ )                                  //
+    {                                                               //
+        r[i] = dr + dr * i;                                         //
+        r_alt[i] = 1 / r[i];                                        //
+        r_tilda[i] = r[i] * OMEGA_P_0 / c;                          //
+    }                                                               //
 
     int NR1 =  R1 / dr, NR2 = R2 / dr , N_PML = 10 * NR2;
     int FIELD_CHECK_POINT = NR2, FIELD_CHECK_POINT_TILDA = FIELD_CHECK_POINT * dr * OMEGA_P_0 / c;
