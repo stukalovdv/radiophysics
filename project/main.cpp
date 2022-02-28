@@ -45,12 +45,14 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         r_tilda[i] = r[i] * OMEGA_P_0 / c;                          //
     }                                                               //
 
-    int NR1 =  R1 / dr, NR2 = R2 / dr , N_PML = 10 * NR2;
+    int NR1 =  R1 / dr, NR2 = R2 / dr;                              // Начало и конец неоднородного слоя (в кол-ве узлов)
+    int N_PML = 10 * NR2;                                           // Начало поглощения
+    // Точка проверки значения поля от времени
     int FIELD_CHECK_POINT = NR2, FIELD_CHECK_POINT_TILDA = FIELD_CHECK_POINT * dr * OMEGA_P_0 / c;
     if ( NR1 == 0 ) NR1 = 1;
 
-    // Обозначаем F(r)
-    vector <double> Fr( NR );
+
+    vector <double> Fr( NR );                                       // Обозначаем F(r)
     for ( int i = 0; i < NR1; i++ )
     {
         Fr[i] = 1;
