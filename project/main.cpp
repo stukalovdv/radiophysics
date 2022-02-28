@@ -162,6 +162,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         fout << Er[FIELD_CHECK_POINT] << "\t" << Ephi[FIELD_CHECK_POINT] << "\t" << Ez[FIELD_CHECK_POINT] << "\t";
         fout << Hr[FIELD_CHECK_POINT] << "\t" << Hphi[FIELD_CHECK_POINT] << "\t" << Hz[FIELD_CHECK_POINT] << "\t";
         fout << Jr[FIELD_CHECK_POINT] << "\t" << Jphi[FIELD_CHECK_POINT] << "\t" << Jz[FIELD_CHECK_POINT] << "\t";
+        fout << endl;
     }
 
     double I = 0;
