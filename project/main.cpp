@@ -100,6 +100,10 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
 
     ofstream fout;
     fout.open( "../python/main_data.dat" );
+    fout << left << setw( 11 ) << "T" << "\t";
+    fout << left << setw( 11 ) << "Er" << "\t" << left << setw( 11 ) << "Ephi" << "\t" << left << setw( 11 ) << "Ez" << "\t";
+    fout << left << setw( 11 ) << "Hr" << "\t" << left << setw( 11 ) << "Hphi" << "\t" << left << setw( 11 ) << "Hz" << "\t";
+    fout << left << setw( 11 ) << "Jr" << "\t" << left << setw( 11 ) << "Jphi" << "\t" << left << setw( 11 ) << "Jz" << "\t";
 
     for ( int n = 0; n < N_TIME; n++ )
     {
