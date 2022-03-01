@@ -163,7 +163,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         fout << left << setw( 11 ) << Jr[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Jphi[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Jz[FIELD_CHECK_POINT] << "\t";
         fout << endl;
     }
-
+    fout.close();
     double I = 0;
     for ( int i = 1; i < N_TIME; i++ )
     {
@@ -175,21 +175,8 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     W_izl = c * ( dt / 4 ) * FIELD_CHECK_POINT * dr * I;
 
 
-    if ( !fout.is_open() )
-    {
-        cout << "Ошибка записи файла!" << endl;
-    }
-    /*
-    else{
-        for ( int i = 0; i < Hzt.size(); i++ )
-        {
-            //fout << setprecision(20) << fixed;
-            fout << Hzt[i] << " ";
-        }
-    }
-    */
 
-    fout.close();
+
     cout << "\rWell done!         \n";
 
     return W_izl / W_zap;
