@@ -90,9 +90,11 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         Er[i] = 0;
         Ephi[i] = 0;
         Ez[i] = 0;
+
         Hr[i] = 0;
         Hphi[i] = 0;
         Hz[i] = 0;
+
         Jr[i] = J0 * Fr[i];
         Jphi[i] = -J0 * Fr[i];
         Jz[i] = 0;
