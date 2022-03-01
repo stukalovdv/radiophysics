@@ -138,9 +138,10 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
             Ephi[i] = sigma[i] * ( Ephi[i] - ( c * dt / dr ) * ( Hz[i] - Hz[i-1] ) - ( 4 * PI * dt ) * Jphi[i] );
         }
         //Ez
-        for ( int i = 0; i < NR; i++ )
+        Ez[0] = Ez[1];
+        for ( int i = 1; i < NR; i++ )
         {
-            Ez[i] = sigma[i] * ( Ez[i] + ( c * dt * r_alt[i] ) * ( - Hr[i] ) - 4 * PI * dt * Jz[i] );
+            Ez[i] = sigma[i] * ( Ez[i] + ( c * dt * r_alt[i] ) * ( ( Hphi[i + 1] * r[i + 1] - Hphi[i] * r[i] ) / dr - Hr[i] ) - 4 * PI * dt * Jz[i] );
         }
 
         //Hr
