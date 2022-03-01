@@ -187,7 +187,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
 
     cout << "\rWell done!         \n";
 
-    return W_izl / W_zap;
+    return V;
 }
 
 
