@@ -158,9 +158,9 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
 
         cout << "Loading... " << ( n * 100 / N_TIME ) + 1 << "/" << 100 << "%\r";
         fout << left << setw( 11 ) << T[n] << "\t";
-        fout << Er[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Ephi[FIELD_CHECK_POINT]  << "\t" << left << setw( 11 ) << Ez[FIELD_CHECK_POINT] << "\t";
-        fout << Hr[FIELD_CHECK_POINT] << "\t" << Hphi[FIELD_CHECK_POINT] << "\t" << Hz[FIELD_CHECK_POINT] << "\t";
-        fout << Jr[FIELD_CHECK_POINT] << "\t" << Jphi[FIELD_CHECK_POINT] << "\t" << Jz[FIELD_CHECK_POINT] << "\t";
+        fout << left << setw( 11 ) << Er[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Ephi[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Ez[FIELD_CHECK_POINT] << "\t";
+        fout << left << setw( 11 ) << Hr[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Hphi[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Hz[FIELD_CHECK_POINT] << "\t";
+        fout << left << setw( 11 ) << Jr[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Jphi[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Jz[FIELD_CHECK_POINT] << "\t";
         fout << endl;
     }
 
