@@ -151,10 +151,11 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
             Hr[i] = Hr[i];
         }
         //Hphi
-        for ( int i = 0; i < NR; i++ )
+        for ( int i = 0; i < NR - 1; i++ )
         {
-            Hphi[i] = Hphi[i];
+            Hphi[i] = sigma[i] * ( Hphi[i] + MAIN_COEFFICIENT * ( r_alt[i] * Ez[i] + ( SUB_COEFFICIENT * ( ( Hz[i + 1] - Hz[i] ) / dr ) + 4 * PI / c * Jphi[i] ) ) );
         }
+        Hphi[NR - 1] = sigma[NR - 1];
         //Hz
         for ( int i = 0; i < NR - 1; i++ )
         {
