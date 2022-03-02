@@ -155,7 +155,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         Hphi[0] = Hphi[1];
         for ( int i = 1; i < NR; i++ )
         {
-            Hphi[i] = sigma[i] * ( Hphi[i] + MAIN_COEFFICIENT * ( SUB_COEFFICIENT * ( r_alt[i] * Hz[i] - ( 4 * PI / c ) Jr[i] ) + ( Ez[i] - Ez[i - 1] ) / dr ) );
+            Hphi[i] = sigma[i] * ( Hphi[i] + MAIN_COEFFICIENT * ( SUB_COEFFICIENT * ( r_alt[i] * Hz[i] - ( 4 * PI / c ) * Jr[i] ) + ( Ez[i] - Ez[i - 1] ) / dr ) );
         }
         //Hz
         Hz[0] = Hz[1];
