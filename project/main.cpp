@@ -18,7 +18,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     double R2 = R2_TILDA * c / OMEGA_P_0;                           // Внешний радиус цилиндра
     double dr = 0.01 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
     double dt = dr / ( c * 2 );                                     // Шаг по времени
-    double T_MAX = 40;                                              // Расчетное (обезразмеренное) время
+    double T_MAX = 30;                                              // Расчетное (обезразмеренное) время
     int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                        // Кол-во шагов по времени
 
     // Новые коэффициенты
