@@ -101,7 +101,8 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     }
 
     ofstream fout;
-    fout.open( "../python/main_data.dat" );
+    string PATH = "main_data.dat";
+    fout.open( PATH );
     fout << left << setw( 11 ) << "T" << "\t";
     fout << left << setw( 11 ) << "Er(t)" << "\t" << left << setw( 11 ) << "Ephi(t)" << "\t" << left << setw( 11 ) << "Ez(t)" << "\t";
     fout << left << setw( 11 ) << "Hr(t)" << "\t" << left << setw( 11 ) << "Hphi(t)" << "\t" << left << setw( 11 ) << "Hz(t)" << "\t";
