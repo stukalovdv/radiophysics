@@ -191,6 +191,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
 
 
     cout << "\rWell done!         \n";
+    cout << PATH << endl;
 
     return W_izl / W_zap;
 }
