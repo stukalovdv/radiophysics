@@ -28,7 +28,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     double MAIN_COEFFICIENT = c * dt / ( sin( THETA * THETA ) );    //
     double SUB_COEFFICIENT = c / V;                                 //
 
-    //N_TIME = 5;
+    N_TIME = 5;
     vector <double> T( N_TIME );                                    // Вектор времени
     for ( int i = 0; i < N_TIME; i++ )                              //
     {                                                               //
@@ -158,7 +158,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         Hphi[0] = Hphi[1];
         for ( int i = 1; i < NR; i++ )
         {
-            Hphi[i] = sigma[i] * ( Hphi[i] + MAIN_COEFFICIENT * ( SUB_COEFFICIENT * ( r_alt[i] * Hz[i] - ( 4 * M_PI / c ) * Jr[i] ) + ( Ez[i] - Ez[i - 1] ) / dr ) );
+            Hphi[i] = sigma[i] * ( Hphi[i] + MAIN_COEFFICIENT * ( SUB_COEFFICIENT * ( r_alt[i] * Hz[i] - ( 4 * PI / c ) * Jr[i] ) + ( Ez[i] - Ez[i - 1] ) / dr ) );
         }
         //Hz
         Hz[0] = Hz[1];
@@ -186,7 +186,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     }
     I += ( Ept[0] * Hzt[0] + Ept[N_TIME-1] * Hzt[N_TIME - 1] ) / 2;
     double W_zap, W_izl;
-    W_zap = ( R2 * R2 + R1 * R1 ) * ( ( M_PI * J0 ) / OMEGA_P_0 ) * ( ( M_PI * J0 ) / OMEGA_P_0 );
+    W_zap = ( R2 * R2 + R1 * R1 ) * ( ( PI * J0 ) / OMEGA_P_0 ) * ( ( PI * J0 ) / OMEGA_P_0 );
     W_izl = c * ( dt / 4 ) * FIELD_CHECK_POINT * dr * I;
 
 
