@@ -219,7 +219,7 @@ int main()
     }
     while ( DELTA < 0 || DELTA > 1 );
 
-    cout << fdtd( THETA_MULTIPLICATOR * 3.1415926535, NU_TILDA, R2_TILDA, DELTA );
+    cout << fdtd( THETA_MULTIPLICATOR * M_PI, NU_TILDA, R2_TILDA, DELTA );
     cout << "\a\a\a\a\a\a\a\a\a\a\a\a\a\a" <<endl;
 
 
