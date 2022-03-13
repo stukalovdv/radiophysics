@@ -28,7 +28,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     double SUB_COEFFICIENT = c / V;                                 //
 
     //N_TIME = 5;
-    vector <double> T( N_TIME );                                    // Вектор времени
+    vector <long double> T( N_TIME );                               // Вектор времени
     for ( int i = 0; i < N_TIME; i++ )                              //
     {                                                               //
         T[i] = dt * i;                                              //
