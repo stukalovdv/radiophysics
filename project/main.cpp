@@ -7,10 +7,12 @@
 
 using namespace std;
 
+double c = 3e+10, OMEGA_P_0 = 3e+9, J0 = 1;                         // Глобальные переменные (скорость света, максимальная плазменная частота и плотность тока)
+
 double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
 {
     double R1_tilda = R2_TILDA * ( 1 - DELTA );                     // Внутренний (обезразмеренный) радиус цилиндра
-    double c = 3e+10, OMEGA_P_0 = 3e+9, J0 = 1;
+
     double NU = NU_TILDA * OMEGA_P_0;                               // Частота соударений 1
 
     double R1 = R1_tilda * c / OMEGA_P_0;                           // Внутренний радиус цилиндра

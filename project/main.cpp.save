@@ -4,15 +4,15 @@
 #include <iomanip>
 #define _USE_MATH_DEFINES
 #include <math.h>
-#include <cmath>
 
 using namespace std;
 
+double c = 3e+10, OMEGA_P_0 = 3e+9, J0 = 1;                         // Глобальные 
 
 double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
 {
     double R1_tilda = R2_TILDA * ( 1 - DELTA );                     // Внутренний (обезразмеренный) радиус цилиндра
-    double c = 3e+10, OMEGA_P_0 = 3e+9, J0 = 1;
+
     double NU = NU_TILDA * OMEGA_P_0;                               // Частота соударений 1
 
     double R1 = R1_tilda * c / OMEGA_P_0;                           // Внутренний радиус цилиндра
@@ -28,7 +28,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     double SUB_COEFFICIENT = c / V;                                 //
 
     //N_TIME = 5;
-    vector <long double> T( N_TIME );                                    // Вектор времени
+    vector <long double> T( N_TIME );                               // Вектор времени
     for ( int i = 0; i < N_TIME; i++ )                              //
     {                                                               //
         T[i] = dt * i;                                              //
@@ -221,7 +221,7 @@ int main()
     }
     while ( DELTA < 0 || DELTA > 1 );
 
-    cout << fdtd( THETA_MULTIPLICATOR * 3.1415926535, NU_TILDA, R2_TILDA, DELTA );
+    cout << fdtd( THETA_MULTIPLICATOR * M_PI, NU_TILDA, R2_TILDA, DELTA );
     cout << "\a\a\a\a\a\a\a\a\a\a\a\a\a\a" <<endl;
 
 
