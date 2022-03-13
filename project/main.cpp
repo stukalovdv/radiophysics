@@ -7,7 +7,6 @@
 
 using namespace std;
 
-
 double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
 {
     double R1_tilda = R2_TILDA * ( 1 - DELTA );                     // Внутренний (обезразмеренный) радиус цилиндра
