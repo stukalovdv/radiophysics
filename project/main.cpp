@@ -186,9 +186,6 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     W_zap = ( R2 * R2 + R1 * R1 ) * ( ( M_PI * J0 ) / OMEGA_P_0 ) * ( ( M_PI * J0 ) / OMEGA_P_0 );
     W_izl = c * ( dt / 4 ) * FIELD_CHECK_POINT * dr * I;
 
-
-
-
     cout << "\rWell done!         \n";
     cout << "File saved in path: " << PATH << endl;
 
