@@ -23,7 +23,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     // Новые коэффициенты
     double V = c / sqrt( cos( THETA ) );                            //
     double MAIN_COEFFICIENT = c * dt / ( sin( THETA * THETA ) );    //
-    double SUB_COEFFICIENT = c / V;                                 //
+    double SUB_COEFFICIENT = cos( THETA );                                 //
 
     //N_TIME = 5;
     vector <long double> T( N_TIME );                               // Вектор времени
