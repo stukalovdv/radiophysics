@@ -222,7 +222,7 @@ int main()
     while ( DELTA < 0 || DELTA > 1 );
 
     cout << fdtd( THETA_MULTIPLICATOR * M_PI, NU_TILDA, R2_TILDA, DELTA );
-    cout << "\a\a\a\a\a\a\a\a\a\a\a\a\a\a" <<endl;
+    cout << "\a" <<endl;
 
     //cout << THETA_MULTIPLICATOR * M_PI << "  " << cos( THETA_MULTIPLICATOR * M_PI );
 
