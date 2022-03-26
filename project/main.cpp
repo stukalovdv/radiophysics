@@ -115,6 +115,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
 
     for ( int n = 0; n < N_TIME; n++ )
     {
+        /*
         //Jr
         for ( int i = 0; i < NR; i++ )
         {
@@ -124,11 +125,6 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         for ( int i = 0; i < NR; i++ )
         {
             Jphi[i] = Jphi[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ephi[i];
-        }
-        //Jz
-        for ( int i = 0; i < NR; i++ )
-        {
-            Jz[i] = Jz[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ez[i];
         }
         //Er
         Er[0] = Er[1];
@@ -142,6 +138,45 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         {
             Ephi[i] = sigma[i] * ( Ephi[i] + MAIN_COEFFICIENT * ( - SUB_COEFFICIENT * r_alt[i] * Ez[i] - ( Hz[i] - Hz[i - 1] ) / dr - ( 4 * M_PI / c ) * Jphi[i] ) );
         }
+
+
+
+        //Hz
+        Hz[0] = Hz[1];
+        for ( int i = 1; i < NR; i++ )
+        {
+            Hz[i] = sigma[i] * ( Hz[i] - ( c * dt * r_alt[i] ) * ( Er[i] + ( r[i] * Ephi[i] - r[i - 1] * Ephi[i - 1] ) / dr ) );
+        }
+
+        Ept[n] = Ephi[FIELD_CHECK_POINT];
+        Hzt[n] = Hz[FIELD_CHECK_POINT];
+        */
+        for (int i = 0; i < NR; i++)
+        {
+            Jr[i] = Jr[i] * (1 - dt * NU) + (dt * OMEGA_P_0 * OMEGA_P_0 / (4 * M_PI)) * Fr[i] * Er[i];
+        }
+        //Jp
+        for (int i = 0; i < NR; i++)
+        {
+            Jphi[i] = Jphi[i] * (1 - dt * NU) + (dt * OMEGA_P_0 * OMEGA_P_0 / (4 * M_PI)) * Fr[i] * Ephi[i];
+        }
+        //Jz
+        for ( int i = 0; i < NR; i++ )
+        {
+            Jz[i] = Jz[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ez[i];
+        }
+        //Er
+        Er[0] = Er[1];
+        for (int i = 1; i < NR; i++)
+        {
+            Er[i] = sigma[i] * (Er[i] + (c * dt * r_alt[i]) * Hz[i] - (4 * M_PI * dt) * Jr[i]);
+        }
+        //Ephi
+        Ephi[0] = Ephi[1];
+        for (int i = 1; i < NR; i++)
+        {
+            Ephi[i] = sigma[i] * (Ephi[i] - (c * dt / dr) * (Hz[i] - Hz[i-1]) - (4 * M_PI * dt) * Jphi[i]);
+        }
         //Ez
         Ez[0] = Ez[1];
         for ( int i = 1; i < NR; i++ )
@@ -149,7 +184,6 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
             Ez[i] = sigma[i] * ( Ez[i] + ( c * dt * r_alt[i] ) * ( ( Hphi[i] * r[i] - Hphi[i - 1] * r[i - 1] ) / dr - Hr[i] ) - 4 * M_PI * dt * Jz[i] );
         }
         Ez[NR - 1] = sigma[NR - 1] * ( Ez[NR - 1] - ( c * dt * r_alt[NR - 1] ) * Hr[NR - 1] );
-
         //Hr
         Hr[0] = Hr[1];
         for ( int i = 1; i < NR; i++ )
@@ -163,11 +197,11 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
             Hphi[i] = sigma[i] * ( Hphi[i] + MAIN_COEFFICIENT * ( SUB_COEFFICIENT * ( r_alt[i] * Hz[i] - ( 4 * M_PI / c ) * Jr[i] ) + ( Ez[i] - Ez[i - 1] ) / dr ) );
         }
         //Hz
-        Hz[0] = Hz[1];
-        for ( int i = 1; i < NR; i++ )
+        for (int i = 0; i < NR - 1; i++)
         {
-            Hz[i] = sigma[i] * ( Hz[i] - ( c * dt * r_alt[i] ) * ( Er[i] + ( r[i] * Ephi[i] - r[i - 1] * Ephi[i - 1] ) / dr ) );
+            Hz[i] = sigma[i] * (Hz[i] - (c * dt * r_alt[i]) * Er[i] - (c * dt * r_alt[i] / dr) * (r[i + 1] * Ephi[i + 1] - r[i] * Ephi[i]));
         }
+        Hz[NR - 1] = sigma[NR - 1] * (Hz[NR - 1] - (c * dt * r_alt[NR - 1]) * Er[NR - 1]);
 
         Ept[n] = Ephi[FIELD_CHECK_POINT];
         Hzt[n] = Hz[FIELD_CHECK_POINT];
