@@ -24,7 +24,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     double V = c / sqrt( cos( THETA ) );                            //
     double MAIN_COEFFICIENT = c * dt / ( sin( THETA * THETA ) );    //
     double SUB_COEFFICIENT = cos( THETA );
-    if (THETA > M_PI / 2 - 0.05 || THETA < M_PI / 2 + 0.05)
+    if ( THETA > M_PI / 2 - 0.05 && THETA < M_PI / 2 + 0.05 )
     {
         SUB_COEFFICIENT = 0;
         MAIN_COEFFICIENT = c * dt;
