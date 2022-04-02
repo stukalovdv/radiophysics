@@ -7,150 +7,106 @@
 
 using namespace std;
 
-const double c = 3e+10;
-const double OMEGA_P_0 = 3e+9;
-const double PI = 3.14159265358979;
+double c = 3e+10, OMEGA_P_0 = 3e+9, J0 = 1;                         // Глобальные переменные (скорость света, максимальная плазменная частота и плотность тока)
 
-class fdtd
+double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
 {
-    public:
-        void displayLoading( int I , int N)  // Статус загрузки
-        {
-            cout << "Загрузка... " << I * 100 / ( N - 1 ) << "/" << 100 << "\% \r";
-        }
-        void displayFinish()            // Статус завершения
-        {
-            cout << "\nWell done!\a";
-        }
-        void setNu( double NU_TILDA )        // Присваивание "Nu" с чертой
-        {
-            NU_TILDA_ = NU_TILDA;
-        }
-        void setR2( double R2_TILDA )        // Присваивание "R2" с чертой
-        {
-            R2_TILDA_ = R2_TILDA;
-        }
-        void setDelta( double DELTA )       // Присваивание "Delta" с чертой
-        {
-            DELTA_ = DELTA;
-        }
-        void setTheta( double THETA )       // Присваивание "Theta"
-        {
-            THETA_MULTIPLICATOR_ = THETA;
-        }
+    double R1_tilda = R2_TILDA * ( 1 - DELTA );                     // Внутренний (обезразмеренный) радиус цилиндра
+    double NU = NU_TILDA * OMEGA_P_0;                               // Частота соударений
+    double R1 = R1_tilda * c / OMEGA_P_0;                           // Внутренний радиус цилиндра
+    double R2 = R2_TILDA * c / OMEGA_P_0;                           // Внешний радиус цилиндра
+    double dr = 0.01 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
+    double dt = dr / ( c * 2 );                                     // Шаг по времени
+    double T_MAX = 20;                                              // Расчетное (обезразмеренное) время
+    int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                        // Кол-во шагов по времени
 
-        double getTheta()                   // Возврат можителя перед ПИ в "Theta"
-        {
-            return THETA_MULTIPLICATOR_;
-        }
+    // Новые коэффициенты
+    double MAIN_COEFFICIENT = c * dt ;    //
+    double SUB_COEFFICIENT = 0 ;
+    /*
+    if ( THETA > M_PI / 2 - 0.05 && THETA < M_PI / 2 + 0.05 )
+    {
+        SUB_COEFFICIENT = 0;
+        MAIN_COEFFICIENT = c * dt;
+    }
+    */
 
-        double getNu()                      // Возврат "Nu" с чертой
-        {
-            return NU_TILDA_;
-        }
-        double getR2()                      // Возврат "R2" с чертой
-        {
-            return R2_TILDA_;
-        }
-        double getDelta()                   // Возврат "Delta" с чертой
-        {
-            return DELTA_;
-        }
-    private:
-        double NU_TILDA_;                   // Частота соударений
-        double R2_TILDA_;                   // Радиус цилиндра
-        double DELTA_;                      // Параметр неоднородности цилиндра
-        double THETA_MULTIPLICATOR_;        // Множитель перед ПИ в угле наклона "чего-то там" (от 0 до 1/2)
-};
+    //N_TIME = 5;
+    vector <long double> T( N_TIME );                               // Вектор времени
+    for ( int i = 0; i < N_TIME; i++ )                              //
+    {                                                               //
+        T[i] = dt * i;                                              //
+    }                                                               //
 
 
-double simulation( double THETA_MULTIPLICATOR, double NU_TILDA, double R2_TILDA, double DELTA ) // Функция вычислений
-{
+    double R_MAX = R2 * 60;                                         // Расчетное пространство (по r)
+    int NR = ( R_MAX + dr ) / dr;                                   // Кол-во шагов по пространству
+    vector <double> r( NR ), r_tilda( NR ), r_alt( NR );            // Обозначаем r и 1/r
+    for ( int i = 0; i < NR; i++ )                                  //
+    {                                                               //
+        r[i] = dr + dr * i;                                         //
+        r_alt[i] = 1 / r[i];                                        //
+        r_tilda[i] = r[i] * OMEGA_P_0 / c;                          //
+    }                                                               //
 
-    fdtd myCom;
+    int NR1 =  R1 / dr, NR2 = R2 / dr;                              // Начало и конец неоднородного слоя (в кол-ве узлов)
 
-    double R1_TILDA = R2_TILDA* ( 1 - DELTA );
-
-    double NU = NU_TILDA * OMEGA_P_0, R1 = R1_TILDA * c / OMEGA_P_0, R2 = R2_TILDA * c / OMEGA_P_0;
-    double J0 = 1;
-
-    double dr = 0.01 * NU_TILDA * ( R2 - R1 );
-    double dt = dr / ( 2 * c );
-
-    double T_MAX = 20 / OMEGA_P_0;
-    int N_TIME = T_MAX / dt;
-
-    double R_MAX = R2 * 60;
-    int NR = R_MAX / dr;
-
-    int NR1 = ceil( R1 / dr );
-    int NR2 = ceil( R2 / dr );
-
-    int N_PML = 10 * NR2;
+    // Точка проверки значения поля от времени
+    int FIELD_CHECK_POINT = NR2, FIELD_CHECK_POINT_TILDA = FIELD_CHECK_POINT * dr * OMEGA_P_0 / c;
+    if ( NR1 == 0 ) NR1 = 1;
 
 
-
-    // Определения F(r)
-
-    vector <double> Fr( NR );
+    vector <double> Fr( NR );                                       // Обозначаем F(r)
     for ( int i = 0; i < NR1; i++ )
     {
         Fr[i] = 1;
     }
     for ( int i = NR1; i < NR2; i++ )
     {
-        Fr[i] = (cos((double) PI * (double)( i - NR1 ) / ( 2 * (int)( NR2 - NR1 ) ))) * (cos((double) PI * (double)( i - NR1 ) / ( 2 * ( NR2 - NR1 ) )));
+        Fr[i] = ( cos( (double)M_PI * (double)( i - NR1 ) / ( 2 * (int)( NR2 - NR1 ) ) ) ) * ( cos( (double)M_PI * (double)( i - NR1 ) / ( 2 * ( NR2 - NR1 ) ) ) );
     }
-    for ( int i = NR2; i < NR; i++)
+    for ( int i = NR2; i < NR; i++ )
     {
         Fr[i] = 0;
     }
 
-    int FIELD_CHECK_POINT = NR2 + 1;
 
-    // Задаем поглощающий слой
-    vector <double> sigma( NR );
-    for ( int i = 0; i < NR; i++ )
+    int N_PML = 10 * NR2;                                           // Поглощающий слой
+    vector <double> sigma( NR );                                    // Начало поглощения
+    for ( int i = 0; i < NR - N_PML; i++ )
     {
         sigma[i] = 1;
     }
+    for ( int i = NR - N_PML; i < NR; i++ )
+    {
+        sigma[i] = cos( (double)( M_PI / 2 ) * ( i - ( NR - N_PML ) ) / ( NR - ( NR - N_PML ) ) );
+        //sigma[i] = 1;
+    }
+    sigma[NR - 1] = 0;
 
+    vector <double> Er( NR ), Ephi( NR ), Ez( NR );                     // Проекции электрических полей
+    vector <double> Hr( NR ), Hphi( NR ), Hz( NR );                     // Проекции магнитных полей
+    vector <double> Jr( NR ), Jphi( NR ), Jz( NR );                     // Проекции токовых компонент
+    vector <double> Ept( N_TIME ), Hzt( N_TIME );                       // E_phi(t), H_z(t)
 
-    //setConstants( THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA );
-    //double KPD = 0.871;
-
-    vector <double> Er ( NR );
-    vector <double> Ephi ( NR );
-    vector <double> Ez ( NR );
-    vector <double> Hr ( NR );
-    vector <double> Hphi ( NR );
-    vector <double> Hz ( NR );
-    vector <double> Jr ( NR );
-    vector <double> Jphi ( NR );
-    vector <double> Jz ( NR );
-    vector <double> T ( N_TIME );
-    for ( int i = 0; i < NR; i++ )        // Начальные условия
+    //Начальные условия
+    for ( int i = 0; i < NR; i++ )
     {
         Er[i] = 0;
         Ephi[i] = 0;
+        Ez[i] = 0;
+
+        Hr[i] = 0;
+        Hphi[i] = 0;
         Hz[i] = 0;
+
         Jr[i] = J0 * Fr[i];
-        Jphi[i] = -J0 * Fr[i];
-    }
-    for ( int i = 0; i < N_TIME; i++ )
-    {
-        T[i] = i * dt;
-    }
-    vector <double> r( NR ), r_alt( NR );
-    for ( int i = 0; i < NR; i++ )
-    {
-        r[i] = i * dr;
-        r_alt[i] = 1 / ( i * dr );
+        Jphi[i] = - J0 * Fr[i];
+        Jz[i] = 0;
     }
 
-    vector <double> Ept( N_TIME ), Hzt( N_TIME );
     ofstream fout;
-    string PATH = "superfile.dat";
+    string PATH = "main_data.dat";
     fout.open( PATH );
     fout << left << setw( 11 ) << "T" << "\t";
     fout << left << setw( 11 ) << "Er(t)" << "\t" << left << setw( 11 ) << "Ephi(t)" << "\t" << left << setw( 11 ) << "Ez(t)" << "\t";
@@ -158,36 +114,97 @@ double simulation( double THETA_MULTIPLICATOR, double NU_TILDA, double R2_TILDA,
     fout << left << setw( 11 ) << "Jr(t)" << "\t" << left << setw( 11 ) << "Jphi(t)" << "\t" << left << setw( 11 ) << "Jz(t)";
     fout << endl;
 
-    for (int n = 0; n < N_TIME - 1; n++){
+    for ( int n = 0; n < N_TIME; n++ )
+    {
+        /*
         //Jr
-        for (int i = 0; i < r.size(); i++)
+        for ( int i = 0; i < NR; i++ )
         {
-            Jr[i] = Jr[i] * (1 - dt * NU) + (dt * OMEGA_P_0 * OMEGA_P_0 / (4 * PI)) * Fr[i] * Er[i];
+            Jr[i] = Jr[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Er[i];
         }
-        //Jp
-        for (int i = 0; i < r.size(); i++)
+        //Jphi
+        for ( int i = 0; i < NR; i++ )
         {
-            Jphi[i] = Jphi[i] * (1 - dt * NU) + (dt * OMEGA_P_0 * OMEGA_P_0 / (4 * PI)) * Fr[i] * Ephi[i];
+            Jphi[i] = Jphi[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ephi[i];
         }
         //Er
         Er[0] = Er[1];
-        for (int i = 1; i < r.size(); i++)
+        for ( int i = 1; i < NR; i++ )
         {
-            Er[i] = sigma[i] * (Er[i] + (c * dt * r_alt[i]) * Hz[i] - (4 * PI * dt) * Jr[i]);
+            Er[i] = sigma[i] * ( Er[i] + MAIN_COEFFICIENT * ( r_alt[i] * Hz[i] + SUB_COEFFICIENT * ( Ez[i] - Ez[i - 1] ) / dr - ( 4 * M_PI / c ) * Jr[i] ) );
         }
         //Ephi
         Ephi[0] = Ephi[1];
-        for (int i = 1; i < r.size(); i++)
+        for ( int i = 1; i < NR; i++ )
         {
-            Ephi[i] = sigma[i] * (Ephi[i] - (c * dt / dr) * (Hz[i] - Hz[i-1]) - (4 * PI * dt) * Jphi[i]);
+            Ephi[i] = sigma[i] * ( Ephi[i] + MAIN_COEFFICIENT * ( - SUB_COEFFICIENT * r_alt[i] * Ez[i] - ( Hz[i] - Hz[i - 1] ) / dr - ( 4 * M_PI / c ) * Jphi[i] ) );
+        }
+
+
+
+        //Hz
+        Hz[0] = Hz[1];
+        for ( int i = 1; i < NR; i++ )
+        {
+            Hz[i] = sigma[i] * ( Hz[i] - ( c * dt * r_alt[i] ) * ( Er[i] + ( r[i] * Ephi[i] - r[i - 1] * Ephi[i - 1] ) / dr ) );
+        }
+
+        Ept[n] = Ephi[FIELD_CHECK_POINT];
+        Hzt[n] = Hz[FIELD_CHECK_POINT];
+        */
+
+
+        for (int i = 0; i < NR; i++)
+        {
+            Jr[i] = Jr[i] * (1 - dt * NU) + (dt * OMEGA_P_0 * OMEGA_P_0 / (4 * M_PI)) * Fr[i] * Er[i];
+        }
+        //Jp
+        for ( int i = 0; i < NR; i++ )
+        {
+            Jphi[i] = Jphi[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ephi[i];
+        }
+        //Jz
+        for ( int i = 0; i < NR; i++ )
+        {
+            Jz[i] = Jz[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ez[i];
+        }
+        //Er
+        Er[0] = Er[1];
+        for ( int i = 1; i < NR; i++ )
+        {
+            Er[i] = sigma[i] * ( Er[i] + ( c * dt * r_alt[i] ) * Hz[i] - ( 4 * M_PI * dt ) * Jr[i] );
+        }
+        //Ephi
+        Ephi[0] = Ephi[1];
+        for ( int i = 1; i < NR; i++ )
+        {
+            Ephi[i] = sigma[i] * ( Ephi[i] - ( c * dt / dr ) * ( Hz[i] - Hz[i-1] ) - ( 4 * M_PI * dt ) * Jphi[i] );
+        }
+        //Ez
+        Ez[0] = Ez[1];
+        for ( int i = 1; i < NR; i++ )
+        {
+            Ez[i] = sigma[i] * ( Ez[i] + ( c * dt * r_alt[i] ) * ( ( Hphi[i] * r[i] - Hphi[i - 1] * r[i - 1] ) / dr - Hr[i] ) - 4 * M_PI * dt * Jz[i] );
+        }
+        Ez[NR - 1] = sigma[NR - 1] * ( Ez[NR - 1] - ( c * dt * r_alt[NR - 1] ) * Hr[NR - 1] );
+        //Hr
+        Hr[0] = Hr[1];
+        for ( int i = 1; i < NR; i++ )
+        {
+            Hr[i] = sigma[i] * ( Hr[i] + MAIN_COEFFICIENT * ( r_alt[i] * Ez[i] + SUB_COEFFICIENT * ( ( Hz[i] - Hz[i - 1] ) / dr + ( 4 * M_PI / c ) * Jphi[i] ) ) );
+        }
+        //Hphi
+        Hphi[0] = Hphi[1];
+        for ( int i = 1; i < NR; i++ )
+        {
+            Hphi[i] = sigma[i] * ( Hphi[i] + MAIN_COEFFICIENT * ( SUB_COEFFICIENT * ( r_alt[i] * Hz[i] - ( 4 * M_PI / c ) * Jr[i] ) + ( Ez[i] - Ez[i - 1] ) / dr ) );
         }
         //Hz
-
-        for (int i = 0; i < r.size() - 1; i++)
+        for ( int i = 0; i < NR - 1; i++ )
         {
-            Hz[i] = sigma[i] * (Hz[i] - (c * dt * r_alt[i]) * Er[i] - (c * dt * r_alt[i] / dr) * (r[i + 1] * Ephi[i + 1] - r[i] * Ephi[i]));
+            Hz[i] = sigma[i] * ( Hz[i] - ( c * dt * r_alt[i] ) * ( Er[i] + ( r[i + 1] * Ephi[i + 1] - r[i] * Ephi[i] ) / dr ) );
         }
-        Hz[r.size() - 1] = sigma[r.size() - 1] * (Hz[r.size() - 1] - (c * dt * r_alt[r.size() - 1]) * Er[r.size() - 1]);
+        Hz[ NR - 1 ] = sigma[ NR - 1 ] * ( Hz[ NR - 1 ] - ( c * dt * r_alt[ NR - 1 ] ) * Er[ NR - 1 ]);
 
         Ept[n] = Ephi[FIELD_CHECK_POINT];
         Hzt[n] = Hz[FIELD_CHECK_POINT];
@@ -199,13 +216,7 @@ double simulation( double THETA_MULTIPLICATOR, double NU_TILDA, double R2_TILDA,
         fout << left << setw( 11 ) << Jr[( NR2 + NR1 ) / 2] << "\t" << left << setw( 11 ) << Jphi[( NR2 + NR1 ) / 2] << "\t" << left << setw( 11 ) << Jz[( NR2 + NR1 ) / 2] << "\t";
         fout << endl;
     }
-    /*
-    for ( int i = 0; i < NR; i++ )
-    {
-        fout << Hz[i] << endl;
-        //fout << Er[i] << "\t" << Ephi[i] << "\t" << Ez[i] << "\t" << Jr[i] << "\t" << Jphi[i] << "\t" << Jz[i] << "\t" << Fr[i] <<endl;
-    }
-    */
+
     fout.close();
     double I = 0;
     for ( int i = 1; i < N_TIME; i++ )
@@ -219,51 +230,50 @@ double simulation( double THETA_MULTIPLICATOR, double NU_TILDA, double R2_TILDA,
 
     cout << "\rWell done!         \n";
     cout << "File saved in path: " << PATH << endl;
+
     return W_izl / W_zap;
 }
 
 
-
-
 int main()
 {
-    setlocale(LC_ALL, "Rus");
-    double THETA = 1, NU_TILDA, R2_TILDA, DELTA = 0;
-    fdtd myCom;
+    setlocale( LC_ALL,"Rus" ); // Русский язык в консоли
 
-    cout << "Запуск.\n";                        // Уведомление о запуске
-    vector <int> a(10), b(10);
-    while ( THETA > 0.5 || THETA < 0)
+    // Основные параметры задачи
+    double THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA;
+    do
     {
-        cout << "Theta miltiplicator (| | x PI ) = ";
-        cin >> THETA;                           //
+        cout << "Theta miltiplicator (PI x | |) = ";
+        cin >> THETA_MULTIPLICATOR;
     }
-    myCom.setTheta( THETA * 3.1415 );           //
-    cout << "nu_tilda = ";                      //
-    cin >> NU_TILDA;                            //        Ввод
-    myCom.setNu( NU_TILDA );                    //
-    cout << "R2_tilda = ";                      //
-    cin >> R2_TILDA;                            //      основных
-    myCom.setR2( R2_TILDA );                    //
-    while ( DELTA <= 0 || DELTA > 1)            //     параметров
+    while ( THETA_MULTIPLICATOR < 0 || THETA_MULTIPLICATOR > 0.5);
+    cout << "nu = ";
+    cin >> NU_TILDA;
+    cout << "R2 = ";
+    cin >> R2_TILDA;
+    do
     {
-        cout << "Delta = ";                                                                   //
-        cin >> DELTA;                           //
-    }                                           //       задачи
-    myCom.setDelta( DELTA );                    //
-
-
-
-    cout << "\n" << simulation( myCom.getTheta() ,myCom.getNu(), myCom.getR2(), myCom.getDelta() ) << '\n';
-
-
-
-    for (int i = 0; i < 100; i++)
-    {
-        myCom.displayLoading(i, 100);
+        cout << "Delta = ";
+        cin >> DELTA;
     }
+    while ( DELTA < 0 || DELTA > 1 );
+
+    cout << fdtd( THETA_MULTIPLICATOR * M_PI, NU_TILDA, R2_TILDA, DELTA );
+    cout << "\a" <<endl;
+
+    //cout << THETA_MULTIPLICATOR * M_PI << "  " << cos( THETA_MULTIPLICATOR * M_PI );
+
+    //fstream
+    //ifstream
+    //ofstream
 
 
-    myCom.displayFinish();                      // Уведомление о завершении программы
-    cout << endl;
+    //if (Fr.size() == r.size( ) ) cout << "\nYES";
+
+    //cout << r.size() << "\t" << Fr.size() << "\t" << Nr << endl;
+
+
+
+
+    return 0;
 }
