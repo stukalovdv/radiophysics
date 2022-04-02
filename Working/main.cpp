@@ -1,9 +1,15 @@
 #include <iostream>
 #include <vector>
-#include <cmath>
 #include <fstream>
+#include <iomanip>
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 using namespace std;
+
+const double c = 3e+10;
+const double OMEGA_P_0 = 3e+9;
+const double PI = 3.14159265358979;
 
 class fdtd
 {
@@ -50,20 +56,7 @@ class fdtd
         {
             return DELTA_;
         }
-        double getC()
-        {
-            return c;
-        }
-        double getOmega()
-        {
-            return OMEGA_P_0;
-        }
-
-
     private:
-        const double c = 3e+10;             // Скорость света в СГС
-        const double OMEGA_P_0 = 3e+9;      // Плазменная частота в вакууме до обезразмеривания
-        //const double
         double NU_TILDA_;                   // Частота соударений
         double R2_TILDA_;                   // Радиус цилиндра
         double DELTA_;                      // Параметр неоднородности цилиндра
@@ -71,16 +64,12 @@ class fdtd
 };
 
 
-double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA, double DELTA ) // Функция вычислений
+double simulation( double THETA_MULTIPLICATOR, double NU_TILDA, double R2_TILDA, double DELTA ) // Функция вычислений
 {
 
     fdtd myCom;
 
     double R1_TILDA = R2_TILDA* ( 1 - DELTA );
-
-    const double c = 3e+10;
-    const double OMEGA_P_0 = 3e+9;
-    const double PI = 3.14159265358979;
 
     double NU = NU_TILDA * OMEGA_P_0, R1 = R1_TILDA * c / OMEGA_P_0, R2 = R2_TILDA * c / OMEGA_P_0;
     double J0 = 1;
@@ -128,7 +117,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 
 
     //setConstants( THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA );
-    double KPD = 0.871;
+    //double KPD = 0.871;
 
     vector <double> Er ( NR );
     vector <double> Ephi ( NR );
@@ -144,13 +133,9 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     {
         Er[i] = 0;
         Ephi[i] = 0;
-        //Ez[i] = 0;
-       // Hr[i] = 0;
-        //Hphi[i] = 0;
         Hz[i] = 0;
         Jr[i] = J0 * Fr[i];
         Jphi[i] = -J0 * Fr[i];
-        //Jz[i] = 0;
     }
     for ( int i = 0; i < N_TIME; i++ )
     {
@@ -163,23 +148,16 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
         r_alt[i] = 1 / ( i * dr );
     }
 
-    vector <double> Ert( N_TIME ), Hzt( N_TIME );
-
-
-    /* // Запить в файл
-
-    for (int i = 0; i < NR; i++)
-    {
-        fout << Fr[i] << endl;
-    }
-    */
-
+    vector <double> Ept( N_TIME ), Hzt( N_TIME );
     ofstream fout;
-    fout.open("superfile.dat");
+    string PATH = "superfile.dat";
+    fout.open( PATH );
+    fout << left << setw( 11 ) << "T" << "\t";
+    fout << left << setw( 11 ) << "Er(t)" << "\t" << left << setw( 11 ) << "Ephi(t)" << "\t" << left << setw( 11 ) << "Ez(t)" << "\t";
+    fout << left << setw( 11 ) << "Hr(t)" << "\t" << left << setw( 11 ) << "Hphi(t)" << "\t" << left << setw( 11 ) << "Hz(t)" << "\t";
+    fout << left << setw( 11 ) << "Jr(t)" << "\t" << left << setw( 11 ) << "Jphi(t)" << "\t" << left << setw( 11 ) << "Jz(t)";
+    fout << endl;
 
-    // Расчет
-
-    //N_TIME = 500;
     for (int n = 0; n < N_TIME - 1; n++){
         //Jr
         for (int i = 0; i < r.size(); i++)
@@ -211,12 +189,15 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
         }
         Hz[r.size() - 1] = sigma[r.size() - 1] * (Hz[r.size() - 1] - (c * dt * r_alt[r.size() - 1]) * Er[r.size() - 1]);
 
-        Ert[n] = Er[FIELD_CHECK_POINT];
+        Ept[n] = Ephi[FIELD_CHECK_POINT];
         Hzt[n] = Hz[FIELD_CHECK_POINT];
 
-        cout << "Шаг # " << n << " \\ " << N_TIME << "\r";
-
-        fout << Hz[FIELD_CHECK_POINT] << endl;
+        cout << "Loading... " << ( n * 100 / N_TIME ) + 1 << "/" << 100 << "%\r";
+        fout << left << setw( 11 ) << T[n] * OMEGA_P_0 << "\t";
+        fout << left << setw( 11 ) << Er[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Ephi[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Ez[FIELD_CHECK_POINT] << "\t";
+        fout << left << setw( 11 ) << Hr[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Hphi[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Hz[FIELD_CHECK_POINT] << "\t";
+        fout << left << setw( 11 ) << Jr[( NR2 + NR1 ) / 2] << "\t" << left << setw( 11 ) << Jphi[( NR2 + NR1 ) / 2] << "\t" << left << setw( 11 ) << Jz[( NR2 + NR1 ) / 2] << "\t";
+        fout << endl;
     }
     /*
     for ( int i = 0; i < NR; i++ )
@@ -226,7 +207,19 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
     }
     */
     fout.close();
-    return KPD;
+    double I = 0;
+    for ( int i = 1; i < N_TIME; i++ )
+    {
+        I += ( Ept[i] * Hzt[i] );
+    }
+    I += ( Ept[0] * Hzt[0] + Ept[N_TIME-1] * Hzt[N_TIME - 1] ) / 2;
+    double W_zap, W_izl;
+    W_zap = ( R2 * R2 + R1 * R1 ) * ( ( M_PI * J0 ) / OMEGA_P_0 ) * ( ( M_PI * J0 ) / OMEGA_P_0 );
+    W_izl = c * ( dt / 4 ) * FIELD_CHECK_POINT * dr * I;
+
+    cout << "\rWell done!         \n";
+    cout << "File saved in path: " << PATH << endl;
+    return W_izl / W_zap;
 }
 
 
@@ -234,7 +227,7 @@ double simulation( double THETA_MULTIPLICATOR ,double NU_TILDA, double R2_TILDA,
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
+    setlocale(LC_ALL, "Rus");
     double THETA = 1, NU_TILDA, R2_TILDA, DELTA = 0;
     fdtd myCom;
 
@@ -261,7 +254,7 @@ int main()
 
 
 
-    cout << simulation( myCom.getTheta() ,myCom.getNu(), myCom.getR2(), myCom.getDelta() ) << '\n';
+    cout << "\n" << simulation( myCom.getTheta() ,myCom.getNu(), myCom.getR2(), myCom.getDelta() ) << '\n';
 
 
 
