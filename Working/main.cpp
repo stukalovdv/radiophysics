@@ -88,7 +88,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
 
         Hz[i] = 0;
 
-        Jr[i] = Fr[i];
+        Jr[i] =  Fr[i];
         Jphi[i] = - Fr[i];
     }
 
@@ -115,18 +115,18 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         Er[0] = Er[1];
         for ( int i = 1; i < NR; i++ )
         {
-            Er[i] = sigma[i] * ( Er[i] + ( dt_tilda * r_alt[i] ) * Hz[i] - dt_tilda * Jr[i] );
+            Er[i] = sigma[i] * ( Er[i] + ( dt_tilda / r_tilda[i] ) * Hz[i] - dt_tilda * Jr[i] );
         }
         //Ephi
         Ephi[0] = Ephi[1];
         for ( int i = 1; i < NR; i++ )
         {
-            Ephi[i] = sigma[i] * ( Ephi[i] - ( dt_tilda / ( dr ) ) * ( Hz[i] - Hz[i-1] ) - dt_tilda * Jphi[i] );
+            Ephi[i] = sigma[i] * ( Ephi[i] - ( dt_tilda / ( dr * OMEGA_P_0 ) ) * ( Hz[i] - Hz[i-1] ) - dt_tilda * Jphi[i] );
         }
         //Hz
         for ( int i = 0; i < NR - 1; i++ )
         {
-            Hz[i] = sigma[i] * ( Hz[i] - ( dt_tilda * r_alt[i] ) * ( Er[i] + ( r_tilda[i + 1] * Ephi[i + 1] - r_tilda[i] * Ephi[i] ) / ( dr ) ) );
+            Hz[i] = sigma[i] * ( Hz[i] - ( dt_tilda / r_tilda[i] ) * ( Er[i] + ( r_tilda[i + 1] * Ephi[i + 1] - r_tilda[i] * Ephi[i] ) / ( dr * OMEGA_P_0 ) ) );
         }
         //Hz[ NR - 1 ] = sigma[ NR - 1 ] * ( Hz[ NR - 1 ] - ( c * dt * r_alt[ NR - 1 ] ) * Er[ NR - 1 ]);
         Hz[ NR - 1 ] = 0;
