@@ -1,3 +1,4 @@
+// Старая задача
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -17,19 +18,9 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     double R2 = R2_TILDA * c / OMEGA_P_0;                           // Внешний радиус цилиндра
     double dr = 0.01 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
     double dt = dr / ( c * 2 );                                     // Шаг по времени
+    double dt_tilda = dt * OMEGA_P_0;                               // Шаг по времени обезразмеренный
     double T_MAX = 20;                                              // Расчетное (обезразмеренное) время
     int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                        // Кол-во шагов по времени
-
-    // Новые коэффициенты
-    double MAIN_COEFFICIENT = c * dt ;    //
-    double SUB_COEFFICIENT = 0 ;
-    /*
-    if ( THETA > M_PI / 2 - 0.05 && THETA < M_PI / 2 + 0.05 )
-    {
-        SUB_COEFFICIENT = 0;
-        MAIN_COEFFICIENT = c * dt;
-    }
-    */
 
     //N_TIME = 5;
     vector <long double> T( N_TIME );                               // Вектор времени
@@ -111,34 +102,34 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
 
     for ( int n = 0; n < N_TIME; n++ )
     {
-        for (int i = 0; i < NR; i++)
+        for ( int i = 0; i < NR; i++ )
         {
-            Jr[i] = Jr[i] * (1 - dt * NU) + (dt * OMEGA_P_0 * OMEGA_P_0 / (4 * M_PI)) * Fr[i] * Er[i];
+            Jr[i] = Jr[i] * (1 - dt_tilda * NU_TILDA) + dt_tilda * Fr[i] * Er[i];
         }
         //Jp
         for ( int i = 0; i < NR; i++ )
         {
-            Jphi[i] = Jphi[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ephi[i];
+            Jphi[i] = Jphi[i] * ( 1 - dt_tilda * NU_TILDA ) + dt_tilda * Fr[i] * Ephi[i];
         }
         //Er
         Er[0] = Er[1];
         for ( int i = 1; i < NR; i++ )
         {
-            Er[i] = sigma[i] * ( Er[i] + ( c * dt * r_alt[i] ) * Hz[i] - ( 4 * M_PI * dt ) * Jr[i] );
+            Er[i] = sigma[i] * ( Er[i] + ( dt_tilda / r_tilda[i] ) * Hz[i] - dt_tilda * Jr[i] );
         }
         //Ephi
         Ephi[0] = Ephi[1];
         for ( int i = 1; i < NR; i++ )
         {
-            Ephi[i] = sigma[i] * ( Ephi[i] - ( c * dt / dr ) * ( Hz[i] - Hz[i-1] ) - ( 4 * M_PI * dt ) * Jphi[i] );
+            Ephi[i] = sigma[i] * ( Ephi[i] - ( dt_tilda / ( dr * OMEGA_P_0 ) ) * ( Hz[i] - Hz[i-1] ) - dt_tilda * Jphi[i] );
         }
         //Hz
         for ( int i = 0; i < NR - 1; i++ )
         {
-            Hz[i] = sigma[i] * ( Hz[i] - ( c * dt * r_alt[i] ) * ( Er[i] + ( r[i + 1] * Ephi[i + 1] - r[i] * Ephi[i] ) / dr ) );
+            Hz[i] = sigma[i] * ( Hz[i] - ( dt_tilda / r_tilda[i] ) * ( Er[i] + ( r_tilda[i + 1] * Ephi[i + 1] - r_tilda[i] * Ephi[i] ) / ( dr * OMEGA_P_0 ) ) );
         }
-        Hz[ NR - 1 ] = sigma[ NR - 1 ] * ( Hz[ NR - 1 ] - ( c * dt * r_alt[ NR - 1 ] ) * Er[ NR - 1 ]);
-
+        //Hz[ NR - 1 ] = sigma[ NR - 1 ] * ( Hz[ NR - 1 ] - ( c * dt * r_alt[ NR - 1 ] ) * Er[ NR - 1 ]);
+        Hz[ NR - 1 ] = 0;
         Ept[n] = Ephi[FIELD_CHECK_POINT];
         Hzt[n] = Hz[FIELD_CHECK_POINT];
 
