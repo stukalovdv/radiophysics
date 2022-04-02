@@ -94,66 +94,23 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     {
         Er[i] = 0;
         Ephi[i] = 0;
-        Ez[i] = 0;
 
-        Hr[i] = 0;
-        Hphi[i] = 0;
         Hz[i] = 0;
 
         Jr[i] = J0 * Fr[i];
         Jphi[i] = - J0 * Fr[i];
-        Jz[i] = 0;
     }
 
     ofstream fout;
     string PATH = "main_data.dat";
     fout.open( PATH );
     fout << left << setw( 11 ) << "T" << "\t";
-    fout << left << setw( 11 ) << "Er(t)" << "\t" << left << setw( 11 ) << "Ephi(t)" << "\t" << left << setw( 11 ) << "Ez(t)" << "\t";
-    fout << left << setw( 11 ) << "Hr(t)" << "\t" << left << setw( 11 ) << "Hphi(t)" << "\t" << left << setw( 11 ) << "Hz(t)" << "\t";
-    fout << left << setw( 11 ) << "Jr(t)" << "\t" << left << setw( 11 ) << "Jphi(t)" << "\t" << left << setw( 11 ) << "Jz(t)";
+    fout << left << setw( 11 ) << "Er(t)" << "\t" << left << setw( 11 ) << "Ephi(t)" << "\t" << left << setw( 11 ) << "Hz(t)" << "\t";
+    fout << left << setw( 11 ) << "Jr(t)" << "\t" << left << setw( 11 ) << "Jphi(t)";
     fout << endl;
 
     for ( int n = 0; n < N_TIME; n++ )
     {
-        /*
-        //Jr
-        for ( int i = 0; i < NR; i++ )
-        {
-            Jr[i] = Jr[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Er[i];
-        }
-        //Jphi
-        for ( int i = 0; i < NR; i++ )
-        {
-            Jphi[i] = Jphi[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ephi[i];
-        }
-        //Er
-        Er[0] = Er[1];
-        for ( int i = 1; i < NR; i++ )
-        {
-            Er[i] = sigma[i] * ( Er[i] + MAIN_COEFFICIENT * ( r_alt[i] * Hz[i] + SUB_COEFFICIENT * ( Ez[i] - Ez[i - 1] ) / dr - ( 4 * M_PI / c ) * Jr[i] ) );
-        }
-        //Ephi
-        Ephi[0] = Ephi[1];
-        for ( int i = 1; i < NR; i++ )
-        {
-            Ephi[i] = sigma[i] * ( Ephi[i] + MAIN_COEFFICIENT * ( - SUB_COEFFICIENT * r_alt[i] * Ez[i] - ( Hz[i] - Hz[i - 1] ) / dr - ( 4 * M_PI / c ) * Jphi[i] ) );
-        }
-
-
-
-        //Hz
-        Hz[0] = Hz[1];
-        for ( int i = 1; i < NR; i++ )
-        {
-            Hz[i] = sigma[i] * ( Hz[i] - ( c * dt * r_alt[i] ) * ( Er[i] + ( r[i] * Ephi[i] - r[i - 1] * Ephi[i - 1] ) / dr ) );
-        }
-
-        Ept[n] = Ephi[FIELD_CHECK_POINT];
-        Hzt[n] = Hz[FIELD_CHECK_POINT];
-        */
-
-
         for (int i = 0; i < NR; i++)
         {
             Jr[i] = Jr[i] * (1 - dt * NU) + (dt * OMEGA_P_0 * OMEGA_P_0 / (4 * M_PI)) * Fr[i] * Er[i];
@@ -162,11 +119,6 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         for ( int i = 0; i < NR; i++ )
         {
             Jphi[i] = Jphi[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ephi[i];
-        }
-        //Jz
-        for ( int i = 0; i < NR; i++ )
-        {
-            Jz[i] = Jz[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ez[i];
         }
         //Er
         Er[0] = Er[1];
@@ -180,25 +132,6 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         {
             Ephi[i] = sigma[i] * ( Ephi[i] - ( c * dt / dr ) * ( Hz[i] - Hz[i-1] ) - ( 4 * M_PI * dt ) * Jphi[i] );
         }
-        //Ez
-        Ez[0] = Ez[1];
-        for ( int i = 1; i < NR; i++ )
-        {
-            Ez[i] = sigma[i] * ( Ez[i] + ( c * dt * r_alt[i] ) * ( ( Hphi[i] * r[i] - Hphi[i - 1] * r[i - 1] ) / dr - Hr[i] ) - 4 * M_PI * dt * Jz[i] );
-        }
-        Ez[NR - 1] = sigma[NR - 1] * ( Ez[NR - 1] - ( c * dt * r_alt[NR - 1] ) * Hr[NR - 1] );
-        //Hr
-        Hr[0] = Hr[1];
-        for ( int i = 1; i < NR; i++ )
-        {
-            Hr[i] = sigma[i] * ( Hr[i] + MAIN_COEFFICIENT * ( r_alt[i] * Ez[i] + SUB_COEFFICIENT * ( ( Hz[i] - Hz[i - 1] ) / dr + ( 4 * M_PI / c ) * Jphi[i] ) ) );
-        }
-        //Hphi
-        Hphi[0] = Hphi[1];
-        for ( int i = 1; i < NR; i++ )
-        {
-            Hphi[i] = sigma[i] * ( Hphi[i] + MAIN_COEFFICIENT * ( SUB_COEFFICIENT * ( r_alt[i] * Hz[i] - ( 4 * M_PI / c ) * Jr[i] ) + ( Ez[i] - Ez[i - 1] ) / dr ) );
-        }
         //Hz
         for ( int i = 0; i < NR - 1; i++ )
         {
@@ -211,9 +144,8 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
 
         cout << "Loading... " << ( n * 100 / N_TIME ) + 1 << "/" << 100 << "%\r";
         fout << left << setw( 11 ) << T[n] * OMEGA_P_0 << "\t";
-        fout << left << setw( 11 ) << Er[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Ephi[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Ez[FIELD_CHECK_POINT] << "\t";
-        fout << left << setw( 11 ) << Hr[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Hphi[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Hz[FIELD_CHECK_POINT] << "\t";
-        fout << left << setw( 11 ) << Jr[( NR2 + NR1 ) / 2] << "\t" << left << setw( 11 ) << Jphi[( NR2 + NR1 ) / 2] << "\t" << left << setw( 11 ) << Jz[( NR2 + NR1 ) / 2] << "\t";
+        fout << left << setw( 11 ) << Er[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Ephi[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << left << setw( 11 ) << Hz[FIELD_CHECK_POINT] << "\t";
+        fout << left << setw( 11 ) << Jr[( NR2 + NR1 ) / 2] << "\t" << left << setw( 11 ) << Jphi[( NR2 + NR1 ) / 2] ;
         fout << endl;
     }
 
