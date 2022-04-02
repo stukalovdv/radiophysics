@@ -139,17 +139,18 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         fout << left << setw( 11 ) << Jr[( NR2 + NR1 ) / 2] << "\t" << left << setw( 11 ) << Jphi[( NR2 + NR1 ) / 2] ;
         fout << endl;
     }
-
     fout.close();
+
     double I = 0;
     for ( int i = 1; i < N_TIME; i++ )
     {
         I += ( Ept[i] * Hzt[i] );
     }
     I += ( Ept[0] * Hzt[0] + Ept[N_TIME-1] * Hzt[N_TIME - 1] ) / 2;
+
     double W_zap, W_izl;
-    W_zap = ( R2 * R2 + R1 * R1 ) * ( ( M_PI * J0 ) / OMEGA_P_0 ) * ( ( M_PI * J0 ) / OMEGA_P_0 );
-    W_izl = c * ( dt / 4 ) * FIELD_CHECK_POINT * dr * I;
+    W_zap = ( R2_TILDA * R2_TILDA + R1_tilda * R1_tilda ) ;
+    W_izl = ( dt_tilda / 4 ) * FIELD_CHECK_POINT * dr * ( OMEGA_P_0 ) * I;
 
     cout << "\rWell done!         \n";
     cout << "File saved in path: " << PATH << endl;
