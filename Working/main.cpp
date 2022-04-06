@@ -19,7 +19,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     double dr = 0.01 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
     double dt = dr / ( c * 2 );                                     // Шаг по времени
     double dt_tilda = dt * OMEGA_P_0;                               // Шаг по времени обезразмеренный
-    double T_MAX = 20;                                              // Расчетное (обезразмеренное) время
+    double T_MAX = 60;                                              // Расчетное (обезразмеренное) время
     int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                        // Кол-во шагов по времени
 
     //N_TIME = 5;
@@ -150,7 +150,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
 
     double W_zap, W_izl;
     W_zap = ( R2_TILDA * R2_TILDA + R1_tilda * R1_tilda ) ;
-    W_izl = ( dt_tilda / 4 ) * FIELD_CHECK_POINT * dr * ( OMEGA_P_0 ) * I;
+    W_izl = ( dt_tilda / 4 ) * FIELD_CHECK_POINT_TILDA * dr * OMEGA_P_0 * I;
 
     cout << "\rWell done!         \n";
     cout << "File saved in path: " << PATH << endl;
