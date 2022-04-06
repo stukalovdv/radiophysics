@@ -1,3 +1,4 @@
+// Новая задача
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -21,7 +22,6 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
     int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                        // Кол-во шагов по времени
 
     // Новые коэффициенты
-    double V = c / sqrt( cos( THETA ) );                            //
     double MAIN_COEFFICIENT = c * dt / ( sin( THETA ) * sin( THETA ) );    //
     double SUB_COEFFICIENT = cos( THETA );
     if ( THETA > M_PI / 2 - 0.05 && THETA < M_PI / 2 + 0.05 )
@@ -100,7 +100,7 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         Hz[i] = 0;
 
         Jr[i] = J0 * Fr[i];
-        Jphi[i] = -J0 * Fr[i];
+        Jphi[i] = - J0 * Fr[i];
         Jz[i] = 0;
     }
 
@@ -151,6 +151,8 @@ double fdtd( double THETA, double NU_TILDA, double R2_TILDA, double DELTA )
         Ept[n] = Ephi[FIELD_CHECK_POINT];
         Hzt[n] = Hz[FIELD_CHECK_POINT];
         */
+
+
         for (int i = 0; i < NR; i++)
         {
             Jr[i] = Jr[i] * (1 - dt * NU) + (dt * OMEGA_P_0 * OMEGA_P_0 / (4 * M_PI)) * Fr[i] * Er[i];
