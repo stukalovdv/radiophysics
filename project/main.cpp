@@ -118,6 +118,17 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         //Jr
         for ( int i = 0; i < NR; i++ )
         {
+            Jr[i] = J0 * sin( OMEGA_P_0 * n * dt);
+        }
+        //Jphi
+        for ( int i = 0; i < NR; i++ )
+        {
+            Jphi[i] = - J0 * sin( OMEGA_P_0 * n * dt);
+        }
+        /*
+        //Jr
+        for ( int i = 0; i < NR; i++ )
+        {
             Jr[i] = Jr[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Er[i];
         }
         //Jphi
@@ -129,7 +140,8 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         for ( int i = 0; i < NR; i++ )
         {
             Jz[i] = Jz[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ez[i];
-        }
+        }*/
+
         //Er
         Er[0] = Er[1];
         for ( int i = 1; i < NR; i++ )
