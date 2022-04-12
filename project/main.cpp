@@ -51,7 +51,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     int NR1 =  R1 / dr, NR2 = R2 / dr;                              // Начало и конец неоднородного слоя (в кол-ве узлов)
 
     // Точка проверки значения поля от времени
-    int FIELD_CHECK_POINT = NR2, FIELD_CHECK_POINT_TILDA = FIELD_CHECK_POINT * dr * OMEGA_P_0 / c;
+    int FIELD_CHECK_POINT = NR2 * 10, FIELD_CHECK_POINT_TILDA = FIELD_CHECK_POINT * dr * OMEGA_P_0 / c;
     if ( NR1 == 0 ) NR1 = 1;
 
 
@@ -115,18 +115,6 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
 
     for ( int n = 0; n < N_TIME; n++ )
     {
-        for ( int i = 0; i < NR; i++ )
-        {
-            Jr[i] = J0 * sin ( n * dt );
-        }
-
-        for ( int i = 0; i < NR; i++ )
-        {
-            Jphi[i] = - J0 * sin ( n * dt );
-        }
-
-
-        /*
         //Jr
         for ( int i = 0; i < NR; i++ )
         {
@@ -141,8 +129,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         for ( int i = 0; i < NR; i++ )
         {
             Jz[i] = Jz[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ez[i];
-        }*/
-
+        }
         //Er
         Er[0] = Er[1];
         for ( int i = 1; i < NR; i++ )
