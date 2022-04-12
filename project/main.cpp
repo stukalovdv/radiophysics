@@ -115,6 +115,18 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
 
     for ( int n = 0; n < N_TIME; n++ )
     {
+        for ( int i = 0; i < NR; i++ )
+        {
+            Jr[i] = J0 * sin ( n * dt );
+        }
+
+        for ( int i = 0; i < NR; i++ )
+        {
+            Jphi[i] = - J0 * sin ( n * dt );
+        }
+
+
+        /*
         //Jr
         for ( int i = 0; i < NR; i++ )
         {
@@ -129,7 +141,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         for ( int i = 0; i < NR; i++ )
         {
             Jz[i] = Jz[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ez[i];
-        }
+        }*/
 
         //Er
         Er[0] = Er[1];
