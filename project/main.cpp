@@ -23,7 +23,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     //N_TIME = 25000;
 
     // Новые коэффициенты
-    float MAIN_COEFFICIENT = 30000000 * dt / ( sin( THETA ) * sin( THETA ) );
+    float MAIN_COEFFICIENT = 30000000 * dt / ( sin( THETA ) * sin( THETA ) ); // ПЕРЕД dt НУЖНО СТАВИТЬ с, НО ТОГДА БУДЕТ СЛИШКОМ СИЛЬНОЕ ОТКЛОНЕНИЕ И ОШИБКА
     float SUB_COEFFICIENT = cos( THETA );
     if ( THETA > M_PI / 2 - 0.005 && THETA < M_PI / 2 + 0.005 )
     {
