@@ -18,27 +18,28 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     float R2 = R2_TILDA * c / OMEGA_P_0;                           // Внешний радиус цилиндра
     float dr = 0.01 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
     float dt = dr / ( c * 2 );                                     // Шаг по времени
-    float T_MAX = 20;                                              // Расчетное (обезразмеренное) время
-    int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                        // Кол-во шагов по времени
+    float T_MAX = 15;                                              // Расчетное (обезразмеренное) время
+    int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                       // Кол-во шагов по времени
+    //N_TIME = 25000;
 
     // Новые коэффициенты
-    float MAIN_COEFFICIENT = c * dt / ( sin( THETA ) * sin( THETA ) );    //
+    float MAIN_COEFFICIENT = 30000000 * dt / ( sin( THETA ) * sin( THETA ) );
     float SUB_COEFFICIENT = cos( THETA );
-    if ( THETA > M_PI / 2 - 0.05 && THETA < M_PI / 2 + 0.05 )
+    if ( THETA > M_PI / 2 - 0.005 && THETA < M_PI / 2 + 0.005 )
     {
         SUB_COEFFICIENT = 0;
         MAIN_COEFFICIENT = c * dt;
     }
 
-    //N_TIME = 5;
-    vector <float> T( N_TIME );                               // Вектор времени
+    //N_TIME = 25000;
+    vector <float> T( N_TIME );                                     // Вектор времени
     for ( int i = 0; i < N_TIME; i++ )                              //
     {                                                               //
         T[i] = dt * i;                                              //
     }                                                               //
 
 
-    float R_MAX = R2 * 60;                                         // Расчетное пространство (по r)
+    float R_MAX = R2 * 40;                                         // Расчетное пространство (по r)
     int NR = ( R_MAX + dr ) / dr;                                   // Кол-во шагов по пространству
     vector <float> r( NR ), r_tilda( NR ), r_alt( NR );            // Обозначаем r и 1/r
     for ( int i = 0; i < NR; i++ )                                  //
@@ -51,7 +52,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     int NR1 =  R1 / dr, NR2 = R2 / dr;                              // Начало и конец неоднородного слоя (в кол-ве узлов)
 
     // Точка проверки значения поля от времени
-    int FIELD_CHECK_POINT = NR2 * 10, FIELD_CHECK_POINT_TILDA = FIELD_CHECK_POINT * dr * OMEGA_P_0 / c;
+    int FIELD_CHECK_POINT = NR2, FIELD_CHECK_POINT_TILDA = FIELD_CHECK_POINT * dr * OMEGA_P_0 / c;
     if ( NR1 == 0 ) NR1 = 1;
 
 
@@ -115,17 +116,18 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
 
     for ( int n = 0; n < N_TIME; n++ )
     {
+        /*
         //Jr
         for ( int i = 0; i < NR; i++ )
         {
-            Jr[i] = J0 * sin( OMEGA_P_0 * n * dt);
+            Jr[i] = J0 * sin( OMEGA_P_0 * n * dt );
         }
         //Jphi
         for ( int i = 0; i < NR; i++ )
         {
-            Jphi[i] = - J0 * sin( OMEGA_P_0 * n * dt);
-        }
-        /*
+            Jphi[i] = - J0 * sin( OMEGA_P_0 * n * dt );
+        }*/
+
         //Jr
         for ( int i = 0; i < NR; i++ )
         {
@@ -140,7 +142,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         for ( int i = 0; i < NR; i++ )
         {
             Jz[i] = Jz[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ez[i];
-        }*/
+        }
 
         //Er
         Er[0] = Er[1];
@@ -154,6 +156,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         {
             Ephi[i] = sigma[i] * ( Ephi[i] - ( c * dt / dr ) * ( Hz[i] - Hz[i-1] ) - ( 4 * M_PI * dt ) * Jphi[i] );
         }
+
         //Ez
         Ez[0] = Ez[1];
         for ( int i = 1; i < NR; i++ )
@@ -161,6 +164,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
             Ez[i] = sigma[i] * ( Ez[i] + ( c * dt * r_alt[i] ) * ( ( Hphi[i] * r[i] - Hphi[i - 1] * r[i - 1] ) / dr - Hr[i] ) - 4 * M_PI * dt * Jz[i] );
         }
         Ez[NR - 1] = sigma[NR - 1] * ( Ez[NR - 1] - ( c * dt * r_alt[NR - 1] ) * Hr[NR - 1] );
+
 
         //Hr
         Hr[0] = Hr[1];
@@ -180,6 +184,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
             Hz[i] = sigma[i] * ( Hz[i] - ( c * dt * r_alt[i] ) * ( Er[i] + ( r[i + 1] * Ephi[i + 1] - r[i] * Ephi[i] ) / dr ) );
         }
         Hz[ NR - 1 ] = sigma[ NR - 1 ] * ( Hz[ NR - 1 ] - ( c * dt * r_alt[ NR - 1 ] ) * Er[ NR - 1 ]);
+
 
         Ept[n] = Ephi[FIELD_CHECK_POINT];
         Hzt[n] = Hz[FIELD_CHECK_POINT];
