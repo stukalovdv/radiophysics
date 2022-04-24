@@ -16,15 +16,16 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     float NU = NU_TILDA * OMEGA_P_0;                               // Частота соударений
     float R1 = R1_tilda * c / OMEGA_P_0;                           // Внутренний радиус цилиндра
     float R2 = R2_TILDA * c / OMEGA_P_0;                           // Внешний радиус цилиндра
-    float dr = 0.01 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
-    float dt = dr / ( c * 2 );                                     // Шаг по времени
-    float T_MAX = 15;                                              // Расчетное (обезразмеренное) время
+    float dr = 0.001 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
+    float dt = dr / ( c * 20 );                                     // Шаг по времени
+    float T_MAX = 2;                                              // Расчетное (обезразмеренное) время
     int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                       // Кол-во шагов по времени
     //N_TIME = 25000;
 
     // Новые коэффициенты
-    float MAIN_COEFFICIENT = 30000000 * dt / ( sin( THETA ) * sin( THETA ) ); // ПЕРЕД dt НУЖНО СТАВИТЬ с, НО ТОГДА БУДЕТ СЛИШКОМ СИЛЬНОЕ ОТКЛОНЕНИЕ И ОШИБКА
+    float MAIN_COEFFICIENT = c * dt / ( sin( THETA ) * sin( THETA ) ); // ПЕРЕД dt НУЖНО СТАВИТЬ с, НО ТОГДА БУДЕТ СЛИШКОМ СИЛЬНОЕ ОТКЛОНЕНИЕ И ОШИБКА
     float SUB_COEFFICIENT = cos( THETA );
+    //float SUB_COEFFICIENT = 1.37e-35;
     if ( THETA > M_PI / 2 - 0.005 && THETA < M_PI / 2 + 0.005 )
     {
         SUB_COEFFICIENT = 0;
