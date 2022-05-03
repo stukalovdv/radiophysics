@@ -16,9 +16,9 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     float NU = NU_TILDA * OMEGA_P_0;                               // Частота соударений
     float R1 = R1_tilda * c / OMEGA_P_0;                           // Внутренний радиус цилиндра
     float R2 = R2_TILDA * c / OMEGA_P_0;                           // Внешний радиус цилиндра
-    float dr = 0.001 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
-    float dt = dr / ( c * 20 );                                     // Шаг по времени
-    float T_MAX = 2;                                              // Расчетное (обезразмеренное) время
+    float dr = 0.001 * NU_TILDA * ( R2 - R1 );                     // Шаг по пространству
+    float dt = dr / ( c * 20 );                                    // Шаг по времени
+    float T_MAX = 2;                                               // Расчетное (обезразмеренное) время
     int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                       // Кол-во шагов по времени
     //N_TIME = 25000;
 
