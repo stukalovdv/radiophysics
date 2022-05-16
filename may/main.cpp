@@ -16,16 +16,16 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     float NU = NU_TILDA * OMEGA_P_0;                               // Частота соударений
     float R1 = R1_tilda * c / OMEGA_P_0;                           // Внутренний радиус цилиндра
     float R2 = R2_TILDA * c / OMEGA_P_0;                           // Внешний радиус цилиндра
-    float dr = 0.001 * NU_TILDA * ( R2 - R1 );                     // Шаг по пространству
-    float dt = dr / ( c * 20 );                                    // Шаг по времени
-    float T_MAX = 2;                                               // Расчетное (обезразмеренное) время
+    float dr = 0.01 * NU_TILDA * ( R2 - R1 );                       // Шаг по пространству
+    float dt = dr / ( c * 2 );                                    // Шаг по времени
+    float T_MAX = 4;                                               // Расчетное (обезразмеренное) время
     int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                       // Кол-во шагов по времени
     //N_TIME = 25000;
 
     // Новые коэффициенты
-    float MAIN_COEFFICIENT = c * dt / ( sin( THETA ) * sin( THETA ) ); // ПЕРЕД dt НУЖНО СТАВИТЬ с, НО ТОГДА БУДЕТ СЛИШКОМ СИЛЬНОЕ ОТКЛОНЕНИЕ И ОШИБКА
-    float SUB_COEFFICIENT = cos( THETA );
-    //float SUB_COEFFICIENT = 1.37e-35;
+    float MAIN_COEFFICIENT = c * dt / ( sin( THETA ) * sin( THETA ) );
+    //float SUB_COEFFICIENT = cos( THETA );
+    float SUB_COEFFICIENT = 0;
     if ( THETA > M_PI / 2 - 0.005 && THETA < M_PI / 2 + 0.005 )
     {
         SUB_COEFFICIENT = 0;
@@ -40,9 +40,9 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     }                                                               //
 
 
-    float R_MAX = R2 * 40;                                         // Расчетное пространство (по r)
+    float R_MAX = R2 * 40;                                          // Расчетное пространство (по r)
     int NR = ( R_MAX + dr ) / dr;                                   // Кол-во шагов по пространству
-    vector <float> r( NR ), r_tilda( NR ), r_alt( NR );            // Обозначаем r и 1/r
+    vector <float> r( NR ), r_tilda( NR ), r_alt( NR );             // Обозначаем r и 1/r
     for ( int i = 0; i < NR; i++ )                                  //
     {                                                               //
         r[i] = dr + dr * i;                                         //
@@ -73,7 +73,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
 
 
     int N_PML = 10 * NR2;                                           // Поглощающий слой
-    vector <float> sigma( NR );                                    // Начало поглощения
+    vector <float> sigma( NR );                                     // Начало поглощения
     for ( int i = 0; i < NR - N_PML; i++ )
     {
         sigma[i] = 1;
@@ -117,28 +117,18 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
 
     for ( int n = 0; n < N_TIME; n++ )
     {
-        /*
-        //Jr
-        for ( int i = 0; i < NR; i++ )
-        {
-            Jr[i] = J0 * sin( OMEGA_P_0 * n * dt );
-        }
-        //Jphi
-        for ( int i = 0; i < NR; i++ )
-        {
-            Jphi[i] = - J0 * sin( OMEGA_P_0 * n * dt );
-        }*/
-
         //Jr
         for ( int i = 0; i < NR; i++ )
         {
             Jr[i] = Jr[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Er[i];
         }
+
         //Jphi
         for ( int i = 0; i < NR; i++ )
         {
             Jphi[i] = Jphi[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ephi[i];
         }
+
         //Jz
         for ( int i = 0; i < NR; i++ )
         {
@@ -151,11 +141,12 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         {
             Er[i] = sigma[i] * ( Er[i] + MAIN_COEFFICIENT * ( r_alt[i] * Hz[i] - ( 4 * M_PI / c ) * Jr[i] + SUB_COEFFICIENT * ( Ez[i] - Ez[i - 1] ) / dr ) );
         }
+
         //Ephi
         Ephi[0] = Ephi[1];
         for ( int i = 1; i < NR; i++ )
         {
-            Ephi[i] = sigma[i] * ( Ephi[i] - ( c * dt / dr ) * ( Hz[i] - Hz[i-1] ) - ( 4 * M_PI * dt ) * Jphi[i] );
+            Ephi[i] = sigma[i] * ( Ephi[i] - MAIN_COEFFICIENT * ( SUB_COEFFICIENT * r_alt[ i ] * Ez[ i ] + ( 1 / dr ) * ( Hz[i] - Hz[ i - 1 ] ) + ( 4 * M_PI / c ) * Jphi[i] ) );
         }
 
         //Ez
@@ -164,8 +155,6 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         {
             Ez[i] = sigma[i] * ( Ez[i] + ( c * dt * r_alt[i] ) * ( ( Hphi[i] * r[i] - Hphi[i - 1] * r[i - 1] ) / dr - Hr[i] ) - 4 * M_PI * dt * Jz[i] );
         }
-        Ez[NR - 1] = sigma[NR - 1] * ( Ez[NR - 1] - ( c * dt * r_alt[NR - 1] ) * Hr[NR - 1] );
-
 
         //Hr
         Hr[0] = Hr[1];
@@ -173,18 +162,21 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         {
             Hr[i] = sigma[i] * ( Hr[i] + MAIN_COEFFICIENT * ( r_alt[i] * Ez[i] + SUB_COEFFICIENT * ( ( Hz[i] - Hz[i - 1] ) / dr + ( 4 * M_PI / c ) * Jphi[i] ) ) );
         }
+
         //Hphi
         Hphi[0] = Hphi[1];
         for ( int i = 1; i < NR; i++ )
         {
             Hphi[i] = sigma[i] * ( Hphi[i] + MAIN_COEFFICIENT * ( SUB_COEFFICIENT * ( r_alt[i] * Hz[i] - ( 4 * M_PI / c ) * Jr[i] ) + ( Ez[i] - Ez[i - 1] ) / dr ) );
         }
+
         //Hz
-        for ( int i = 0; i < NR - 1; i++ )
+        Hz[0] = Hz [1];
+        for ( int i = 1; i < NR; i++ )
         {
             Hz[i] = sigma[i] * ( Hz[i] - ( c * dt * r_alt[i] ) * ( Er[i] + ( r[i + 1] * Ephi[i + 1] - r[i] * Ephi[i] ) / dr ) );
         }
-        Hz[ NR - 1 ] = sigma[ NR - 1 ] * ( Hz[ NR - 1 ] - ( c * dt * r_alt[ NR - 1 ] ) * Er[ NR - 1 ]);
+
 
 
         Ept[n] = Ephi[FIELD_CHECK_POINT];
