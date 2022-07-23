@@ -21,7 +21,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     float dt = dr / (c * 2) * OMEGA_P_0;                                     // Шаг по времени
     float T_MAX = 0.2;                                              // Расчетное (обезразмеренное) время
     int N_TIME = T_MAX / dt;                       // Кол-во шагов по времени
-
+    12345
 
     // Новые коэффициенты
     float MAIN_COEFFICIENT = dt / ( sin( THETA ) * sin( THETA ) );
