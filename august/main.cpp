@@ -53,7 +53,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     int NR1 =  R1 / dr, NR2 = R2 / dr;                              // Начало и конец неоднородного слоя (в кол-ве узлов)
 
     // Точка проверки значения поля от времени
-    int FIELD_CHECK_POINT = NR2, FIELD_CHECK_POINT_TILDA = FIELD_CHECK_POINT * dr * OMEGA_P_0 / c;
+    int FIELD_CHECK_POINT = NR2 + 1, FIELD_CHECK_POINT_TILDA = FIELD_CHECK_POINT * dr * OMEGA_P_0 / c;
     if ( NR1 == 0 ) NR1 = 1;
 
 
@@ -121,13 +121,14 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         //Jr
         for ( int i = 0; i < NR; i++ )
         {
-            Jr[i] = J0 * sin( OMEGA_P_0 * n * dt );
+            Jr[i] = J0 * sin( 20 * OMEGA_P_0 * n * dt );
         }
         //Jphi
         for ( int i = 0; i < NR; i++ )
         {
-            Jphi[i] = - J0 * sin( OMEGA_P_0 * n * dt );
-        }*/
+            Jphi[i] = - J0 * sin( 20 * OMEGA_P_0 * n * dt );
+        }
+        */
 
         //Jr
         for ( int i = 0; i < NR; i++ )
@@ -145,6 +146,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
             Jz[i] = Jz[i] * ( 1 - dt * NU ) + ( dt * OMEGA_P_0 * OMEGA_P_0 / ( 4 * M_PI ) ) * Fr[i] * Ez[i];
         }
 
+
         //Er
         Er[0] = Er[1];
         for ( int i = 1; i < NR; i++ )
@@ -159,12 +161,11 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         }
 
         //Ez
-        Ez[0] = Ez[1];
-        for ( int i = 1; i < NR; i++ )
+        for ( int i = 0; i < NR - 1; i++ )
         {
-            Ez[i] = sigma[i] * ( Ez[i] + ( c * dt * r_alt[i] ) * ( ( Hphi[i] * r[i] - Hphi[i - 1] * r[i - 1] ) / dr - Hr[i] ) - 4 * M_PI * dt * Jz[i] );
+            Ez[i] = sigma[i] * ( Ez[i] + ( c * dt * r_alt[i] ) * ( ( Hphi[i + 1] * r[i + 1] - Hphi[i] * r[i] ) / dr - Hr[i] ) - 4 * M_PI * dt * Jz[i] );
         }
-        Ez[NR - 1] = sigma[NR - 1] * ( Ez[NR - 1] - ( c * dt * r_alt[NR - 1] ) * Hr[NR - 1] );
+        Ez[NR - 1] = 0;
 
 
         //Hr
@@ -184,7 +185,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         {
             Hz[i] = sigma[i] * ( Hz[i] - ( c * dt * r_alt[i] ) * ( Er[i] + ( r[i + 1] * Ephi[i + 1] - r[i] * Ephi[i] ) / dr ) );
         }
-        Hz[ NR - 1 ] = sigma[ NR - 1 ] * ( Hz[ NR - 1 ] - ( c * dt * r_alt[ NR - 1 ] ) * Er[ NR - 1 ]);
+        Hz[ NR - 1 ] = 0;
 
 
         Ept[n] = Ephi[FIELD_CHECK_POINT];
