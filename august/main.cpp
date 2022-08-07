@@ -16,9 +16,9 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     float NU = NU_TILDA * OMEGA_P_0;                               // Частота соударений
     float R1 = R1_tilda * c / OMEGA_P_0;                           // Внутренний радиус цилиндра
     float R2 = R2_TILDA * c / OMEGA_P_0;                           // Внешний радиус цилиндра
-    float dr = 0.01 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
+    float dr = 0.1 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
     float dt = dr / ( c * 2 );                                     // Шаг по времени
-    float T_MAX = 2;                                               // Расчетное (обезразмеренное) время
+    float T_MAX = 20;                                               // Расчетное (обезразмеренное) время
     int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                       // Кол-во шагов по времени
     //N_TIME = 25000;
 
@@ -105,7 +105,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         Jphi[i] = - J0 * Fr[i];
         Jz[i] = 0;
     }
-
+    //Запись в файл
     ofstream fout;
     string PATH = "main_data.dat";
     fout.open( PATH );
@@ -194,7 +194,9 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         Ezt[n] = Ez[FIELD_CHECK_POINT];
         Hpt[n] = Hphi[FIELD_CHECK_POINT];
 
-        cout << "Loading... " << ( n * 100 / N_TIME ) + 1 << "/" << 100 << "%\r";
+        cout << "Step: " << n << "/" << N_TIME << "\t" << "Loading... " << ( n * 100 / N_TIME ) + 1 << "/" << 100 << "%\r";
+        //cout << "Шаг№ " << n << "/" << N_TIME << "\r";
+        //cout << "Loading... " << ( n * 100 / N_TIME ) + 1 << "/" << 100 << "%\r";
         fout << left << setw( 11 ) << T[n] * OMEGA_P_0 << "\t";
         fout << left << setw( 11 ) << Er[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Ephi[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Ez[FIELD_CHECK_POINT] << "\t";
         fout << left << setw( 11 ) << Hr[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Hphi[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Hz[FIELD_CHECK_POINT] << "\t";
@@ -218,7 +220,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     W_zap = ( R2 * R2 + R1 * R1 ) * ( ( M_PI * J0 ) / OMEGA_P_0 ) * ( ( M_PI * J0 ) / OMEGA_P_0 );
     W_izl = c * ( dt / 4 ) * FIELD_CHECK_POINT * dr * I;
 
-    cout << "\rWell done!         \n";
+    cout << "\rWell done!\t\t\t\t\t\t\t\t\t\n";
     cout << "File saved in path: " << PATH << endl;
 
     return W_izl / W_zap;
@@ -227,7 +229,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
 
 int main()
 {
-    setlocale( LC_ALL,"Rus" ); // Русский язык в консоли
+    setlocale( LC_ALL,"Russian" ); // Русский язык в консоли
 
     // Основные параметры задачи
     float THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA;
