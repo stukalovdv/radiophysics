@@ -23,16 +23,9 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     //N_TIME = 25000;
 
     // Новые коэффициенты
-    float MAIN_COEFFICIENT = c * dt / ( sin( THETA ) * sin( THETA ) ); // ПЕРЕД dt НУЖНО СТАВИТЬ с, НО ТОГДА БУДЕТ СЛИШКОМ СИЛЬНОЕ ОТКЛОНЕНИЕ И ОШИБКА
+    float MAIN_COEFFICIENT = c * dt / ( sin( THETA ) * sin( THETA ) );
     float SUB_COEFFICIENT = cos( THETA );
-    //float SUB_COEFFICIENT = 1.37e-35;
-    if ( THETA > M_PI / 2 - 0.005 && THETA < M_PI / 2 + 0.005 )
-    {
-        SUB_COEFFICIENT = 0;
-        MAIN_COEFFICIENT = c * dt;
-    }
 
-    //N_TIME = 25000;
     vector <float> T( N_TIME );                                     // Вектор времени
     for ( int i = 0; i < N_TIME; i++ )                              //
     {                                                               //
@@ -40,9 +33,9 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     }                                                               //
 
 
-    float R_MAX = R2 * 40;                                         // Расчетное пространство (по r)
+    float R_MAX = R2 * 40;                                          // Расчетное пространство (по r)
     int NR = ( R_MAX + dr ) / dr;                                   // Кол-во шагов по пространству
-    vector <float> r( NR ), r_tilda( NR ), r_alt( NR );            // Обозначаем r и 1/r
+    vector <float> r( NR ), r_tilda( NR ), r_alt( NR );             // Обозначаем r и 1/r
     for ( int i = 0; i < NR; i++ )                                  //
     {                                                               //
         r[i] = dr + dr * i;                                         //
@@ -73,7 +66,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
 
 
     int N_PML = 10 * NR2;                                           // Поглощающий слой
-    vector <float> sigma( NR );                                    // Начало поглощения
+    vector <float> sigma( NR );
     for ( int i = 0; i < NR - N_PML; i++ )
     {
         sigma[i] = 1;
