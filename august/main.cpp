@@ -1,4 +1,4 @@
-//РќР•РѕР±РµР·СЂР°Р·РјРµРЅРµРЅРЅР°СЏ Р·Р°РґР°С‡Р°
+//НЕобезразмененная задача
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -8,34 +8,34 @@
 
 using namespace std;
 
-float c = 3e+10, OMEGA_P_0 = 3e+9, J0 = 1;                         // Р“Р»РѕР±Р°Р»СЊРЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ (СЃРєРѕСЂРѕСЃС‚СЊ СЃРІРµС‚Р°, РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ РїР»Р°Р·РјРµРЅРЅР°СЏ С‡Р°СЃС‚РѕС‚Р° Рё РїР»РѕС‚РЅРѕСЃС‚СЊ С‚РѕРєР°)
+float c = 3e+10, OMEGA_P_0 = 3e+9, J0 = 1;                         // Глобальные переменные (скорость света, максимальная плазменная частота и плотность тока)
 
 float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
 {
-    float R1_tilda = R2_TILDA * ( 1 - DELTA );                     // Р’РЅСѓС‚СЂРµРЅРЅРёР№ (РѕР±РµР·СЂР°Р·РјРµСЂРµРЅРЅС‹Р№) СЂР°РґРёСѓСЃ С†РёР»РёРЅРґСЂР°
-    float NU = NU_TILDA * OMEGA_P_0;                               // Р§Р°СЃС‚РѕС‚Р° СЃРѕСѓРґР°СЂРµРЅРёР№
-    float R1 = R1_tilda * c / OMEGA_P_0;                           // Р’РЅСѓС‚СЂРµРЅРЅРёР№ СЂР°РґРёСѓСЃ С†РёР»РёРЅРґСЂР°
-    float R2 = R2_TILDA * c / OMEGA_P_0;                           // Р’РЅРµС€РЅРёР№ СЂР°РґРёСѓСЃ С†РёР»РёРЅРґСЂР°
-    float dr = 0.1 * NU_TILDA * ( R2 - R1 );                      // РЁР°Рі РїРѕ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІСѓ
-    float dt = dr / ( c * 2 );                                     // РЁР°Рі РїРѕ РІСЂРµРјРµРЅРё
-    float T_MAX = 20;                                               // Р Р°СЃС‡РµС‚РЅРѕРµ (РѕР±РµР·СЂР°Р·РјРµСЂРµРЅРЅРѕРµ) РІСЂРµРјСЏ
-    int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                       // РљРѕР»-РІРѕ С€Р°РіРѕРІ РїРѕ РІСЂРµРјРµРЅРё
+    float R1_tilda = R2_TILDA * ( 1 - DELTA );                     // Внутренний (обезразмеренный) радиус цилиндра
+    float NU = NU_TILDA * OMEGA_P_0;                               // Частота соударений
+    float R1 = R1_tilda * c / OMEGA_P_0;                           // Внутренний радиус цилиндра
+    float R2 = R2_TILDA * c / OMEGA_P_0;                           // Внешний радиус цилиндра
+    float dr = 0.1 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
+    float dt = dr / ( c * 2 );                                     // Шаг по времени
+    float T_MAX = 20;                                               // Расчетное (обезразмеренное) время
+    int N_TIME = T_MAX / ( dt * OMEGA_P_0 );                       // Кол-во шагов по времени
     //N_TIME = 25000;
 
-    // РќРѕРІС‹Рµ РєРѕСЌС„С„РёС†РёРµРЅС‚С‹
+    // Новые коэффициенты
     float MAIN_COEFFICIENT = c * dt / ( sin( THETA ) * sin( THETA ) );
     float SUB_COEFFICIENT = cos( THETA );
 
-    vector <float> T( N_TIME );                                     // Р’РµРєС‚РѕСЂ РІСЂРµРјРµРЅРё
+    vector <float> T( N_TIME );                                     // Вектор времени
     for ( int i = 0; i < N_TIME; i++ )                              //
     {                                                               //
         T[i] = dt * i;                                              //
     }                                                               //
 
 
-    float R_MAX = R2 * 40;                                          // Р Р°СЃС‡РµС‚РЅРѕРµ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРѕ (РїРѕ r)
-    int NR = ( R_MAX + dr ) / dr;                                   // РљРѕР»-РІРѕ С€Р°РіРѕРІ РїРѕ РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІСѓ
-    vector <float> r( NR ), r_tilda( NR ), r_alt( NR );             // РћР±РѕР·РЅР°С‡Р°РµРј r Рё 1/r
+    float R_MAX = R2 * 40;                                          // Расчетное пространство (по r)
+    int NR = ( R_MAX + dr ) / dr;                                   // Кол-во шагов по пространству
+    vector <float> r( NR ), r_tilda( NR ), r_alt( NR );             // Обозначаем r и 1/r
     for ( int i = 0; i < NR; i++ )                                  //
     {                                                               //
         r[i] = dr + dr * i;                                         //
@@ -43,14 +43,14 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         r_tilda[i] = r[i] * OMEGA_P_0 / c;                          //
     }                                                               //
 
-    int NR1 =  R1 / dr, NR2 = R2 / dr;                              // РќР°С‡Р°Р»Рѕ Рё РєРѕРЅРµС† РЅРµРѕРґРЅРѕСЂРѕРґРЅРѕРіРѕ СЃР»РѕСЏ (РІ РєРѕР»-РІРµ СѓР·Р»РѕРІ)
+    int NR1 =  R1 / dr, NR2 = R2 / dr;                              // Начало и конец неоднородного слоя (в кол-ве узлов)
 
-    // РўРѕС‡РєР° РїСЂРѕРІРµСЂРєРё Р·РЅР°С‡РµРЅРёСЏ РїРѕР»СЏ РѕС‚ РІСЂРµРјРµРЅРё
+    // Точка проверки значения поля от времени
     int FIELD_CHECK_POINT = NR2 + 1, FIELD_CHECK_POINT_TILDA = FIELD_CHECK_POINT * dr * OMEGA_P_0 / c;
     if ( NR1 == 0 ) NR1 = 1;
 
 
-    vector <float> Fr( NR );                                       // РћР±РѕР·РЅР°С‡Р°РµРј F(r)
+    vector <float> Fr( NR );                                       // Обозначаем F(r)
     for ( int i = 0; i < NR1; i++ )
     {
         Fr[i] = 1;
@@ -65,7 +65,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     }
 
 
-    int N_PML = 10 * NR2;                                           // РџРѕРіР»РѕС‰Р°СЋС‰РёР№ СЃР»РѕР№
+    int N_PML = 10 * NR2;                                           // Поглощающий слой
     vector <float> sigma( NR );
     for ( int i = 0; i < NR - N_PML; i++ )
     {
@@ -78,12 +78,12 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     }
     sigma[NR - 1] = 0;
 
-    vector <float> Er( NR ), Ephi( NR ), Ez( NR );                     // РџСЂРѕРµРєС†РёРё СЌР»РµРєС‚СЂРёС‡РµСЃРєРёС… РїРѕР»РµР№
-    vector <float> Hr( NR ), Hphi( NR ), Hz( NR );                     // РџСЂРѕРµРєС†РёРё РјР°РіРЅРёС‚РЅС‹С… РїРѕР»РµР№
-    vector <float> Jr( NR ), Jphi( NR ), Jz( NR );                     // РџСЂРѕРµРєС†РёРё С‚РѕРєРѕРІС‹С… РєРѕРјРїРѕРЅРµРЅС‚
+    vector <float> Er( NR ), Ephi( NR ), Ez( NR );                     // Проекции электрических полей
+    vector <float> Hr( NR ), Hphi( NR ), Hz( NR );                     // Проекции магнитных полей
+    vector <float> Jr( NR ), Jphi( NR ), Jz( NR );                     // Проекции токовых компонент
     vector <float> Ept( N_TIME ), Hzt( N_TIME );                       // E_phi(t), H_z(t)
     vector <float> Ezt( N_TIME ), Hpt( N_TIME );                       // E_z(t), H_phi(t)
-    //РќР°С‡Р°Р»СЊРЅС‹Рµ СѓСЃР»РѕРІРёСЏ
+    //Начальные условия
     for ( int i = 0; i < NR; i++ )
     {
         Er[i] = 0;
@@ -98,15 +98,19 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         Jphi[i] = - J0 * Fr[i];
         Jz[i] = 0;
     }
-    //Р—Р°РїРёСЃСЊ РІ С„Р°Р№Р»
-    ofstream fout;
-    string PATH = "main_data.dat";
-    fout.open( PATH );
-    fout << left << setw( 11 ) << "T" << "\t";
-    fout << left << setw( 11 ) << "Er(t)" << "\t" << left << setw( 11 ) << "Ephi(t)" << "\t" << left << setw( 11 ) << "Ez(t)" << "\t";
-    fout << left << setw( 11 ) << "Hr(t)" << "\t" << left << setw( 11 ) << "Hphi(t)" << "\t" << left << setw( 11 ) << "Hz(t)" << "\t";
-    fout << left << setw( 11 ) << "Jr(t)" << "\t" << left << setw( 11 ) << "Jphi(t)" << "\t" << left << setw( 11 ) << "Jz(t)";
-    fout << endl;
+    //Запись в файл
+    ofstream FileOutByTime;
+    ofstream FileOutByRange;
+
+    string PathByTime = "C:\\Users\\stukalovdv\\Documents\\Github\\rf\\python\\DataByTime.dat";
+    string PathByRange = "C:\\Users\\stukalovdv\\Documents\\Github\\rf\\python\\DataByRange.dat";
+
+    FileOutByTime.open( PathByTime );
+    FileOutByTime << left << setw( 11 ) << "T" << "\t";
+    FileOutByTime << left << setw( 11 ) << "Er(t)" << "\t" << left << setw( 11 ) << "Ephi(t)" << "\t" << left << setw( 11 ) << "Ez(t)" << "\t";
+    FileOutByTime << left << setw( 11 ) << "Hr(t)" << "\t" << left << setw( 11 ) << "Hphi(t)" << "\t" << left << setw( 11 ) << "Hz(t)" << "\t";
+    FileOutByTime << left << setw( 11 ) << "Jr(t)" << "\t" << left << setw( 11 ) << "Jphi(t)" << "\t" << left << setw( 11 ) << "Jz(t)";
+    FileOutByTime << endl;
 
     for ( int n = 0; n < N_TIME; n++ )
     {
@@ -152,7 +156,6 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         {
             Ephi[i] = sigma[i] * ( Ephi[i] - ( c * dt / dr ) * ( Hz[i] - Hz[i-1] ) - ( 4 * M_PI * dt ) * Jphi[i] );
         }
-
         //Ez
         for ( int i = 0; i < NR - 1; i++ )
         {
@@ -188,16 +191,36 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         Hpt[n] = Hphi[FIELD_CHECK_POINT];
 
         cout << "Step: " << n << "/" << N_TIME << "\t" << "Loading... " << ( n * 100 / N_TIME ) + 1 << "/" << 100 << "%\r";
-        //cout << "РЁР°Рів„– " << n << "/" << N_TIME << "\r";
+        //cout << "Шаг№ " << n << "/" << N_TIME << "\r";
         //cout << "Loading... " << ( n * 100 / N_TIME ) + 1 << "/" << 100 << "%\r";
-        fout << left << setw( 11 ) << T[n] * OMEGA_P_0 << "\t";
-        fout << left << setw( 11 ) << Er[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Ephi[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Ez[FIELD_CHECK_POINT] << "\t";
-        fout << left << setw( 11 ) << Hr[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Hphi[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Hz[FIELD_CHECK_POINT] << "\t";
-        fout << left << setw( 11 ) << Jr[( NR2 + NR1 ) / 2] << "\t" << left << setw( 11 ) << Jphi[( NR2 + NR1 ) / 2] << "\t" << left << setw( 11 ) << Jz[( NR2 + NR1 ) / 2] << "\t";
-        fout << endl;
+        FileOutByTime << left << setw( 11 ) << T[n] * OMEGA_P_0 << "\t";
+        FileOutByTime << left << setw( 11 ) << Er[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Ephi[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Ez[FIELD_CHECK_POINT] << "\t";
+        FileOutByTime << left << setw( 11 ) << Hr[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Hphi[FIELD_CHECK_POINT] << "\t" << left << setw( 11 ) << Hz[FIELD_CHECK_POINT] << "\t";
+        FileOutByTime << left << setw( 11 ) << Jr[( NR2 + NR1 ) / 2] << "\t" << left << setw( 11 ) << Jphi[( NR2 + NR1 ) / 2] << "\t" << left << setw( 11 ) << Jz[( NR2 + NR1 ) / 2] << "\t";
+        FileOutByTime << endl;
     }
 
-    fout.close();
+    FileOutByTime.close();
+
+    FileOutByRange.open( PathByRange );
+    FileOutByRange << left << setw( 11 ) << "r" << "\t";
+    FileOutByRange << left << setw( 11 ) << "Er(r)" << "\t" << left << setw( 11 ) << "Ephi(r)" << "\t" << left << setw( 11 ) << "Ez(r)" << "\t";
+    FileOutByRange << left << setw( 11 ) << "Hr(r)" << "\t" << left << setw( 11 ) << "Hphi(r)" << "\t" << left << setw( 11 ) << "Hz(r)" << "\t";
+    FileOutByRange << left << setw( 11 ) << "Jr(r)" << "\t" << left << setw( 11 ) << "Jphi(r)" << "\t" << left << setw( 11 ) << "Jz(r)";
+    FileOutByRange << endl;
+
+    for ( int i = 0; i < NR; i++ )
+    {
+        FileOutByRange << left << setw( 11 ) << r[i] << "\t";
+        FileOutByRange << left << setw( 11 ) << Er[i] << "\t" << left << setw( 11 ) << Ephi[i] << "\t" << left << setw( 11 ) << Ez[i] << "\t";
+        FileOutByRange << left << setw( 11 ) << Hr[i] << "\t" << left << setw( 11 ) << Hphi[i] << "\t" << left << setw( 11 ) << Hz[i] << "\t";
+        FileOutByRange << left << setw( 11 ) << Jr[i] << "\t" << left << setw( 11 ) << Jphi[i] << "\t" << left << setw( 11 ) << Jz[i];
+        FileOutByRange << endl;
+    }
+
+
+    FileOutByTime.close();
+
     float I = 0;
     I += ( Ept[0] * Hzt[0] + Ept[ N_TIME-1 ] * Hzt[ N_TIME - 1 ] ) / 2;
     for ( int i = 1; i < N_TIME; i++ )
@@ -214,7 +237,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     W_izl = c * ( dt / 4 ) * FIELD_CHECK_POINT * dr * I;
 
     cout << "\rWell done!\t\t\t\t\t\t\t\t\t\n";
-    cout << "File saved in path: " << PATH << endl;
+    cout << "File saved in PathByTime: " << PathByTime << endl;
 
     return W_izl / W_zap;
 }
@@ -222,9 +245,9 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
 
 int main()
 {
-    setlocale( LC_ALL,"Russian" ); // Р СѓСЃСЃРєРёР№ СЏР·С‹Рє РІ РєРѕРЅСЃРѕР»Рё
+    setlocale( LC_ALL,"Russian" ); // Русский язык в консоли
 
-    // РћСЃРЅРѕРІРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹ Р·Р°РґР°С‡Рё
+    // Основные параметры задачи
     float THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA;
     do
     {
