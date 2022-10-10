@@ -98,12 +98,20 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         Jphi[i] = - J0 * Fr[i];
         Jz[i] = 0;
     }
+
     //Запись в файл
     ofstream FileOutByTime;
     ofstream FileOutByRange;
 
+    // Для Linux
+    string PathByTime = "/home/stukalovdv/Work/rf/DataByTime.dat";
+    string PathByRange = "/home/stukalovdv/Work/rf/DataByRange.dat";
+
+    // Для Windows
+    /*
     string PathByTime = "C:\\Users\\stukalovdv\\Documents\\Github\\rf\\python\\DataByTime.dat";
     string PathByRange = "C:\\Users\\stukalovdv\\Documents\\Github\\rf\\python\\DataByRange.dat";
+    */
 
     FileOutByTime.open( PathByTime );
     FileOutByTime << left << setw( 11 ) << "T" << "\t";
