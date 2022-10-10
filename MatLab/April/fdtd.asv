@@ -1,0 +1,47 @@
+clear all;
+%close all;
+%% Const
+c=3e+10;
+w=3e+8;
+j0=10;
+dr=0.1;
+dt=dr/(c*2);
+timesteps=500;
+I=0.01*2*pi*c/w;
+Rmax=10*I;
+r=(dr:dr:Rmax)';
+r_alt=1./r;
+%% НУ
+Er=zeros(length(r),1);
+Ep=zeros(length(r),1);
+Hz=zeros(length(r),1);
+%J=zeros(length(r),1);
+%%
+
+
+%%
+for n=1:timesteps
+    %J
+    J=j0.*sin(w*n*dt).*exp((-r.^2)/(I^2));
+    %Er
+    for nr=1:length(r)
+        Er(nr)=Er(nr)+(c*dt*r_alt(nr))*Hz(nr)-(4*pi*dt)*J(2*nr-1);
+    end
+    %Ephi
+    for nr=1:length(r)
+        if nr==1
+            Ep(nr)=Np(nr)+(4*pi*dt)*J(2*nr);
+        else            
+            Ep(nr)=Ep(nr)-(c*dt/dr)*(Hz(nr)-Hz(nr-1))+(4*pi*dt)*J(2*nr);
+        end
+    end
+    %Hz
+    for nr=1:length(r)
+        Hz(nr)=Hz(nr)+        
+    end
+    plot(r,J)
+    %ylim([-j0 j0])
+    pause(0.01)
+end
+%% Plot
+%alter_ploting
