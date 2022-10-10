@@ -104,8 +104,8 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     ofstream FileOutByRange;
 
     // Для Linux
-    string PathByTime = "/home/stukalovdv/Work/rf/DataByTime.dat";
-    string PathByRange = "/home/stukalovdv/Work/rf/DataByRange.dat";
+    string PathByTime = "/home/stukalovdv/Work/rf/python/DataByTime.dat";
+    string PathByRange = "/home/stukalovdv/Work/rf/python/DataByRange.dat";
 
     // Для Windows
     /*
@@ -210,6 +210,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
 
     FileOutByTime.close();
 
+    //Сохранение файла с зависимостью от R
     FileOutByRange.open( PathByRange );
     FileOutByRange << left << setw( 11 ) << "r" << "\t";
     FileOutByRange << left << setw( 11 ) << "Er(r)" << "\t" << left << setw( 11 ) << "Ephi(r)" << "\t" << left << setw( 11 ) << "Ez(r)" << "\t";
@@ -225,7 +226,6 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
         FileOutByRange << left << setw( 11 ) << Jr[i] << "\t" << left << setw( 11 ) << Jphi[i] << "\t" << left << setw( 11 ) << Jz[i];
         FileOutByRange << endl;
     }
-
 
     FileOutByTime.close();
 
@@ -244,8 +244,9 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     W_zap = ( R2 * R2 + R1 * R1 ) * ( ( M_PI * J0 ) / OMEGA_P_0 ) * ( ( M_PI * J0 ) / OMEGA_P_0 );
     W_izl = c * ( dt / 4 ) * FIELD_CHECK_POINT * dr * I;
 
-    cout << "\rWell done!\t\t\t\t\t\t\t\t\t\n";
+    cout << "\rWell done!                                  \n";
     cout << "File saved in PathByTime: " << PathByTime << endl;
+    cout << "File saved in PathByRange: " << PathByRange << endl;
 
     return W_izl / W_zap;
 }
@@ -276,20 +277,6 @@ int main()
 
     cout << fdtd( THETA_MULTIPLICATOR * M_PI, NU_TILDA, R2_TILDA, DELTA );
     cout << "\a" <<endl;
-
-    //cout << THETA_MULTIPLICATOR * M_PI << "  " << cos( THETA_MULTIPLICATOR * M_PI );
-
-    //fstream
-    //ifstream
-    //ofstream
-
-
-    //if (Fr.size() == r.size( ) ) cout << "\nYES";
-
-    //cout << r.size() << "\t" << Fr.size() << "\t" << Nr << endl;
-
-
-
 
     return 0;
 }
