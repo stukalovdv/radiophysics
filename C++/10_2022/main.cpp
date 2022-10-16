@@ -220,8 +220,8 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
 
     for ( int i = 0; i < NR; i++ )
     {
-        FileOutByRange << left << setw( 11 ) << r[i] << "\t";
         FileOutByRange << left << setw( 11 ) << Er[i] << "\t" << left << setw( 11 ) << Ephi[i] << "\t" << left << setw( 11 ) << Ez[i] << "\t";
+        FileOutByRange << left << setw( 11 ) << r[i] << "\t";
         FileOutByRange << left << setw( 11 ) << Hr[i] << "\t" << left << setw( 11 ) << Hphi[i] << "\t" << left << setw( 11 ) << Hz[i] << "\t";
         FileOutByRange << left << setw( 11 ) << Jr[i] << "\t" << left << setw( 11 ) << Jphi[i] << "\t" << left << setw( 11 ) << Jz[i];
         FileOutByRange << endl;
@@ -254,7 +254,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
 
 int main()
 {
-    setlocale( LC_ALL,"Russian" ); // Русский язык в консоли
+    setlocale( LC_ALL,"ru_RU.UTF-8" ); // Русский язык в консоли
 
     // Основные параметры задачи
     float THETA_MULTIPLICATOR, NU_TILDA, R2_TILDA, DELTA;
