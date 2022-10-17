@@ -12,9 +12,9 @@ float c = 3e+10, OMEGA_P_0 = 3e+9, J0 = 1;                         // Глобальные
 
 float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
 {
-    float R1_tilda = R2_TILDA * ( 1 - DELTA );                     // Внутренний (обезразмеренный) радиус цилиндра
+    float R1_TILDA = R2_TILDA * ( 1 - DELTA );                     // Внутренний (обезразмеренный) радиус цилиндра
     float NU = NU_TILDA * OMEGA_P_0;                               // Частота соударений
-    float R1 = R1_tilda * c / OMEGA_P_0;                           // Внутренний радиус цилиндра
+    float R1 = R1_TILDA * c / OMEGA_P_0;                           // Внутренний радиус цилиндра
     float R2 = R2_TILDA * c / OMEGA_P_0;                           // Внешний радиус цилиндра
     float dr = 0.1 * NU_TILDA * ( R2 - R1 );                      // Шаг по пространству
     float dt = dr / ( c * 2 );                                     // Шаг по времени
@@ -102,16 +102,31 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     //Запись в файл
     ofstream FileOutByTime;
     ofstream FileOutByRange;
+    ofstream FileOutConfig;
 
     // Для Linux
     string PathByTime = "/home/stukalovdv/Work/rf/python/DataByTime.dat";
     string PathByRange = "/home/stukalovdv/Work/rf/python/DataByRange.dat";
+    string PathConfig = "/home/stukalovdv/Work/rf/python/DataConfig.dat";
 
     // Для Windows
     /*
     string PathByTime = "C:\\Users\\stukalovdv\\Documents\\Github\\rf\\python\\DataByTime.dat";
     string PathByRange = "C:\\Users\\stukalovdv\\Documents\\Github\\rf\\python\\DataByRange.dat";
     */
+
+    FileOutConfig.open( PathConfig );
+    FileOutConfig << left << setw( 11 ) << "dt" << "\t" << left << setw( 11 ) << "Tmax" << "\t"
+    FileOutConfig << left << setw( 11 ) << "dr" << "\r" << left << setw( 11 ) << "Rmax" << "\t";
+    FileOutConfig << left << setw( 11 ) << "nu_tilda" << "\t" << left << setw( 11 ) << "R1_tilda" << left << setw( 11 ) << "R2_tilda" << "\t";
+    FileOutConfig << left << setw( 11 ) << "Theta" << endl;
+
+    FileOutConfig << left << setw( 11 ) << dt << "\t" << left << setw( 11 ) << T_MAX * OMEGA_P_0 << "\t"
+    FileOutConfig << left << setw( 11 ) << dr << "\r" << left << setw( 11 ) << R_MAX << "\t";
+    FileOutConfig << left << setw( 11 ) << NU_TILDA << "\t" << left << setw( 11 ) << R1_TILDA << left << setw( 11 ) << R2_TILDA << "\t";
+    FileOutConfig << left << setw( 11 ) << THETA << endl;
+    FileOutConfig.close();
+
 
     FileOutByTime.open( PathByTime );
     FileOutByTime << left << setw( 11 ) << "T" << "\t";
