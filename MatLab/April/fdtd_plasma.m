@@ -163,8 +163,8 @@ kpd=Wizl/Wzap;%КПД
 %% Спектр
 % figure('Name','Спектры','NumberTitle','off','WindowState','maximized');
 Hzt_tilda=(wp0/(4*pi)).*Hzt;
-fs=1/dt;%частота дискретизации (F_max)
-df=1/(16*max(T)); %шаг по частоте
+fs=1/dt;%(F_max)
+df=1/(16*max(T)); %частота дискретизации
 f=0:df:fs; %Частотная сетка
 NFs=fix(length(f));
 NFn=fix(NFs/2);
