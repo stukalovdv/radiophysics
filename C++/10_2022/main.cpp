@@ -116,12 +116,12 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     */
 
     FileOutConfig.open( PathConfig );
-    FileOutConfig << left << setw( 11 ) << "dt" << "\t" << left << setw( 11 ) << "Tmax" << "\t"
+    FileOutConfig << left << setw( 11 ) << "dt" << "\t" << left << setw( 11 ) << "Tmax" << "\t";
     FileOutConfig << left << setw( 11 ) << "dr" << "\r" << left << setw( 11 ) << "Rmax" << "\t";
     FileOutConfig << left << setw( 11 ) << "nu_tilda" << "\t" << left << setw( 11 ) << "R1_tilda" << left << setw( 11 ) << "R2_tilda" << "\t";
     FileOutConfig << left << setw( 11 ) << "Theta" << endl;
 
-    FileOutConfig << left << setw( 11 ) << dt << "\t" << left << setw( 11 ) << T_MAX * OMEGA_P_0 << "\t"
+    FileOutConfig << left << setw( 11 ) << dt << "\t" << left << setw( 11 ) << T_MAX * OMEGA_P_0 << "\t";
     FileOutConfig << left << setw( 11 ) << dr << "\r" << left << setw( 11 ) << R_MAX << "\t";
     FileOutConfig << left << setw( 11 ) << NU_TILDA << "\t" << left << setw( 11 ) << R1_TILDA << left << setw( 11 ) << R2_TILDA << "\t";
     FileOutConfig << left << setw( 11 ) << THETA << endl;
@@ -262,6 +262,7 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     cout << "\rWell done!                                  \n";
     cout << "File saved in PathByTime: " << PathByTime << endl;
     cout << "File saved in PathByRange: " << PathByRange << endl;
+    cout << "File saved in PathConfig: " << PathConfig << endl;
 
     return W_izl / W_zap;
 }
