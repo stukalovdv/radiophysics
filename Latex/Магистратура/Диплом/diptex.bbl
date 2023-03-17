@@ -1,0 +1,267 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{fdtd_pml}{book}{useauthor=false}
+      \name{author}{4}{}{%
+        {{hash=2b4068cadce0a5b57df69f7e94fe5433}{%
+           family={Chew},
+           familyi={C\bibinitperiod},
+           given={Weng\bibnamedelima Cho},
+           giveni={W\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=45c70c8b43e3219a0ecc594a451e502f}{%
+           family={Jin},
+           familyi={J\bibinitperiod},
+           given={Jian-Ming},
+           giveni={J\bibinithyphendelim M\bibinitperiod}}}%
+        {{hash=1a4174774037cfe70367750dd6221a79}{%
+           family={Michielssen},
+           familyi={M\bibinitperiod},
+           given={Eric},
+           giveni={E\bibinitperiod}}}%
+        {{hash=ab3380563fbc6c90b84949989ecaa160}{%
+           family={Song},
+           familyi={S\bibinitperiod},
+           given={Jiming},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {Boston : Artech House.}%
+      }
+      \strng{authorbibnamehash}{835fd4409f75961ae08b663da134f2c1}
+      \strng{authornamehash}{835fd4409f75961ae08b663da134f2c1}
+      \strng{authorfullhash}{9462e36f10c753acf86b44faa1029356}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labeltitlesource}{title}
+      \field{title}{Fast and efficient algorithms in computational electromagnetics}
+      \field{year}{2001}
+      \field{pages}{300\bibrangedash 330}
+      \range{pages}{31}
+    \endentry
+    \entry{Gildenburg2007}{article}{}
+      \name{author}{2}{}{%
+        {{hash=85c4449dca42db77603403779097fe7d}{%
+           family={Gildenburg},
+           familyi={G\bibinitperiod},
+           given={V.\bibnamedelimi B.},
+           giveni={V\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=d5bb28385c0a3519171f070746cb9da6}{%
+           family={Vvedenskii},
+           familyi={V\bibinitperiod},
+           given={N.\bibnamedelimi V.},
+           giveni={N\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+      }
+      \strng{namehash}{d7fa4696dd55b80b4f4cdc63f048427c}
+      \strng{fullhash}{d7fa4696dd55b80b4f4cdc63f048427c}
+      \strng{bibnamehash}{d7fa4696dd55b80b4f4cdc63f048427c}
+      \strng{authorbibnamehash}{d7fa4696dd55b80b4f4cdc63f048427c}
+      \strng{authornamehash}{d7fa4696dd55b80b4f4cdc63f048427c}
+      \strng{authorfullhash}{d7fa4696dd55b80b4f4cdc63f048427c}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{00319007}
+      \field{journaltitle}{Physical Review Letters}
+      \field{title}{{Optical-to-THz wave conversion via excitation of plasma oscillations in the tunneling-ionization process}}
+      \field{year}{2007}
+      \field{number}{24}
+      \range{number}{1}
+      \field{pages}{1\bibrangedash 4}
+      \range{pages}{4}
+      \field{volume}{98}
+      \range{volume}{1}
+    \endentry
+    \entry{fdtd_cyll}{article}{}
+      \name{author}{2}{}{%
+        {{hash=f76b0771df0baedcbc1e1fa7cc6e4925}{%
+           family={Ribeiro},
+           familyi={R\bibinitperiod},
+           given={Luísa},
+           giveni={L\bibinitperiod}}}%
+        {{hash=32ddce4a152627a33fed105ade1299cb}{%
+           family={Novo},
+           familyi={N\bibinitperiod},
+           given={Marcela},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{c00e1e15c6e91829abf70049bcf79b38}
+      \strng{fullhash}{c00e1e15c6e91829abf70049bcf79b38}
+      \strng{bibnamehash}{c00e1e15c6e91829abf70049bcf79b38}
+      \strng{authorbibnamehash}{c00e1e15c6e91829abf70049bcf79b38}
+      \strng{authornamehash}{c00e1e15c6e91829abf70049bcf79b38}
+      \strng{authorfullhash}{c00e1e15c6e91829abf70049bcf79b38}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Microwaves, Optoelectronics and Electromagnetic Applications}
+      \field{month}{03}
+      \field{title}{Computational Modeling of Geoelectrical Soundings using PML-FDTD}
+      \field{year}{2017}
+      \field{pages}{120\bibrangedash 131}
+      \range{pages}{12}
+      \field{volume}{16}
+      \range{volume}{1}
+    \endentry
+    \entry{Yee1966}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=0d0fc22b2b6281d3fabd724f4df6882d}{%
+           family={Yee},
+           familyi={Y\bibinitperiod},
+           given={Kane\bibnamedelima S.},
+           giveni={K\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{0d0fc22b2b6281d3fabd724f4df6882d}
+      \strng{fullhash}{0d0fc22b2b6281d3fabd724f4df6882d}
+      \strng{bibnamehash}{0d0fc22b2b6281d3fabd724f4df6882d}
+      \strng{authorbibnamehash}{0d0fc22b2b6281d3fabd724f4df6882d}
+      \strng{authornamehash}{0d0fc22b2b6281d3fabd724f4df6882d}
+      \strng{authorfullhash}{0d0fc22b2b6281d3fabd724f4df6882d}
+      \field{sortinit}{Y}
+      \field{sortinithash}{fd67ad5a9ef0f7456bdd9aab10fe1495}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Maxwell's equations are replaced by a set of finite difference equations. It is shown that if one chooses the field points appropriately, the set of finite difference equations is applicable for a boundary condition involving perfectly conducting surfaces. An example is given of the scattering of an electromagnetic pulse by a perfectly conducting cylinder. Copyright {©} 1966, by The Institute of Electrical and Electronics Engineers, Inc.}
+      \field{booktitle}{IEEE Transactions on Antennas and Propagation}
+      \field{issn}{15582221}
+      \field{title}{{Numerical Solution of Initial Boundary Value Problems Involving Maxwell's Equations in Isotropic Media}}
+      \field{year}{1966}
+      \field{number}{3}
+      \range{number}{1}
+      \field{volume}{14}
+      \range{volume}{1}
+      \verb{doi}
+      \verb 10.1109/TAP.1966.1138693
+      \endverb
+    \endentry
+    \entry{Gilden2000}{article}{}
+      \name{author}{1}{}{%
+        {{hash=495f1e1c8edaefdd1d7ca4afb2f7a8bf}{%
+           family={Б.},
+           familyi={Б\bibinitperiod},
+           given={Гильденбург\bibnamedelima В.},
+           giveni={Г\bibinitperiod\bibinitdelim В\bibinitperiod}}}%
+      }
+      \strng{namehash}{495f1e1c8edaefdd1d7ca4afb2f7a8bf}
+      \strng{fullhash}{495f1e1c8edaefdd1d7ca4afb2f7a8bf}
+      \strng{bibnamehash}{495f1e1c8edaefdd1d7ca4afb2f7a8bf}
+      \strng{authorbibnamehash}{495f1e1c8edaefdd1d7ca4afb2f7a8bf}
+      \strng{authornamehash}{495f1e1c8edaefdd1d7ca4afb2f7a8bf}
+      \strng{authorfullhash}{495f1e1c8edaefdd1d7ca4afb2f7a8bf}
+      \field{sortinit}{Б}
+      \field{sortinithash}{5261f8dfa92113358b76bb09b8629977}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Соровский образовательный журнал}
+      \field{title}{Плазменный резонанс в лаборатории и в верхней атмосфере}
+      \field{year}{2000}
+      \field{number}{12}
+      \range{number}{1}
+      \field{pages}{86\bibrangedash 92}
+      \range{pages}{7}
+      \field{volume}{6}
+      \range{volume}{1}
+    \endentry
+    \entry{Vved2005}{article}{}
+      \name{author}{3}{}{%
+        {{hash=f883c7133f171150ca20734f400383d2}{%
+           family={Быстров},
+           familyi={Б\bibinitperiod},
+           given={A.M.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=051b55ddcbc1886372637a14892f7eaa}{%
+           family={Введенский},
+           familyi={В\bibinitperiod},
+           given={Н.В.},
+           giveni={Н\bibinitperiod}}}%
+        {{hash=b4ff82a9d8db8c098fde033431281cef}{%
+           family={Гильденбург},
+           familyi={Г\bibinitperiod},
+           given={В.Б.},
+           giveni={В\bibinitperiod}}}%
+      }
+      \strng{namehash}{7c363fc20211a5cfacbe1ec082160392}
+      \strng{fullhash}{7c363fc20211a5cfacbe1ec082160392}
+      \strng{bibnamehash}{7c363fc20211a5cfacbe1ec082160392}
+      \strng{authorbibnamehash}{7c363fc20211a5cfacbe1ec082160392}
+      \strng{authornamehash}{7c363fc20211a5cfacbe1ec082160392}
+      \strng{authorfullhash}{7c363fc20211a5cfacbe1ec082160392}
+      \field{sortinit}{Б}
+      \field{sortinithash}{5261f8dfa92113358b76bb09b8629977}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Письма в "журнал экспериментальной и теоретической физики"}
+      \field{title}{{Генерация терагерцового излучения при оптическом пробое газа}}
+      \field{year}{2005}
+      \field{number}{11\bibrangedash 12}
+      \range{number}{2}
+      \field{pages}{852\bibrangedash 857}
+      \range{pages}{6}
+      \field{volume}{82}
+      \range{volume}{1}
+    \endentry
+    \entry{courant1945}{article}{}
+      \name{author}{3}{}{%
+        {{hash=60b322c2f55660232b154855204ab57b}{%
+           family={Курант},
+           familyi={К\bibinitperiod},
+           given={Ричард},
+           giveni={Р\bibinitperiod}}}%
+        {{hash=5788301785bdb34ed5c34a1c4ac54461}{%
+           family={Фридрихс},
+           familyi={Ф\bibinitperiod},
+           given={Курт\bibnamedelima Отто},
+           giveni={К\bibinitperiod\bibinitdelim О\bibinitperiod}}}%
+        {{hash=7efffbc9e920584c4d364e81477f8913}{%
+           family={Леви},
+           familyi={Л\bibinitperiod},
+           given={Ганс},
+           giveni={Г\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Российская академия наук, Математический институт им. ВА Стеклова Российской~…}%
+      }
+      \strng{namehash}{fc65af0c3f6cd4aa50fcf5edfc920b3f}
+      \strng{fullhash}{fc65af0c3f6cd4aa50fcf5edfc920b3f}
+      \strng{bibnamehash}{fc65af0c3f6cd4aa50fcf5edfc920b3f}
+      \strng{authorbibnamehash}{fc65af0c3f6cd4aa50fcf5edfc920b3f}
+      \strng{authornamehash}{fc65af0c3f6cd4aa50fcf5edfc920b3f}
+      \strng{authorfullhash}{fc65af0c3f6cd4aa50fcf5edfc920b3f}
+      \field{sortinit}{К}
+      \field{sortinithash}{007824ff2af181c6f6762379475efd5a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Успехи математических наук}
+      \field{title}{О разностных уравнениях математической физики}
+      \field{year}{1941}
+      \field{number}{8}
+      \range{number}{1}
+      \field{pages}{125\bibrangedash 160}
+      \range{pages}{36}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

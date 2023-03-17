@@ -1,0 +1,19 @@
+\babel@toc {russian}{}\relax 
+\contentsline {section}{Содержание}{2}{section*.1}%
+\contentsline {section}{Введение}{3}{section*.2}%
+\contentsline {section}{\numberline {1}Постановка задачи и основные соотношения}{5}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Постановка задачи}{5}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Основные соотношения}{7}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Решение системы}{14}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Метод конечных разностей во временной области}{14}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Параметры системы. Обезразмеривание}{16}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Условия поглощения}{20}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Условие устойчивости разностной схемы}{21}{subsection.2.4}%
+\contentsline {section}{\numberline {3}Эффективность энергетических преобразований}{22}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Энергия, запасенная в остаточном токе}{22}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Энергия излученная системой.\\ Коэффициент полезного действия}{25}{subsection.3.2}%
+\contentsline {section}{\numberline {4}Результаты расчетов}{27}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Энергетические зависимости. \\Оптимальный набор параметров}{29}{subsection.4.1}%
+\contentsline {section}{Заключение}{34}{section*.14}%
+\contentsline {section}{Приложение}{35}{section*.15}%
+\contentsline {section}{Список литературы}{37}{section*.16}%
