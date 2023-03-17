@@ -1,0 +1,37 @@
+%!TEX TS-program = xelatex
+\documentclass[a4paper]{article}  
+\include{preamble.inc}% подгрузить преамбулу
+\begin{document}
+	\fontsize{16}{24pt}\selectfont	
+
+	\begin{equation*}
+		\begin{cases}
+			\left(\cfrac{V^{2}c}{V^{2}-c^{2}}\right)\left(\cfrac{1}{r}H_{z}+\cfrac{c}{V}\cfrac{\partial E_{z}}{\partial r}-\cfrac{4\pi}{c}j_{r}\right)=\cfrac{\partial E_{r}}{\partial\xi}\\
+			
+			\left(\cfrac{V^{2}c}{V^{2}-c^{2}}\right)\left(-\cfrac{c}{V}\cfrac{1}{r}E_{z}-\cfrac{\partial H_{z}}{\partial r}-\cfrac{4\pi}{c}j_{\varphi}\right)=\cfrac{\partial E_{\varphi}}{\partial\xi}\\		
+			
+			\cfrac{c}{r}\left(\cfrac{\partial\left(r H_{\varphi}\right)}{\partial r}-H_{r}\right)-{4\pi}j_{z}=\cfrac{\partial E_{z}}{\partial\xi}\\
+			
+			\left(\cfrac{V^{2}c}{V^{2}-c^{2}}\right)\left(\cfrac{1}{r}E_{z}+\cfrac{c}{V}\left(\cfrac{\partial H_{z}}{\partial r}+\cfrac{4\pi}{c}j_{\varphi}\right)\right)=\cfrac{\partial H_{r}}{\partial\xi}\\
+			
+			\left(\cfrac{V^{2}c}{V^{2}-c^{2}}\right)\left(\cfrac{c}{V}\left(\cfrac{1}{r}H_{z}-\cfrac{4\pi}{c}j_{r}\right)+\cfrac{\partial E_{z}}{\partial r}\right)=\cfrac{\partial H_{\varphi}}{\partial\xi}\\
+			
+			-\cfrac{c}{r}\left(\cfrac{\partial\left(r E_{\varphi}\right)}{\partial r}+E_{r}\right)=\cfrac{\partial H_{z}}{\partial\xi}\\
+			
+			\cfrac{\partial j_{r,\varphi,z}}{\partial\xi}=\cfrac{\omega_{p}^{2}}{4\pi}E_{r,\varphi,z}-\nu j_{r,\varphi,z}
+		\end{cases}
+	\end{equation*}
+	\begin{equation*}
+		\left\{
+		\begin{split}
+			&E_{r}=E_{r}+\frac{c\Delta t}{\sin^{2}\theta}\left(\frac{1}{r}H_{z}+\cos\theta\frac{E_{z}-E_{z}}{\Delta r}-\frac{4\pi}{c}j_{r}\right)\\
+			&E_{\varphi}=E_{\varphi}-\frac{c\Delta t}{\sin^{2}\theta}\left(\cos\theta\frac{1}{r}E_{z}+\frac{H_{z}-H_{z}}{\Delta r}+\frac{4\pi}{c}j_{\varphi}\right)\\
+			&E_{z}=E_{z}+\frac{c\Delta t}{r}\left(\frac{rH_{\varphi}-rH_{\varphi}}{\Delta r}-H_{r}\right)-4\pi\Delta tj_{z}\\
+			&H_{r}=H_{r}+\frac{c\Delta t}{\sin^{2}\theta}\left(\frac{1}{r}E_{z}+\cos\theta\left(\frac{H_{z}-H_{z}}{\Delta r}+\frac{4\pi}{c}j_{\varphi}\right)\right)\\
+			&H_{\varphi}=H_{\varphi}+\frac{c\Delta t}{\sin^{2}\theta}\left(\cos\theta\left(\frac{1}{r}H_{z}-\frac{4\pi}{c}j_{r}\right)+\frac{E_{z}-E_{z}}{\Delta r}\right)\\
+			&H_{z}=H_{z}-\frac{c\Delta t}{r}\left(\frac{rE_{\varphi}-rE_{\varphi}}{\Delta r}+E_{r}\right)\\
+			&j_{r,\varphi,z}=j_{r,\varphi,z}+\frac{\omega_{p0}^{2}\Delta t}{4\pi}f(r)E_{r,\varphi,z}-\nu j_{r,\varphi,z}
+		\end{split}\right.
+	\end{equation*}
+
+\end{document}

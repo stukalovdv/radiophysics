@@ -1,0 +1,71 @@
+\usepackage{setspace}%Пакет с интервалами
+
+%Работа с цитатами
+
+\usepackage[font={small,it}]{caption}
+\usepackage{float} % пакеты с графикой
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{matlab-prettifier,graphics,epstopdf}
+\usepackage{pstool}
+\usepackage{siunitx}
+\pgfplotsset{compat=1.9}
+
+\usepackage[english,russian]{babel} %языковые пакеты
+\usepackage{mathtext,amsmath,unicode-math,empheq}
+
+\usepackage[utf8]{inputenc}%кодировка шрифта utf-8
+\usepackage{fontenc} %шрифты
+\usepackage{fontspec}
+
+%Шрифты в заголовках
+\usepackage{titlesec}
+\usepackage{secdot}
+\titleformat{\section}
+{\centering\normalfont\fontsize{14}{21}\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}
+{\centering\normalfont\fontsize{14}{21}\bfseries}{\thesubsection.}{1em}{}
+\titleformat{\subsubsection}
+{\centering\normalfont\fontsize{14}{21}\bfseries}{\thesubsubsection.}{1em}{}
+%\titlelabel{\thetitle .\quad}
+%
+
+\usepackage{cancel}%зачеркивания в формулах
+\usepackage{icomma}%умная запятая
+\usepackage[bookmarks=true, colorlinks=true,unicode=true,urlcolor=black,linkcolor=black, anchorcolor=black,citecolor=black,menucolor=black, filecolor=black]{hyperref}%гиперссылки
+
+\usepackage[includeheadfoot=true]{geometry}%параметры страницы
+\geometry{a4paper, total={170mm,257mm},left=30mm,right=15mm,top=20mm,bottom=20mm}
+\usepackage{indentfirst} %делать отступ в начале параграфа
+\setlength{\parindent}{7.4mm} %7,4мм
+
+\numberwithin{equation}{section} %нумерация уравнений с номерами разделов
+%\renewcommand{\refname}{Список источников} %Вместо "Список литературы" будет "Список источников"
+%\usepackage{csquotes}
+%\bibliographystyle{gost-numeric}
+%\usepackage[backend=biber,bibencoding=utf8,style=numeric-comp,bibstyle=gost-numeric]{biblatex}
+%\usepackage[parentracker=true,backend=biber,bibencoding=utf8,citestyle=gost-numeric,bibstyle=gost-numeric]{biblatex}
+%\addbibresource{biblio.bib}
+%\addbibresource{Collection.bib}
+
+%\singlespacing
+%\onehalfspacing%полуторный интервал
+%\doublespacing
+\setmainfont{Times New Roman}%тут всё просто)
+
+\usepackage{xparse}
+
+\let\oldsection\section
+\makeatletter
+\newcounter{@secnumdepth}
+\RenewDocumentCommand{\section}{s o m}{%
+	\IfBooleanTF{#1}
+	{\setcounter{@secnumdepth}{\value{secnumdepth}}% Store secnumdepth
+		\setcounter{secnumdepth}{0}% Print only up to \chapter numbers
+		\oldsection{#3}% \section*
+		\setcounter{secnumdepth}{\value{@secnumdepth}}}% Restore secnumdepth
+	{\IfValueTF{#2}% \section
+		{\oldsection[#2]{#3}}% \section[.]{..}
+		{\oldsection{#3}}}% \section{..}
+}
+\makeatother
