@@ -313,7 +313,8 @@
 Для приведения численной схемы к требуемой в данной задаче, необходимо убрать зависимость от $z$, и представить зависимость от $\varphi$ как \eqref{eq:razdel_per}. То есть сетка визуально будет выглядеть одномерно, в расчетах будет использоваться одномерная зависимость поля и токов от $r$, однако на самом деле сетка будет являться двумерной, но с заданной зависимостью от одной из переменных. Это объясняет наличие в точках с половинчатым шагом $r=r\left(N+1/2\right)$, сразу двух компонент $H_{z}$ и $E_{r}$ с учетом того, что для разделения переменных и написании разностной схемы необходимо <<разнести>> в пространстве все исследуемые компоненты. Стоит отметить, что по причине разделения компонент в пространстве необходимо аналогичным образом разделить и временную сетку, то есть расчет фактически ведётся по половине шага, с чередованием рассчитываемых полей, аналогично расчетам по пространству.
 \begin{figure}[H]\centering
 	\include{pics/fdtd_1d.tex}
-	\label{fig^fdtd_1d}
+	\caption{Одномерная сетка (проекция трёхмерной сетки на ось $Or$) для цилиндрической СК.}
+	\label{fig:fdtd_1d}
 \end{figure}
 
 \subsection{Параметры системы. Обезразмеривание}
@@ -334,21 +335,22 @@
 
 В качестве основных параметров системы задавались:  частота соударений нормированная на максимальную плазменную частоту $\tilde{\nu}=\nu/\omega_{p 0}$, внешний обезразмеренный радиус цилиндра $\tilde{R}_{2}$ и безразмерное выражение $\delta=\left(R_{2}-R_{1}\right)/\\/R_{2}$ характеризующее размер области спадания плазменной концентрации и частоты $\omega_{p 0}$ относительно размеров самого цилиндра (рис. \ref{ris:f(r)} и рис. \ref{pic:cill}).
 
-Используя описанную выше схему решения задачи, а также сетку на рис. \ref{fig:fdtd_3d}, получаем окончательную систему уравнений:
-
-\begin{equation}
-	\begin{cases}
-		E_{r}|^{i+\frac{1}{2}}_{n+1}=E_{r}|^{i+\frac{1}{2}}_{n}+\frac{c\triangle\xi}{\sin^{2}\theta} \left(\frac{1}{r}H_{z}|^{i+\frac{1}{2}}_{n-\frac{1}{2}}+\frac{\cos\theta}{\Delta r}\left(E_{z}|_{n}^{i+1}-E_{z}|_{n}^{i-\frac{1}{2}}\right)-\frac{4\pi}{с} j_{r}|^{i}_{n}\right)\\
-		E_{\varphi}|^{i-\frac{1}{2}}_{n+\frac{1}{2}}=E_{\varphi}|^{i-\frac{1}{2}}_{n-\frac{1}{2}}+\frac{c\Delta\xi}{\sin^{2}\theta}\left(-\cos\theta\frac{1}{r}E_{z}|_{n-\frac{1}{2}}^{i-\frac{1}{2}}-\frac{H_{z}|^{i}_{n-\frac{1}{2}}-H_{z}|^{i-1}_{n-\frac{1}{2}}}{\Delta r}-\frac{4\pi}{c} j_{\varphi}|^{i-\frac{1}{2}}_{n-\frac{1}{2}}\right)\\
-		E_{z}|^{i-\frac{1}{2}}_{n+1}=E_{z}|^{i-\frac{1}{2}}_{n}+\frac{c\Delta\xi}{r}\left(\frac{\left(rH_{\varphi}\right)|^{i}_{n}-\left(rH_{\varphi}\right)|^{i-1}_{n}}{\Delta r}-H_{r}|^{i-\frac{1}{2}}_{n+\frac{1}{2}}\right)-4\pi\Delta\xi j_{z}|^{i-\frac{1}{2}}_{n}\\			H_{r}|^{i-\frac{1}{2}}_{n+\frac{1}{2}}=H_{r}|^{i-\frac{1}{2}}_{n-\frac{1}{2}}+\frac{c\Delta\xi}{\sin^{2}\theta}\left(\frac{1}{r}E_{z}|^{i-\frac{1}{2}}_{n}+\cos\theta\left(\frac{H_{z}|^{i}_{n}-H_{z}|^{i-1}_{n}}{\Delta r}+\frac{4\pi}{c}j_{\varphi}|^{i-\frac{1}{2}}_{n}\right)\right)\\
-		H_{\varphi}|^{i}_{n+1}=H_{\varphi}|^{i}_{n}+\frac{c\Delta\xi}{\sin^{2}\theta}\left(\cos\theta\left(\frac{1}{r}H_{z}|^{i}-\frac{4\pi}{c}j_{r}|^{i}\right)+\frac{E_{z}|^{i+\frac{1}{2}}-E_{z}|^{i-\frac{1}{2}}}{\Delta r}\right)\\
-		H_{z}|^{i}_{n+\frac{1}{2}}=H_{z}|^{i}_{n-\frac{1}{2}}+\frac{c\Delta\xi}{r}\left(-E_{r}|^{i}_{n}-\frac{(rE_{\varphi})|^{i+\frac{1}{2}}_{n+\frac{1}{2}}-(rE_{\varphi})|^{i-\frac{1}{2}}_{n+\frac{1}{2}}}{\Delta r}\right)\\
-		j_{r}|^{i}_{n+1}=(1-\nu\triangle\xi) j_{r}|^{i}_{n}+\frac{\triangle\xi\omega_{p0}^{2}}{4\pi} f(r)E_{r}|^{i}_{n}\\
-		j_{\varphi}|^{i-\frac{1}{2}}_{n+\frac{1}{2}}=(1-\nu\triangle\xi) j_{\varphi}|^{i-\frac{1}{2}}_{n-\frac{1}{2}}+\frac{\triangle\xi\omega_{p0}^{2}}{4\pi}f(r)E_{\varphi}|^{i-\frac{1}{2}}_{n-\frac{1}{2}}\\
-		j_{z}|^{i-\frac{1}{2}}_{n+1}=(1-\nu\triangle\xi)j_{z}|^{i-\frac{1}{2}}_{n}+\frac{\triangle\xi\omega_{p0}^{2}}{4\pi} f(r)E_{z}|^{i-\frac{1}{2}}_{n}
-	\end{cases}
-\end{equation}
-	
+Используя описанную выше схему решения задачи, а также сетку на рис. \ref{fig:fdtd_1d}, получаем окончательную систему уравнений:
+\newpage
+%
+%\begin{equation}
+%	\begin{cases}
+%		E_{r}|^{i+\frac{1}{2}}_{n+1}=E_{r}|^{i+\frac{1}{2}}_{n}+\frac{c\triangle\xi}{\sin^{2}\theta} \left(\frac{1}{r}H_{z}|^{i+\frac{1}{2}}_{n-\frac{1}{2}}+\frac{\cos\theta}{\Delta r}\left(E_{z}|_{n}^{i+1}-E_{z}|_{n}^{i-\frac{1}{2}}\right)-\frac{4\pi}{с} j_{r}|^{i}_{n}\right)\\
+%		E_{\varphi}|^{i-\frac{1}{2}}_{n+\frac{1}{2}}=E_{\varphi}|^{i-\frac{1}{2}}_{n-\frac{1}{2}}+\frac{c\Delta\xi}{\sin^{2}\theta}\left(-\cos\theta\frac{1}{r}E_{z}|_{n-\frac{1}{2}}^{i-\frac{1}{2}}-\frac{H_{z}|^{i}_{n-\frac{1}{2}}-H_{z}|^{i-1}_{n-\frac{1}{2}}}{\Delta r}-\frac{4\pi}{c} j_{\varphi}|^{i-\frac{1}{2}}_{n-\frac{1}{2}}\right)\\
+%		E_{z}|^{i-\frac{1}{2}}_{n+1}=E_{z}|^{i-\frac{1}{2}}_{n}+\frac{c\Delta\xi}{r}\left(\frac{\left(rH_{\varphi}\right)|^{i}_{n}-\left(rH_{\varphi}\right)|^{i-1}_{n}}{\Delta r}-H_{r}|^{i-\frac{1}{2}}_{n+\frac{1}{2}}\right)-4\pi\Delta\xi j_{z}|^{i-\frac{1}{2}}_{n}\\			H_{r}|^{i-\frac{1}{2}}_{n+\frac{1}{2}}=H_{r}|^{i-\frac{1}{2}}_{n-\frac{1}{2}}+\frac{c\Delta\xi}{\sin^{2}\theta}\left(\frac{1}{r}E_{z}|^{i-\frac{1}{2}}_{n}+\cos\theta\left(\frac{H_{z}|^{i}_{n}-H_{z}|^{i-1}_{n}}{\Delta r}+\frac{4\pi}{c}j_{\varphi}|^{i-\frac{1}{2}}_{n}\right)\right)\\
+%		H_{\varphi}|^{i}_{n+1}=H_{\varphi}|^{i}_{n}+\frac{c\Delta\xi}{\sin^{2}\theta}\left(\cos\theta\left(\frac{1}{r}H_{z}|^{i}-\frac{4\pi}{c}j_{r}|^{i}\right)+\frac{E_{z}|^{i+\frac{1}{2}}-E_{z}|^{i-\frac{1}{2}}}{\Delta r}\right)\\
+%		H_{z}|^{i}_{n+\frac{1}{2}}=H_{z}|^{i}_{n-\frac{1}{2}}+\frac{c\Delta\xi}{r}\left(-E_{r}|^{i}_{n}-\frac{(rE_{\varphi})|^{i+\frac{1}{2}}_{n+\frac{1}{2}}-(rE_{\varphi})|^{i-\frac{1}{2}}_{n+\frac{1}{2}}}{\Delta r}\right)\\
+%		j_{r}|^{i}_{n+1}=(1-\nu\triangle\xi) j_{r}|^{i}_{n}+\frac{\triangle\xi\omega_{p0}^{2}}{4\pi} f(r)E_{r}|^{i}_{n}\\
+%		j_{\varphi}|^{i-\frac{1}{2}}_{n+\frac{1}{2}}=(1-\nu\triangle\xi) j_{\varphi}|^{i-\frac{1}{2}}_{n-\frac{1}{2}}+\frac{\triangle\xi\omega_{p0}^{2}}{4\pi}f(r)E_{\varphi}|^{i-\frac{1}{2}}_{n-\frac{1}{2}}\\
+%		j_{z}|^{i-\frac{1}{2}}_{n+1}=(1-\nu\triangle\xi)j_{z}|^{i-\frac{1}{2}}_{n}+\frac{\triangle\xi\omega_{p0}^{2}}{4\pi} f(r)E_{z}|^{i-\frac{1}{2}}_{n}
+%	\end{cases}
+%\end{equation}
+%	
 	\begin{multline*}
 		\left.E_{r}\right|_{i+\frac{1}{2},j,k}=\left.E_{r}\right|_{i+\frac{1}{2},j,k}+\\+\frac{\Delta\xi}{\sin^{2}\theta}\left(\frac{\left.H_{z}\right|_{i+\frac{1}{2},j+\frac{1}{2},k}}{r}+\frac{\cos\theta}{\Delta r}\left(\left.E_{z}\right|_{i+1,j,k+\frac{1}{2}}-\left.E_{z}\right|_{i,j,k+\frac{1}{2}}\right)-\frac{4\pi}{c}\left.j_{r}\right|_{i+\frac{1}{2},j,k}\right)
 	\end{multline*}
@@ -360,6 +362,7 @@
 	\begin{multline*}
 		\left.E_{z}\right|_{i,j,k+\frac{1}{2}}=\left.E_{z}\right|_{i,j,k+\frac{1}{2}}+\\+\frac{c\Delta\xi}{r}\left(\frac{\left.rH_{\varphi}\right|_{i+\frac{1}{2},j,k+\frac{1}{2}}-\left.rH_{\varphi}\right|_{i-\frac{1}{2},j,k+\frac{1}{2}}}{\Delta r}-\left.H_{r}\right|_{i,j+\frac{1}{2},k+\frac{1}{2}}\right)-\left.4\pi\Delta\xi j_{z}\right|_{i,j,k+\frac{1}{2}}
 	\end{multline*}
+%
 	\begin{multline*}
 		\left.H_{r}\right|_{i,j+\frac{1}{2},k+\frac{1}{2}}=\left.H_{r}\right|_{i,j+\frac{1}{2},k+\frac{1}{2}}+\\
 		+\frac{\Delta\xi}{\sin^{2}\theta}\left[\frac{\left.E_{z}\right|_{i,j,k+\frac{1}{2}}}{r}+\cos\theta\left(\frac{\left.H_{z}\right|_{i+\frac{1}{2},j+\frac{1}{2},k}-\left.H_{z}\right|_{i-\frac{1}{2},j+\frac{1}{2},k}}{\Delta r}+\frac{4\pi}{c}\left.j_{r}\right|_{i,j+\frac{1}{2},k}\right)\right]
@@ -378,9 +381,12 @@
 			j_{\varphi}|_{i,j+\frac{1}{2},k}=(1-\nu\triangle t) j_{\varphi}|_{i,j+\frac{1}{2},k}+\frac{\triangle t\omega_{p0}^{2}}{4\pi}f(r)E_{\varphi}|_{i,j+\frac{1}{2},k}\\
 			j_{z}|_{i,j,k+\frac{1}{2}}=(1-\nu\triangle t) j_{z}|_{i,j,k+\frac{1}{2}}+\frac{\triangle t\omega_{p0}^{2}}{4\pi}f(r)E_{z}|_{i,j,k+\frac{1}{2}}
 		\end{cases*}
-	\end{equation*}
+	\end{equation*}\newpage  
 	\begin{equation*}
 		\begin{cases*}
+			\left.E_{r}\right|_{i+\frac{1}{2}}=\left.E_{r}\right|_{i+\frac{1}{2}}+\frac{\Delta\xi}{\sin^{2}\theta}\left(\frac{\left.H_{z}\right|_{i+\frac{1}{2}}}{r}+\frac{\cos\theta}{\Delta r}\left(\left.E_{z}\right|_{i+1}-\left.E_{z}\right|_{i}\right)-\frac{4\pi}{c}\left.j_{r}\right|_{i+\frac{1}{2}}\right)\\	\left.E_{\varphi}\right|_{i}=\left.E_{\varphi}\right|_{i}+\frac{\Delta\xi}{\sin^{2}\theta}\left[-\frac{\cos\theta}{r}\left.E_{z}\right|_{i}-\frac{1}{\Delta r}\left(\left.H_{z}\right|_{i+\frac{1}{2}}-\left.H_{z}\right|_{i-\frac{1}{2}}\right)-\frac{4\pi}{c}\left.j_{\varphi}\right|_{i} \right]\\
+			\left.E_{z}\right|_{i}=\left.E_{z}\right|_{i}+\frac{c\Delta\xi}{r}\left(\frac{\left.rH_{\varphi}\right|_{i+\frac{1}{2}}-\left.rH_{\varphi}\right|_{i-\frac{1}{2}}}{\Delta r}-\left.H_{r}\right|_{i}\right)-\left.4\pi\Delta\xi j_{z}\right|_{i}\\
+			\left.H_{r}\right|_{i}=\left.H_{r}\right|_{i}+\frac{\Delta\xi}{\sin^{2}\theta}\left[\frac{\left.E_{z}\right|_{i}}{r}+\cos\theta\left(\frac{\left.H_{z}\right|_{i+\frac{1}{2}}-\left.H_{z}\right|_{i-\frac{1}{2}}}{\Delta r}+\frac{4\pi}{c}\left.j_{r}\right|_{i}\right)\right]\\
 			\left.H_{\varphi}\right|_{i+\frac{1}{2}}=\left.H_{\varphi}\right|_{i+\frac{1}{2}}+\frac{\Delta\xi}{\sin^{2}\theta}\left[\cos\theta\left(\frac{\left.H_{z}\right|_{i+\frac{1}{2}}}{r}-\frac{4\pi}{c}\left.j_{r}\right|_{i+\frac{1}{2}}\right)+\frac{\left.E_{z}\right|_{i+1}-\left.E_{z}\right|_{i}}{\Delta r}\right]\\
 			\left.H_{z}\right|_{i+\frac{1}{2}}=\left.H_{z}\right|_{i+\frac{1}{2}}-\frac{c\Delta\xi}{r}\left(\frac{\left.rE_{\varphi}\right|_{i+1}-\left.rE_{\varphi}\right|_{i}}{\Delta r}+\left.E_{r}\right|_{i+\frac{1}{2}}\right)\\
 			j_{r}|_{i+\frac{1}{2}}=(1-\nu\triangle t) j_{r}|_{i+\frac{1}{2}}+\frac{\triangle t\omega_{p0}^{2}}{4\pi} f(r)E_r|_{i+\frac{1}{2},j,k}\\
@@ -388,15 +394,7 @@
 			j_{z}|_{i}=(1-\nu\triangle t) j_{z}|_{i}+\frac{\triangle t\omega_{p0}^{2}}{4\pi}f(r)E_{z}|_{i}
 		\end{cases*}
 	\end{equation*}
-%	\begin{equation*}
-%		
-%	\end{equation*}
-%	\begin{equation*}
-%		
-%	\end{equation*}
-%	\begin{equation*}
-%		
-%	\end{equation*}
+
 
 где по $n$ откладываются шаги по времени, а по $i$ -- шаги по $r$.
 \newpage

@@ -1,4 +1,4 @@
-\babel@toc {russian}{}\relax 
+\babel@toc {russian}{}
 \contentsline {section}{Содержание}{2}{section*.1}%
 \contentsline {section}{Введение}{3}{section*.2}%
 \contentsline {section}{\numberline {1}Постановка задачи и основные соотношения}{5}{section.1}%
@@ -16,4 +16,4 @@
 \contentsline {subsection}{\numberline {4.1}Энергетические зависимости. \\Оптимальный набор параметров}{29}{subsection.4.1}%
 \contentsline {section}{Заключение}{34}{section*.14}%
 \contentsline {section}{Приложение}{35}{section*.15}%
-\contentsline {section}{Список литературы}{37}{section*.16}%
+\contentsline {section}{Список литературы}{36}{section*.16}%
