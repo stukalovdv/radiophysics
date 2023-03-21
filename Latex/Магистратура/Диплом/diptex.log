@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2023.3.17)  17 MAR 2023 16:40
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2023.3.17)  20 MAR 2023 17:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2289,6 +2289,18 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 14.39845pt on input line 2.
 )
+Overfull \hbox (10.70576pt too wide) in paragraph at lines 313--318
+\TU/TimesNewRoman(0)/m/n/14 нескольких компонент $[][][] [][][] [][][]$, и анал
+огично в точках $[] [] [] []$ оставшихся
+ []
+
+
+Overfull \hbox (30.05215pt too wide) in paragraph at lines 313--318
+\TU/TimesNewRoman(0)/m/n/14 трёх составляющих поля, с учетом того, что для разд
+еления переменных и написании
+ []
+
+
 Overfull \hbox (51.54196pt too wide) in paragraph at lines 313--318
 \TU/TimesNewRoman(0)/m/n/14 разностной схемы необходимо «разнести» в пространст
 ве все исследуемые компоненты.
