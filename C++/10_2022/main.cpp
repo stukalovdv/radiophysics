@@ -260,9 +260,9 @@ float fdtd( float THETA, float NU_TILDA, float R2_TILDA, float DELTA )
     W_izl = c * ( dt / 4 ) * FIELD_CHECK_POINT * dr * I;
 
     cout << "\rWell done!                                  \n";
-    cout << "File saved in PathByTime: " << PathByTime << endl;
+    cout << "File saved in PathByTime: "  << PathByTime  << endl;
     cout << "File saved in PathByRange: " << PathByRange << endl;
-    cout << "File saved in PathConfig: " << PathConfig << endl;
+    cout << "File saved in PathConfig: "  << PathConfig  << endl;
 
     return W_izl / W_zap;
 }
